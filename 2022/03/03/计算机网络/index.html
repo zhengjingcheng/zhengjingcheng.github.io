@@ -6,19 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>RPC原理介绍 | Hexo</title>
+  <title>计算机网络 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="RPC 原理介绍前言： 为了进行多个模块相互调用，传统的方法是采用http协议来进行调用，接口提供者和接口调用者共同协商一套规范，然后双方按照规范独立开发。既然如此，我们为什们又需要RPC协议呢？  http接口协议存在的问题： http协议是基于文本的传输协议，对于我们目前的项目需求是无法满足的。 由于http协议的表达能力较差，需要将复杂的数据转换成http协议可以传输的数据。所以我们接口提供">
+  <meta name="description" content="计算机网络 五层网络结构  应用层 HTTP：超文本传输协议 DNS：域名系统 FTP：系统文件上传协议 SSH：安全外壳协议（登录、传输）   传输层 TCP：传输控制协议 UDP：用户数据报协议   网络层 IP（IPv4、IPv6）   数据链路层 以太网 WIFI   物理层 光纤 电缆     七层网络结构  表示层 数据压缩、加密、描述   会话层 数据交换定界、同步     http">
 <meta property="og:type" content="article">
-<meta property="og:title" content="RPC原理介绍">
-<meta property="og:url" content="http://example.com/2022/03/01/RPC%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/index.html">
+<meta property="og:title" content="计算机网络">
+<meta property="og:url" content="http://example.com/2022/03/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="RPC 原理介绍前言： 为了进行多个模块相互调用，传统的方法是采用http协议来进行调用，接口提供者和接口调用者共同协商一套规范，然后双方按照规范独立开发。既然如此，我们为什们又需要RPC协议呢？  http接口协议存在的问题： http协议是基于文本的传输协议，对于我们目前的项目需求是无法满足的。 由于http协议的表达能力较差，需要将复杂的数据转换成http协议可以传输的数据。所以我们接口提供">
+<meta property="og:description" content="计算机网络 五层网络结构  应用层 HTTP：超文本传输协议 DNS：域名系统 FTP：系统文件上传协议 SSH：安全外壳协议（登录、传输）   传输层 TCP：传输控制协议 UDP：用户数据报协议   网络层 IP（IPv4、IPv6）   数据链路层 以太网 WIFI   物理层 光纤 电缆     七层网络结构  表示层 数据压缩、加密、描述   会话层 数据交换定界、同步     http">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2022-02-28T20:19:06.000Z">
-<meta property="article:modified_time" content="2022-02-28T20:20:27.420Z">
+<meta property="article:published_time" content="2022-03-02T19:12:48.000Z">
+<meta property="article:modified_time" content="2022-03-02T19:13:49.229Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="必背">
+<meta property="article:tag" content="基础">
+<meta property="article:tag" content="计网">
+<meta property="article:tag" content="http">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -167,20 +170,20 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-RPC原理介绍" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-计算机网络" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      RPC原理介绍
+      计算机网络
     </h1>
   
 
         
-        <a href="/2022/03/01/RPC%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/" class="archive-article-date">
-  	<time datetime="2022-02-28T20:19:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-01</time>
+        <a href="/2022/03/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" class="archive-article-date">
+  	<time datetime="2022-03-02T19:12:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-03</time>
 </a>
         
       </header>
@@ -189,31 +192,135 @@
        
 
 	
-		<h3 id="RPC-原理介绍"><a href="#RPC-原理介绍" class="headerlink" title="RPC 原理介绍"></a>RPC 原理介绍</h3><h4 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h4><ul>
-<li>为了进行多个模块相互调用，传统的方法是采用http协议来进行调用，接口提供者和接口调用者共同协商一套规范，然后双方按照规范独立开发。既然如此，我们为什们又需要RPC协议呢？</li>
+		<h3 id="计算机网络"><a href="#计算机网络" class="headerlink" title="计算机网络"></a>计算机网络</h3><ul>
+<li><p>五层网络结构</p>
+<ul>
+<li>应用层<ul>
+<li>HTTP：超文本传输协议</li>
+<li>DNS：域名系统</li>
+<li>FTP：系统文件上传协议</li>
+<li>SSH：安全外壳协议（登录、传输）</li>
 </ul>
-<h4 id="http接口协议存在的问题："><a href="#http接口协议存在的问题：" class="headerlink" title="http接口协议存在的问题："></a>http接口协议存在的问题：</h4><ol>
-<li>http协议是基于文本的传输协议，对于我们目前的项目需求是无法满足的。</li>
-<li>由于http协议的表达能力较差，需要将复杂的数据转换成http协议可以传输的数据。所以我们接口提供者和接口调用者分别需要进行数据的序列化和反序列化。</li>
-<li>http协议后期扩展能力也很差：运维困难（1.原生的nginx很难实现高度定制化。2.DNS本身存在被篡改和攻击的风险。）基于http协议的通信架构可扩展性差。</li>
-</ol>
-<h4 id="RPC简介"><a href="#RPC简介" class="headerlink" title="RPC简介"></a>RPC简介</h4><h5 id="主要概念："><a href="#主要概念：" class="headerlink" title="主要概念："></a>主要概念：</h5><ul>
-<li>将远程调用变成程序员熟悉的本地调用，由中间层负责整个通信过程的各项校验、编码、解码、序列化、反序列化等工作。开发者只需要把精力集中在自身的项目中。</li>
+</li>
+<li>传输层<ul>
+<li>TCP：传输控制协议</li>
+<li>UDP：用户数据报协议</li>
 </ul>
-<h5 id="RPC的组成"><a href="#RPC的组成" class="headerlink" title="RPC的组成"></a>RPC的组成</h5><ol>
-<li>user：发起远程调用的client端，调用本地的下一个成员，user_stub。</li>
-<li>user_stub：负责对于协议中要传输的数据进行校验、序列化、编码。编码成易于传输的字节流格式，然后对服务器端传过来的字节流数据进行解码、反序列化、校验还原成易于本地工作的结构化数据。</li>
-<li>RPCRuntime：负责通信和传输</li>
-<li>server_stub：类似与user_stub，将工作重心转向了对于服务器端。</li>
-<li>server：与user的地位相同，负责代理server_stub，实现便于用户使用的api，提供远程接口服务。</li>
-</ol>
-<h5 id="RPC的优势"><a href="#RPC的优势" class="headerlink" title="RPC的优势"></a>RPC的优势</h5><ul>
-<li>更加友好，将远程调用转换成本地调用，在提供强大的远程调用能力的同时不损失本地调用语意的简洁。</li>
-<li>更加方便快捷，省去程序员大量编码，解码，序列化，反序列化，数据校验等工作。</li>
-<li>更加多样化，由于对于通信协议，编码方式没有进行严格规定，所以程序员有更多的发挥空间进行自定义。</li>
+</li>
+<li>网络层<ul>
+<li>IP（IPv4、IPv6）</li>
 </ul>
-<h5 id="RPC的不足"><a href="#RPC的不足" class="headerlink" title="RPC的不足"></a>RPC的不足</h5><ul>
-<li>由于要将远程调用转化为本地调用，在跨语言调用时存在一定的问题，这使得很多<strong>RPC</strong>框架都局限于单一语言实现，这样接口实现方和接口调用方更加方便维护。</li>
+</li>
+<li>数据链路层<ul>
+<li>以太网</li>
+<li>WIFI</li>
+</ul>
+</li>
+<li>物理层<ul>
+<li>光纤</li>
+<li>电缆</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>七层网络结构</p>
+<ul>
+<li>表示层<ul>
+<li>数据压缩、加密、描述</li>
+</ul>
+</li>
+<li>会话层<ul>
+<li>数据交换定界、同步</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>http报文组成格式</p>
+<ul>
+<li>请求头<ul>
+<li>起始行：描述请求或响应的基本信息<ul>
+<li>GET 获取资源</li>
+<li>POST 传输实体</li>
+</ul>
+</li>
+<li>头部字段：使用key-value形式更详细地说明报文</li>
+</ul>
+</li>
+<li>消息正文：实际传输的数据<ul>
+<li>文本</li>
+<li>图片</li>
+<li>视频</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>URL解析</p>
+<ul>
+<li>http:&#x2F;&#x2F;        方案或协议</li>
+<li><a target="_blank" rel="noopener" href="http://www.example.com/">www.example.com</a>:  主机，指示了向网络上哪一台主机发起请求。</li>
+<li>80&#x2F;  端口号</li>
+<li>path&#x2F;to&#x2F;myfile.html  路径，html页面</li>
+<li>？key1&#x3D;value1&amp;key2&#x3D;value2 查询参数，如果是GET请求一般带有请求URL参数，如果是POST请求不会再路径后面直接加参数。</li>
+</ul>
+</li>
+<li><p>HTTP请求响应的过程</p>
+<ul>
+<li>DNS服务器先对输入的urls进行域名解析找到ip地址，然后通过80端口建立一个TCP连接。</li>
+<li>HTTP客户端向服务器端发送一个请求报文。该报文包含了ulr地址的资源。</li>
+<li>HTTP服务器接收到该报文后，进行请求的解析工作，然后将检索出来的对象进行封装，封装到响应报文中，然后通过套接字向客户端发送。</li>
+<li>HTTP客户端接收到响应报文后,TCP连接就会关闭。HTTP客户端接收的响应报文是一个HTML响应文件。</li>
+<li>HTTP客户端检查完该HTML文件后会把相应的资源通过显示器呈现给用户。</li>
+</ul>
+</li>
+<li><p>TCP三次握手、四次挥手</p>
+<ul>
+<li>三次握手：三次握手的机制是为了保证能建立一个安全可靠的连接。第一次握手是由客户端发起，客户端会向服务器端发送一个报文。报文里：SYN标志位置1，表示发起新的连接。当服务端收到这个报文后就知道客户端要和我建立一个新的连接，于是服务端就向客户端发送一个确认消息包，在这个消息包里：ack标志位置1，序列号加一，表示确认客户端发起的第一次连接请求。此时对于客户端而言已经明确了我能给服务端发消息，服务端也知道自己可以接收到客户端的消息，但是服务端不知道客户端能不能接收到自己发出的消息。所以此时就需要第三次握手，客户端需要给服务端进行回应，ack位置1，序列号加1。</li>
+<li>四次挥手：类似于三次挥手，客户端先向服务器端发出断开连接的请求（FIN），但是这里不同的是服务器端此时可能还有任务没有完成，所以不可以立马断开连接，只能先发送一个收到断开连接请求的ack响应，在处理完任务之后再向客户端发送断开连接的请求，客户端收到后向服务器端发送一个ack响应，到此时连接断开。</li>
+</ul>
+</li>
+<li><p>TCP和UDP的区别。</p>
+<ul>
+<li>TCP是面向连接的，通过三次握手建立客户端和服务器端之间的可靠连接。UDP是面向消息的，可以直接给多台机器发送数据。</li>
+<li>TCP保证可靠传输、超时重传、按序重传、在传输过程中数据不会消失、传输的数据不存在数据边界。UDP强调快速传输而不是顺序传输、传输数据可能会丢失也可能会损毁、传输数据有边界、限制每次传输数据的大小。</li>
+<li>TDP适合：直播，实时游戏。UDP适合：文本文件传输、网上银行用户与银行之间的数据传递。</li>
+</ul>
+</li>
+<li><p>Http和Https的区别</p>
+<ul>
+<li>https协议需要到CA申请证书，一般免费证书较少，需要一定的费用。</li>
+<li>http是超文本传输协议，信息是明文传输，https则是具有安全性的<strong>ssl&#x2F;tls</strong>加密传输协议。</li>
+<li>http和https传输的端口不同，http是80端口，https是443端口。</li>
+<li>http的连接简单，是<strong>无状态</strong>的；https协议是由ssl&#x2F;tls+http协议构建的可进行加密传输、身份认证的网络协议，更加安全。</li>
+<li>https的速度没有http快。</li>
+</ul>
+</li>
+<li><p>什么是SSL&#x2F;TLS</p>
+<ul>
+<li>SSL是一种用于加密和验证应用程序和Web服务器之间发送的数据的应用层协议（密钥对）。TLS是较新版本，SSL是较旧版本。</li>
+</ul>
+</li>
+<li><p>什么是无状态协议</p>
+<ul>
+<li>就是指浏览器对事务的处理没有记忆能。http就是无状态协议，通过cookie机制增加记忆性。</li>
+</ul>
+</li>
+<li><p>讲一下websocket和http的异同</p>
+<ul>
+<li>都是基于TCP的可靠性传输协议</li>
+<li>都是应用层协议</li>
+<li>WebSocket是双向通信协议、http是单向协议</li>
+<li>websocket支持持久化，可以建立长连接</li>
+</ul>
+</li>
+<li><p>http中GET和Post的区别</p>
+<ul>
+<li>get一般用于请求，请求服务器返回资源。post一般是将表单提交给服务器，等待服务器做出响应。</li>
+<li>get请求的url有长度限制，post会把参数和值放在消息体内，对数据长度没有要求。</li>
+<li>get请求会被浏览器主动cache，而post不会，除非手动设置。</li>
+<li>get请求在浏览器反复的回退和前进操作是无害的，而post操作会再次提交表单请求。</li>
+<li>get请求会产生一个TCP数据包；post请求会产生连个TCP数据包</li>
+</ul>
+</li>
 </ul>
 
 	
@@ -228,6 +335,18 @@
 			 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">必背</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">计网</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">http</a>
         		</li>
       		
 		</ul>
@@ -294,7 +413,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2022/03/01/RPC%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2022/03/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -308,18 +427,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2022/03/02/C++%E5%BF%85%E8%83%8C%E7%9F%A5%E8%AF%86%E7%82%B9%E4%B8%80/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          C++必背知识点一
-        
-      </div>
-    </a>
   
-  
-    <a href="/2022/03/01/%E9%A1%B9%E7%9B%AE%E5%88%9B%E5%BB%BA/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">项目创建</div>
+    <a href="/2022/03/02/%E5%8A%9B%E6%89%A3169%E5%A4%9A%E6%95%B0%E5%85%83%E7%B4%A0/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">力扣169多数元素</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -346,7 +456,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#RPC-%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">RPC 原理介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%89%8D%E8%A8%80%EF%BC%9A"><span class="toc-number">1.1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#http%E6%8E%A5%E5%8F%A3%E5%8D%8F%E8%AE%AE%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%9A"><span class="toc-number">1.2.</span> <span class="toc-text">http接口协议存在的问题：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RPC%E7%AE%80%E4%BB%8B"><span class="toc-number">1.3.</span> <span class="toc-text">RPC简介</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%BB%E8%A6%81%E6%A6%82%E5%BF%B5%EF%BC%9A"><span class="toc-number">1.3.1.</span> <span class="toc-text">主要概念：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#RPC%E7%9A%84%E7%BB%84%E6%88%90"><span class="toc-number">1.3.2.</span> <span class="toc-text">RPC的组成</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#RPC%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="toc-number">1.3.3.</span> <span class="toc-text">RPC的优势</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#RPC%E7%9A%84%E4%B8%8D%E8%B6%B3"><span class="toc-number">1.3.4.</span> <span class="toc-text">RPC的不足</span></a></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C"><span class="toc-number">1.</span> <span class="toc-text">计算机网络</span></a></li></ol>
                     </div>
                 </span>
             </div>
