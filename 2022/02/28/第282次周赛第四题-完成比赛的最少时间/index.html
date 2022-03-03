@@ -16,9 +16,11 @@
 <meta property="og:description" content="第282次周赛第四题完成比赛的最少时间由于任意一种轮胎可以使用无数条，我们可以考虑用完全背包的方法做这个题。题中给出同一条轮胎使用长时间后是承指数增长的，并且使用时间过久会不如换一条新的轮胎：$$f_i*r_i^x&lt;f_i+changeTime$$所以一条轮胎最长使用圈数我们可以猜测为20圈，所以时间复杂度不是很高。我们预先处理出每种轮胎j跑i圈的时间（time(i,j)）,然后遍历每种轮胎">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-02-27T18:15:07.000Z">
-<meta property="article:modified_time" content="2022-02-28T20:15:46.194Z">
+<meta property="article:modified_time" content="2022-03-03T18:00:52.462Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="算法题解">
+<meta property="article:tag" content="背包">
+<meta property="article:tag" content="贪心">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -204,6 +206,14 @@
 			 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">算法题解</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">背包</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">贪心</a>
         		</li>
       		
 		</ul>
@@ -503,6 +513,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">http</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">金明的预算方案</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">dp，分组背包，位运算</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">贪心</a>
               </li>
             
             <div class="clearfix"></div>

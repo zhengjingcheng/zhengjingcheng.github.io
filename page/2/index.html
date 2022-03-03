@@ -164,6 +164,344 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-创建菜单界面" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/01/%E5%88%9B%E5%BB%BA%E8%8F%9C%E5%8D%95%E7%95%8C%E9%9D%A2/">创建菜单界面</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/01/%E5%88%9B%E5%BB%BA%E8%8F%9C%E5%8D%95%E7%95%8C%E9%9D%A2/" class="archive-article-date">
+  	<time datetime="2022-02-28T20:18:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-01</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="创建菜单界面"><a href="#创建菜单界面" class="headerlink" title="创建菜单界面"></a>创建菜单界面</h3><h4 id="项目系统设计"><a href="#项目系统设计" class="headerlink" title="项目系统设计"></a>项目系统设计</h4><ul>
+<li>menu：菜单界面</li>
+<li>playground：游戏界面</li>
+<li>settings：设置界面（登录界面、注册界面）</li>
+</ul>
+<h4 id="项目文件结构"><a href="#项目文件结构" class="headerlink" title="项目文件结构"></a>项目文件结构</h4><ul>
+<li>templates目录：管理html文件</li>
+<li>urls目录：管理路由，即链接与函数的对应关系</li>
+<li>views目录：管理http函数</li>
+<li>models目录：管理数据库数据（登录）</li>
+<li>static目录：管理静态文件：<ul>
+<li>css：对象的格式，比如位置、长宽、颜色、背景、字体大小等</li>
+<li>js：对象的逻辑，比如对象的创建与销毁、事件函数、对象的移动变换等</li>
+<li>image：图片</li>
+<li>aduio：声音</li>
+</ul>
+</li>
+<li>consumers目录：管理websocket函数</li>
+</ul>
+<h4 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h4><ul>
+<li>按照上述文件结构创建文件夹</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">mkdir</span> urls views models templates static</span><br><span class="line">$ <span class="built_in">cd</span> static</span><br><span class="line">$ <span class="built_in">mkdir</span> css js image audio</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>要想使用python文件的import功能，需要在每个文件夹下创建一个<code>__init__.py</code>文件（以后每个python文件夹都需要）</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">touch</span> models/__init__.py</span><br><span class="line">$ <span class="built_in">touch</span> urls/__init__.py</span><br><span class="line">$ <span class="built_in">touch</span> views/__init__.py</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修改配置文件<ul>
+<li>修改时间为CN时间</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ vim /acapp/settings.py</span><br><span class="line">/**/</span><br><span class="line">TIME_ZONE = <span class="string">&#x27;Asia/Shanghai&#x27;</span> <span class="comment"># 原来默认是 UTC</span></span><br><span class="line">/**/</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>添加静态文件的路径</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ vim /acapp/settings.py</span><br><span class="line">/**/</span><br><span class="line">import os</span><br><span class="line">/**/</span><br><span class="line">/**/</span><br><span class="line">STATIC_ROOT = os.path.join(BASE_DIR, <span class="string">&#x27;static&#x27;</span>)</span><br><span class="line">STATIC_URL = <span class="string">&#x27;/static/&#x27;</span></span><br><span class="line"></span><br><span class="line">MEDIA_ROOT = os.path.join(BASE_DIR, <span class="string">&#x27;media&#x27;</span>)</span><br><span class="line">MEDIA_URL = <span class="string">&#x27;/media/&#x27;</span></span><br><span class="line">/**/</span><br></pre></td></tr></table></figure>
+
+<h5 id="image文件系统"><a href="#image文件系统" class="headerlink" title="image文件系统"></a>image文件系统</h5><ul>
+<li>路径<code>acapp/game/static/image</code></li>
+<li>项目应该不断细分，不同的模块用不同的文件进行维护</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mdkir menu playground settings </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>下载图片，作为menu模块的背景图</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> menu</span><br><span class="line">$ wget --output-document=background.gif https:<span class="comment">##图片链接</span></span><br><span class="line">$ <span class="built_in">rm</span> wget-log <span class="comment"># 删掉没有用的 wget 日志</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>测试是不是可以成功使用路由<ul>
+<li>在浏览器输入<code>ip:socket/static/image/menu/background.gif</code>可以成功在浏览器看到图片则成功。</li>
+</ul>
+</li>
+</ul>
+<h5 id="css文件系统"><a href="#css文件系统" class="headerlink" title="css文件系统"></a>css文件系统</h5><ul>
+<li>一般来说一个工程，只需要一个css文件</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> css</span><br><span class="line">$ <span class="built_in">touch</span> game.css</span><br></pre></td></tr></table></figure>
+
+<h5 id="js文件系统"><a href="#js文件系统" class="headerlink" title="js文件系统"></a>js文件系统</h5><ul>
+<li>一般一个工程会有很多个.js源文件，为了加快网络的传输，也为了每次写新的.js文件不用每个html都额外引入一次。可以新建两个文件夹dist、src<ul>
+<li>src用来存放所有的.js源文件</li>
+<li>dist文件存放由src下所有源文件整合生成的一个目标.js文件</li>
+</ul>
+</li>
+<li>通过这个方法即实现了快速传输的好处，也方便了后续编写html文件是，引入.js的便利</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> js</span><br><span class="line">$ <span class="built_in">mkdir</span> dist src</span><br><span class="line">$ <span class="built_in">cd</span> <span class="built_in">mkdir</span> src</span><br><span class="line">$ <span class="built_in">mkdir</span> menu playground settings</span><br><span class="line">$ <span class="built_in">touch</span> zbase.js  <span class="comment"># 总的 js 文件，命名以 z 开头是因为打包时会以字典序排序</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>自行编写打包的脚本</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim /acapp/scripts/compress_game_js.sh</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#! /bin/bash</span></span><br><span class="line"></span><br><span class="line">JS_PATH=/home/acs/acapp/game/static/js/</span><br><span class="line">JS_PATH_DIST=<span class="variable">$&#123;JS_PATH&#125;</span>dist/</span><br><span class="line">JS_PATH_SRC=<span class="variable">$&#123;JS_PATH&#125;</span>src/</span><br><span class="line"></span><br><span class="line">find <span class="variable">$JS_PATH_SRC</span> -<span class="built_in">type</span> f -name <span class="string">&#x27;*.js&#x27;</span> | <span class="built_in">sort</span> | xargs <span class="built_in">cat</span> &gt; <span class="variable">$&#123;JS_PATH_DIST&#125;</span>game.js</span><br></pre></td></tr></table></figure>
+
+<h5 id="html文件系统（这个只写一次、背过就行）"><a href="#html文件系统（这个只写一次、背过就行）" class="headerlink" title="html文件系统（这个只写一次、背过就行）"></a>html文件系统（这个只写一次、背过就行）</h5><ul>
+<li><p>在 templates 文件夹下创建 menu、playground、settings、multiends 四个文件夹，用于存储三个模块和终端的 html 文件</p>
+<p><code>$ mkdir menu playround settings multiends</code></p>
+</li>
+<li><p>在multiends下创建web.html文件</p>
+</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#123;% load static %&#125;</span><br><span class="line"><span class="comment">&lt;!-- Django 中引入全局setting里的变量 static 的语法--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    &lt;linkrel=&quot;stylesheet&quot;href=&quot;https://cdn.acwing.com/static/jquery-ui-dist/jquery-ui.min.css&quot;&gt;</span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.acwing.com/static/jquery/js/jquery-3.3.1.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 上述两句引入 jQuery 库 --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 使用引入的变量 static 的语法如下 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">href</span>=<span class="string">&quot;&#123;% static &#x27;css/game.css&#x27; %&#125;&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;&#123;% static &#x27;js/dist/game.js&#x27; %&#125;&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 分别引入 css 文件和总的 js 文件 --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">style</span>=<span class="string">&quot;margin: 0&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;ac_game_12345678&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">        $(<span class="variable language_">document</span>).<span class="title function_">ready</span>(<span class="keyword">function</span>(<span class="params"></span>)&#123;</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">let</span> ac_game = <span class="keyword">new</span> <span class="title class_">AcGame</span>(<span class="string">&quot;ac_game_12345678&quot;</span>)</span></span><br><span class="line"><span class="language-javascript">        &#125;)</span></span><br><span class="line"><span class="language-javascript">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="编写js-x2F-src-x2F-zbase-js-文件（以后总的逻辑实现）"><a href="#编写js-x2F-src-x2F-zbase-js-文件（以后总的逻辑实现）" class="headerlink" title="编写js&#x2F;src&#x2F;zbase.js 文件（以后总的逻辑实现）"></a>编写js&#x2F;src&#x2F;zbase.js 文件（以后总的逻辑实现）</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">AcGame</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">id</span>) &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="views视图系统"><a href="#views视图系统" class="headerlink" title="views视图系统"></a>views视图系统</h5><ul>
+<li>在 views 文件夹下新建三个模块的视图文件夹，同样为了能够被import到，分别初始化<code>__init__.py</code>文件</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> views</span><br><span class="line">$ <span class="built_in">mkdir</span> menu playground settings</span><br><span class="line">$ <span class="built_in">touch</span> menu/__init__.py</span><br><span class="line">$ <span class="built_in">touch</span> playground/__init__.py</span><br><span class="line">$ <span class="built_in">touch</span> settings/__init__.py</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>然后写一个 index.py 文件，目的是在 web 端被访问时，返回上面写的 web.html 文件</p>
+<p><code>views/index.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.shortcuts <span class="keyword">import</span> render</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">index</span>(<span class="params">request</span>):</span><br><span class="line">  <span class="keyword">return</span> render(request, <span class="string">&quot;multiends/web.html&quot;</span>)</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h5 id="urls路由系统"><a href="#urls路由系统" class="headerlink" title="urls路由系统"></a>urls路由系统</h5><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">|-- __init__.py</span><br><span class="line">|-- index.py//总路由</span><br><span class="line">|-- menu</span><br><span class="line">|   |-- __init__.py</span><br><span class="line">|   `-- index.py//子路由</span><br><span class="line">|-- playground</span><br><span class="line">|   |-- __init__.py</span><br><span class="line">|   `-- index.py</span><br><span class="line">`-- settings</span><br><span class="line">    |-- __init__.py</span><br><span class="line">`-- index.py</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>首先在 urls 下创建三个文件夹 menu、playground、settings</p>
+<p>在三个文件夹下创建初始化的 <code>__init__.py </code>文件</p>
+</li>
+<li><p>路由文件模板：</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.urls <span class="keyword">import</span> path, include</span><br><span class="line">urlpatterns = [</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>首先修改我们的路由起点</p>
+<p><code>~/acapp/acapp/urls.py</code></p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin</span><br><span class="line"><span class="keyword">from</span> django.urls <span class="keyword">import</span> path, include</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">  path(<span class="string">&#x27;&#x27;</span>, include(<span class="string">&#x27;game.urls.index&#x27;</span>)),</span><br><span class="line">  path(<span class="string">&#x27;admin/&#x27;</span>, admin.site.urls),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修改项目路由</li>
+</ul>
+<p>​       <code>~/acapp/game/urls/index.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.urls <span class="keyword">import</span> path, include</span><br><span class="line"><span class="keyword">from</span> game.views.index <span class="keyword">import</span> index</span><br><span class="line"></span><br><span class="line">urlpatterns = [ </span><br><span class="line">    path(<span class="string">&quot;&quot;</span>, index, name=<span class="string">&quot;index&quot;</span>),</span><br><span class="line">    path(<span class="string">&quot;menu/&quot;</span>, include(<span class="string">&quot;game.urls.menu.index&quot;</span>)),</span><br><span class="line">    path(<span class="string">&quot;playground/&quot;</span>, include(<span class="string">&quot;game.urls.playground.index&quot;</span>)),</span><br><span class="line">    path(<span class="string">&quot;settings/&quot;</span>, include(<span class="string">&quot;game.urls.settings.index&quot;</span>))</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">项目</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">后端</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">django</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/新版球球大作战项目//" class="article-tag-list-link color5">新版球球大作战项目</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/01/%E5%88%9B%E5%BB%BA%E8%8F%9C%E5%8D%95%E7%95%8C%E9%9D%A2/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-二月总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/01/%E4%BA%8C%E6%9C%88%E6%80%BB%E7%BB%93/">二月总结</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/01/%E4%BA%8C%E6%9C%88%E6%80%BB%E7%BB%93/" class="archive-article-date">
+  	<time datetime="2022-02-28T18:21:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-01</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h4 id="刷题数："><a href="#刷题数：" class="headerlink" title="刷题数："></a>刷题数：</h4><ul>
+<li>总计刷了211道题，平均每天7.5题，较上月有所提升。对于困难题和代码熟练度还有待提高。（周赛成绩上升较慢）</li>
+</ul>
+<h4 id="项目："><a href="#项目：" class="headerlink" title="项目："></a>项目：</h4><ul>
+<li><p>django目前进度较慢，实现了游戏的基本界面和登录注册功能。基础知识不是很牢固。</p>
+</li>
+<li><p>数据库学完前四章，比较简单，平均一天一章。</p>
+</li>
+<li><p>QT学到第4.5章节，跟着书一点一点敲。</p>
+</li>
+</ul>
+<h4 id="基础知识："><a href="#基础知识：" class="headerlink" title="基础知识："></a>基础知识：</h4><ul>
+<li>总结完c++必背部分</li>
+<li>计算机网络开始一部分</li>
+</ul>
+<h4 id="三月目标"><a href="#三月目标" class="headerlink" title="三月目标"></a>三月目标</h4><ul>
+<li><strong>算法</strong><ul>
+<li>刷完算法提高课搜索部分（17节课）</li>
+<li>刷题数200道</li>
+<li>周赛积分1650</li>
+</ul>
+</li>
+<li><strong>项目</strong><ul>
+<li>django课学完</li>
+<li>数据库学完</li>
+<li>QT做出交叉点项目主界面</li>
+</ul>
+</li>
+<li>基础知识<ul>
+<li>背熟c++</li>
+<li>整理408相关知识，坚持每天写博客</li>
+</ul>
+</li>
+</ul>
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每月总结</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/01/%E4%BA%8C%E6%9C%88%E6%80%BB%E7%BB%93/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-每日总结2022-2-28" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -488,6 +826,14 @@
 			 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">算法题解</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">背包</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">贪心</a>
         		</li>
       		
 		</ul>
@@ -1115,6 +1461,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">http</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">金明的预算方案</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">dp，分组背包，位运算</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">贪心</a>
               </li>
             
             <div class="clearfix"></div>
