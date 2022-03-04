@@ -6,14 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Tag: dp，分组背包，位运算 | Hexo</title>
+  <title>背包问题总结 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/tags/dp%EF%BC%8C%E5%88%86%E7%BB%84%E8%83%8C%E5%8C%85%EF%BC%8C%E4%BD%8D%E8%BF%90%E7%AE%97/index.html">
+  <meta name="description" content="背包问题总结01背包（只能取1次） 2.01背包  123&#x2F;&#x2F;核心：从后往前遍历for(int i&#x3D;0;i&lt;n;i++)&#x2F;&#x2F;遍历物品    for(int j&#x3D;m;j&gt;&#x3D;0;j--)&#x2F;&#x2F;遍历体积   423.采药  一个很裸的背包问题 ：把时间当作体积直接套用01背包模板即可   278.数字组合  给定 $N$个正整数$A_1,A_2,…,A_N$从中选出若干个数，使它们的和为 $M">
+<meta property="og:type" content="article">
+<meta property="og:title" content="背包问题总结">
+<meta property="og:url" content="http://example.com/2022/03/05/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="背包问题总结01背包（只能取1次） 2.01背包  123&#x2F;&#x2F;核心：从后往前遍历for(int i&#x3D;0;i&lt;n;i++)&#x2F;&#x2F;遍历物品    for(int j&#x3D;m;j&gt;&#x3D;0;j--)&#x2F;&#x2F;遍历体积   423.采药  一个很裸的背包问题 ：把时间当作体积直接套用01背包模板即可   278.数字组合  给定 $N$个正整数$A_1,A_2,…,A_N$从中选出若干个数，使它们的和为 $M">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-03-04T19:03:27.000Z">
+<meta property="article:modified_time" content="2022-03-04T19:10:13.703Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="背包">
+<meta property="article:tag" content="题解">
+<meta property="article:tag" content="知识点">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -162,83 +169,489 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-背包问题总结" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2022" class="archive-year">2022</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/03/04/Acwing487%E9%87%91%E6%98%8E%E7%9A%84%E9%A2%84%E7%AE%97%E6%96%B9%E6%A1%88/" class="archive-article-date">
-  	<time datetime="2022-03-03T17:57:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-04</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/03/04/Acwing487%E9%87%91%E6%98%8E%E7%9A%84%E9%A2%84%E7%AE%97%E6%96%B9%E6%A1%88/">Acwing487金明的预算方案</a>
+    <h1 class="article-title" itemprop="name">
+      背包问题总结
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2022/03/05/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/" class="archive-article-date">
+  	<time datetime="2022-03-04T19:03:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="背包问题总结"><a href="#背包问题总结" class="headerlink" title="背包问题总结"></a>背包问题总结</h3><h4 id="01背包（只能取1次）"><a href="#01背包（只能取1次）" class="headerlink" title="01背包（只能取1次）"></a>01背包（只能取1次）</h4><ul>
+<li>2.01背包</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//核心：从后往前遍历</span></span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)<span class="comment">//遍历物品</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j=m;j&gt;=<span class="number">0</span>;j--)<span class="comment">//遍历体积</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>423.采药</p>
+<ul>
+<li>一个很裸的背包问题 ：把时间当作体积直接套用01背包模板即可</li>
+</ul>
+</li>
+<li><p>278.数字组合</p>
+<ul>
+<li><p>给定 $N$个正整数$A_1,A_2,…,A_N$从中选出若干个数，使它们的和为 $M$，求有多少种选择方案。</p>
+</li>
+<li><p>思路：每个数字代表一个物品，分别看选这个数字的方案，和不选这个数字的方案。</p>
+<p>​                                              $f[j]&#x3D;f[j]+f[j-a]$</p>
+</li>
+<li><p>代码：</p>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> j=m;j&gt;=a;j--)</span><br><span class="line">    f[j]+=f[j-a];<span class="comment">//和为j的方案数等于和为原来的方案数加上j-a的方案数</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>1024.装箱问题<ul>
+<li>有一个箱子容量为 $V$，同时有 $n$ 个物品，每个物品有一个体积（正整数）。要求 $n$ 个物品中，任取若干个装入箱内，使箱子的剩余空间为最小。</li>
+<li>思路：这里的价值是隐藏的，要求剩余空间最小，说明装入物品越多越好，体积就是价值。</li>
+<li>代码：</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">&#123;   </span><br><span class="line">    <span class="type">int</span> a;cin&gt;&gt;a;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j=m;j&gt;=a;j--)</span><br><span class="line">        f[j]=<span class="built_in">max</span>(f[j],f[j-a]+a);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>11.背包问题求方案数</p>
+<ul>
+<li><p>有$N$  件物品和一个容量是$V$ 的背包。每件物品只能使用一次。</p>
+<p>第$i$ 件物品的体积是 $v_i$，价值是 $w_i$。</p>
+<p>求解将哪些物品装入背包，可使这些物品的总体积不超过背包容量，且总价值最大</p>
+<p>输出 <strong>最优选法的方案数</strong>。</p>
+</li>
+<li><p>思路：在每次更新最优方案的时候额外用一个数组更新方案数。共有三种情况：</p>
+<ul>
+<li><p>装入该物品后最优解变多了，此时方案数应该更新为新方案的方案数。 $g(i)&#x3D;g(i-v[i])$</p>
+</li>
+<li><p>装入该物品后最优解跟以前一样，则把方案数更新为原方案数加上新方案数。$g(i)+&#x3D;g(i-v[i])$</p>
+</li>
+<li><p>装入该物品后最优解不变，则方案数不变。</p>
+</li>
+</ul>
+</li>
+<li><p>代码：</p>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> j=m;j&gt;=a;j--)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(f[j]&lt;f[j-a]+b)</span><br><span class="line">    &#123;<span class="comment">//最优解变多</span></span><br><span class="line">        f[j]=f[j-a]+b;</span><br><span class="line">        g[j]=g[j-a];<span class="comment">//如果可以更新</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(f[j]==f[j-a]+b)</span><br><span class="line">    &#123;<span class="comment">//最优解不变</span></span><br><span class="line">        <span class="comment">//如果可以选</span></span><br><span class="line">        g[j]=(g[j]+g[j-a])%mod;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>12.背包问题求具体方案</p>
+<ul>
+<li><p>01背包输出<strong>字典序最小</strong>的方案</p>
+</li>
+<li><p>思路：要求字典序最小，所以我们应该改变状态转移方程的含义：</p>
+<p>f[i]表示从第i个物品到第n个物品中选出来的最优方案，逆序判断物品是不是属于最优解。</p>
+</li>
+<li><p>代码：</p>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=n;i;i--)</span><br><span class="line">&#123;<span class="comment">//逆序输入</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;=m;j++)</span><br><span class="line">    &#123;</span><br><span class="line">        f[i][j]=f[i+<span class="number">1</span>][j];</span><br><span class="line">        <span class="keyword">if</span>(j&gt;=v[i])</span><br><span class="line">            f[i][j]=<span class="built_in">max</span>(f[i][j],f[i+<span class="number">1</span>][j-v[i]]+w[i]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> j=m;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">&#123;<span class="comment">//从前到后依次判断，如果能构成最优解就加入</span></span><br><span class="line">    <span class="keyword">if</span>(j&gt;=v[i]&amp;&amp;f[i][j]==f[i+<span class="number">1</span>][j-v[i]]+w[i])</span><br><span class="line">        j-=v[i],cout&lt;&lt;i&lt;&lt;<span class="string">&quot; &quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>8.二维费用的背包问题</p>
+<ul>
+<li><p>有 $N$ 件物品和一个容量是 $V$ 的背包，背包能承受的最大重量是 $M$。</p>
+<p>每件物品只能用一次。体积是$v_i$，重量是 $m_i$，价值是 $w_i$。</p>
+<p>求解将哪些物品装入背包，可使物品总体积不超过背包容量，总重量不超过背包可承受的最大重量，且价值总和最大。</p>
+</li>
+<li><p>思路：体积的限制变成了二维，其他的和01背包的做法一样的，也是逆序遍历。</p>
+</li>
+<li><p>代码：</p>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> j=V;j&gt;=a;j--)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> k=M;k&gt;=b;k--)</span><br><span class="line">        f[j][k]=<span class="built_in">max</span>(f[j][k],f[j-a][k-b]+c);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>1022.宠物小精灵之收服</p>
+<ul>
+<li><p>输入数据的第一行包含三个整数：N，M，K，分别代表小智的精灵球数量、皮卡丘初始的体力值、野生小精灵的数量。</p>
+<p>之后的K行，每一行代表一个野生小精灵，包括两个整数：收服该小精灵需要的精灵球的数量，以及收服过程中对皮卡丘造成的伤害。</p>
+</li>
+<li><p>思路：用二维费用01背包，精灵球数量是第一费用，皮卡丘初始化的体力值是第二费用，注意血量为0的时候不可以进行收集，所以应该要从$m2-1$开始遍历。</p>
+</li>
+<li><p>代码：</p>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> j = m1; j &gt;= v1; j -- ) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> k = m2 - <span class="number">1</span>; k &gt;= v2; k -- ) &#123;</span><br><span class="line">        f[j][k] = <span class="built_in">max</span>(f[j][k], f[j - v1][k - v2] + <span class="number">1</span>);</span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>1020.潜水员</p>
+<ul>
+<li><p>他有一个带2种气体的气缸：一个为氧气，一个为氮气。</p>
+<p>让潜水员下潜的深度需要各种数量的氧和氮。</p>
+<p>潜水员有一定数量的气缸。</p>
+<p>每个气缸都有重量和气体容量。</p>
+<p>潜水员为了完成他的工作需要特定数量的氧和氮。</p>
+<p>他完成工作所需气缸的总重的最低限度的是多少？</p>
+<p>例如：潜水员有5个气缸。每行三个数字为：氧，氮的（升）量和气缸的重量：</p>
+</li>
+<li><p>思路：需要注意的一点是要求算出最小值,所以我们要考虑边界情况，就是说如果对于我们可以提供的氧气<strong>a</strong>大于需要的氧气<strong>j</strong>时，应该用0来代替（也就是负数情况），所以有：</p>
+</li>
+<li><p>代码：</p>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> j=v1;j&gt;=<span class="number">0</span>;j--)</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> k=v2;k&gt;=<span class="number">0</span>;k--)</span><br><span class="line">&#123;   </span><br><span class="line">  <span class="type">int</span> x=j-a,y=k-b;</span><br><span class="line">  <span class="keyword">if</span>(x&lt;<span class="number">0</span>)x=<span class="number">0</span>; <span class="keyword">if</span>(y&lt;<span class="number">0</span>)y=<span class="number">0</span>;</span><br><span class="line">  f[j][k]=<span class="built_in">min</span>(f[j][k],f[x][y]+c);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>734.能量石</p>
+<ul>
+<li><p>杜达靠吃能量石来获取能量。</p>
+<p>不同的能量石包含的能量可能不同。</p>
+<p>此外，能量石会随着时间流逝逐渐失去能量。</p>
+<p>能量石中包含的能量最多降低至 00。</p>
+<p>请问杜达通过吃能量石可以获得的最大能量是多少？</p>
+</li>
+<li><p>思路：贪心，需要处理先吃哪些能量石。</p>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Stone</span>&#123;</span><br><span class="line">    <span class="type">int</span> s,e,l;</span><br><span class="line">    <span class="type">bool</span> <span class="keyword">operator</span>&lt; (<span class="type">const</span> Stone &amp;b)<span class="type">const</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> s*b.l&lt;b.s*l;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;stone[N];</span><br></pre></td></tr></table></figure>
+
+<p>​               处理完再做01背包即可</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j=m;j&gt;=stone[i].s;j--)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> tm = stone[i].s;</span><br><span class="line">        <span class="type">int</span> v = <span class="built_in">max</span>(<span class="number">0</span>,stone[i].e-stone[i].l*(j-tm));</span><br><span class="line">        f[j]=<span class="built_in">max</span>(f[j],f[j-tm]+v);   </span><br><span class="line">        res = <span class="built_in">max</span>(res,f[j]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>开心的金明<ul>
+<li>他希望在不超过 $N$ 元（可以等于$ N$ 元）的前提下，使每件物品的价格与重要度的乘积的总和最大。</li>
+<li> 思路：很裸的背包问题（价值等于体积和自由度的乘积）</li>
+<li>代码</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> a,b;<span class="comment">//价格，重要度</span></span><br><span class="line">    cin&gt;&gt;a&gt;&gt;b;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j=m;j&gt;=a;j--)</span><br><span class="line">    &#123;</span><br><span class="line">        f[j]=<span class="built_in">max</span>(f[j-a]+a*b,f[j]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="完全背包（可以取无限次）"><a href="#完全背包（可以取无限次）" class="headerlink" title="完全背包（可以取无限次）"></a>完全背包（可以取无限次）</h4><ul>
+<li><p>3.完全背包问题</p>
+<ul>
+<li><p>有 $N$种物品和一个容量是 $V$ 的背包，每种物品都有无限件可用。</p>
+<p>第 $i$种物品的体积是 $v_i$，价值是$w_i$。</p>
+<p>求解将哪些物品装入背包，可使这些物品的总体积不超过背包容量，且总价值最大。<br>输出最大价值。</p>
+</li>
+<li><p>思路：完全背包模板题，应该从前往后遍历</p>
+</li>
+<li><p>代码</p>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j=v[i];j&lt;=val;j++)</span><br><span class="line">    &#123;</span><br><span class="line">        f[j]=<span class="built_in">max</span>(f[j],f[j-v[i]]+w[i]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li><p>1023.买书</p>
+<ul>
+<li><p>小明手里有n元钱全部用来买书，书的价格为10元，20元，50元，100元。</p>
+<p>问小明有多少种买书方案？（每种书可购买多本）</p>
+</li>
+<li><p>思路：对于每本书有买和不买两种方案，可以取无限次就是典型的完全背包问题</p>
+</li>
+<li><p>代码</p>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j=n[i];j&lt;=m;j++)</span><br><span class="line">    f[j]+=f[j-n[i]];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>900.整数划分</p>
+<ul>
+<li>一个正整数 $n$ 可以表示成若干个正整数之和，请你求出共有多少种不同的划分方法。</li>
+<li>思路：和上题一样</li>
+</ul>
+</li>
+<li><p>1021.货币系统</p>
+<ul>
+<li>给你一个n种面值的货币系统，求组成面值为m的货币有多少种方案。</li>
+<li>思路：套用完全背包模板。</li>
+</ul>
+</li>
+<li><p>532.货币系统</p>
+<ul>
+<li>他们希望找到一个货币系统 $(m,b)$，满足 $(m,b)$ 与原来的货币系统 $(n,a)$ 等价，且$m$尽可能的小。</li>
+<li>思路：等同于求所有物品中线性无关的物品的个数，即从前往后遍历，看这个数是不是属于无关组，属于则加入，不属于就退出，然后看当前无关组可以表示出的数据都有哪些。</li>
+<li>代码：</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">f[<span class="number">0</span>]=<span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">&#123;<span class="comment">//先把数字加入最大无关组</span></span><br><span class="line">    <span class="keyword">if</span>(f[v[i]]) <span class="keyword">continue</span>;<span class="comment">//如果这个数被线性表示了，则不属于最大无关组</span></span><br><span class="line">    <span class="comment">//否则加入无关组（当前无关组为0，i区间）</span></span><br><span class="line">    res++;</span><br><span class="line">    <span class="comment">//cout&lt;&lt;res&lt;&lt;endl;</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j=v[i];j&lt;=v[n<span class="number">-1</span>];j++)</span><br><span class="line">    &#123;</span><br><span class="line">        f[j]|=f[j-v[i]];<span class="comment">//看加入当前数字后可以表示出的数字</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="多重背包（可以取有限次）"><a href="#多重背包（可以取有限次）" class="headerlink" title="多重背包（可以取有限次）"></a>多重背包（可以取有限次）</h4><ul>
+<li><p>4.多重背包问题Ⅰ</p>
+<ul>
+<li><p>有$N$ 种物品和一个容量是 $V$的背包。</p>
+<p>第$i$ 种物品最多有 $s_i$件，每件体积是 $v_1$，价值是 $w_1$。</p>
+<p>求解将哪些物品装入背包，可使物品体积总和不超过背包容量，且价值总和最大。<br>输出最大价值。</p>
+</li>
+<li><p>思路：三重循环，先循环个数、再循环体积、在循环取得个数。</p>
+</li>
+<li><p>代码：</p>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">  &#123;</span><br><span class="line">      <span class="type">int</span> a,b,c;</span><br><span class="line">      cin&gt;&gt;a&gt;&gt;b&gt;&gt;c;</span><br><span class="line">       <span class="keyword">for</span>(<span class="type">int</span> j=v;j&gt;=<span class="number">0</span>;j--)</span><br><span class="line">      <span class="keyword">for</span>(<span class="type">int</span> k=c;k&gt;=<span class="number">0</span>;k--)</span><br><span class="line">      &#123;</span><br><span class="line">          <span class="keyword">if</span>(j&gt;=k*a)</span><br><span class="line">          f[j]=<span class="built_in">max</span>(f[j],f[j-k*a]+k*b);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>1019.庆功会<ul>
+<li>为了庆贺班级在校运动会上取得全校第一名成绩，班主任决定开一场庆功会，为此拨款购买奖品犒劳运动员。期望拨款金额能购买最大价值的奖品，可以补充他们的精力和体力。</li>
+<li>思路：金额是体积</li>
+<li>代码：</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> a,b,c;</span><br><span class="line">    cin&gt;&gt;a&gt;&gt;b&gt;&gt;c;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j=m;j&gt;=<span class="number">0</span>;j--)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">0</span>;k&lt;=c;k++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> v=a*k,w=b*k;</span><br><span class="line">            <span class="keyword">if</span>(j&gt;=v)</span><br><span class="line">            f[j]=<span class="built_in">max</span>(f[j],f[j-v]+w);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>5.多重背包问题Ⅱ<ul>
+<li>题目没变，数据范围扩大了。</li>
+<li>思路：由于每个数都可以被二进制表示出来，所以我们可以采用二进制枚举得方式枚举第三维，从而转换为01背包问题。</li>
+<li>代码</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> pos=<span class="number">0</span>;</span><br><span class="line">   <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">       <span class="type">int</span> s=nums[i],v1=v[i],w1=w[i];</span><br><span class="line">       <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>;j&lt;=s;j*=<span class="number">2</span>)</span><br><span class="line">           &#123;   pos++;</span><br><span class="line">               s-=j;</span><br><span class="line">               a[pos]=j*v1;</span><br><span class="line">               b[pos]=j*w1;</span><br><span class="line">           &#125;</span><br><span class="line">       <span class="keyword">if</span>(s)</span><br><span class="line">         &#123;</span><br><span class="line">             pos++;</span><br><span class="line">             a[pos]=s*v1;</span><br><span class="line">             b[pos]=s*w1;</span><br><span class="line">         &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=pos;i++)</span><br><span class="line">   <span class="keyword">for</span>(<span class="type">int</span> j=m;j&gt;=a[i];j--)</span><br><span class="line">       dp[j]=<span class="built_in">max</span>(dp[j],dp[j-a[i]]+b[i]);</span><br></pre></td></tr></table></figure>
+
+<p>7.混合背包问题</p>
+<ul>
+<li><p>物品一共有三类：</p>
+<ul>
+<li>第一类物品只能用1次（01背包）；</li>
+<li>第二类物品可以用无限次（完全背包）；</li>
+<li>第三类物品最多只能用 $s_i$次（多重背包）；</li>
+</ul>
+<p>每种体积是 $v_i$，价值是 $w_i$。</p>
+<p>求解将哪些物品装入背包，可使物品体积总和不超过背包容量，且价值总和最大。<br>输出最大价值。</p>
+</li>
+<li><p>思路：枚举每个物品，分三种情况做，多重背包需要使用二进制优化。</p>
+</li>
+<li><p>代码：</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(k[i]&lt;<span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=m;j&gt;=v[i];j--)</span><br><span class="line">            f[j]=<span class="built_in">max</span>(f[j-v[i]]+w[i],f[j]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(k[i])</span><br><span class="line">    &#123;<span class="comment">//多重背包</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> u=<span class="number">1</span>;u&lt;=k[i];u*=<span class="number">2</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> x=u*v[i],y=u*w[i];</span><br><span class="line">            k[i]-=u;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=m;j&gt;=x;j--)</span><br><span class="line">                f[j]=<span class="built_in">max</span>(f[j],f[j-x]+y);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(k[i])</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> x=k[i]*v[i],y=k[i]*w[i];</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=m;j&gt;=x;j--)</span><br><span class="line">                f[j]=<span class="built_in">max</span>(f[j],f[j-x]+y);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=v[i];j&lt;=m;j++)</span><br><span class="line">            f[j]=<span class="built_in">max</span>(f[j-v[i]]+w[i],f[j]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="分组背包（每组只能选一个）"><a href="#分组背包（每组只能选一个）" class="headerlink" title="分组背包（每组只能选一个）"></a>分组背包（每组只能选一个）</h4><ul>
+<li><p>9.分组背包问题</p>
+<ul>
+<li><p>有$N$ 种物品和一个容量是 $V$的背包</p>
+<p>每组物品有若干个，同一组内的物品最多只能选一个。<br>每件物品的体积是 $v_ij$，价值是 $w_ij$，其中$i$ 是组号，$j$ 是组内编号。</p>
+<p>求解将哪些物品装入背包，可使物品总体积不超过背包容量，且总价值最大。</p>
+<p>输出最大价值。</p>
+</li>
+<li><p>思路：遍历所有组，判断每个组的最大值。分组背包需要先预处理出所有的数据。</p>
+</li>
+<li><p>代码</p>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j=m;j&gt;=<span class="number">0</span>;j--)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">1</span>;k&lt;=num[i];k++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(j&gt;=v[i][k])</span><br><span class="line">                dp[j]=<span class="built_in">max</span>(dp[j],dp[j-v[i][k]]+w[i][k]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>1013.机器分配</p>
+<ul>
+<li><p>总公司拥有 $M$ 台 相同 设备，准备分给下属的 $N$ 个分公司。</p>
+<p>第 $i$ 家公司分到 $j$ 台机器后，所获的的收益为 $w_{ij}$<br>求一种分配方案，使得总收益最大，输出该方案</p>
+</li>
+<li><p>思路：输出收益就是简单使用分组背包的模板，输出方案就是从前到后遍历，看看能不能构成最优解。</p>
+</li>
+<li><p>代码</p>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>( <span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++ )</span><br><span class="line">     <span class="keyword">for</span>( <span class="type">int</span> j = <span class="number">0</span>; j &lt;= m; j ++ )  </span><br><span class="line">         <span class="keyword">for</span>( <span class="type">int</span> k = <span class="number">0</span>; k &lt;= j; k ++ )</span><br><span class="line">             dp[i][j] = <span class="built_in">max</span>( dp[i][j], dp[i - <span class="number">1</span>][j - k] + w[i][k] ); <span class="comment">//v[i][k] = k</span></span><br><span class="line"> cout &lt;&lt; dp[n][m] &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line"> <span class="type">int</span> V = m; <span class="comment">//终点为状态dp(n, V). 倒推选择方案</span></span><br><span class="line"> <span class="keyword">for</span>( <span class="type">int</span> i = n; i &gt;= <span class="number">1</span>; i -- )</span><br><span class="line"> &#123;</span><br><span class="line">     <span class="keyword">for</span>( <span class="type">int</span> k = <span class="number">0</span>; k &lt;= V; k ++ )</span><br><span class="line">     &#123;<span class="comment">//选择的种类</span></span><br><span class="line">         <span class="keyword">if</span>( dp[i][V] == dp[i - <span class="number">1</span>][V - k] + w[i][k] )</span><br><span class="line">         &#123;<span class="comment">//满足等式说明选择了第k种</span></span><br><span class="line">             choice[i] = k;</span><br><span class="line">             V -= k;</span><br><span class="line">             <span class="keyword">break</span>;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>487.金明的预算方案<ul>
+<li>同上的开心的金明。</li>
+<li>思路：由于附件只能买一种，买附件就必须买主件，所以只有4种可能，每次只能选一种，直接遍历即可。100、101、110、111。考虑用pair存储体积和价值</li>
+<li>代码</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> a,b,c;</span><br><span class="line">    cin&gt;&gt;a&gt;&gt;b&gt;&gt;c;</span><br><span class="line">    b=a*b;</span><br><span class="line">    <span class="keyword">if</span>(!c)<span class="comment">//如果是主件</span></span><br><span class="line">    q[i]=&#123;a,b&#125;;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    v[c].<span class="built_in">push_back</span>(&#123;a,b&#125;);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j=m;j&gt;=<span class="number">0</span>;j--)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">0</span>;k&lt;<span class="number">1</span>&lt;&lt;v[i].<span class="built_in">size</span>();k++)<span class="comment">//遍历编号为i的物品的附件</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> vt=q[i].x,va=q[i].y;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> u=<span class="number">0</span>;u&lt;v[i].<span class="built_in">size</span>();u++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(k&gt;&gt;u&amp;<span class="number">1</span>)<span class="comment">//如果有第u个附件</span></span><br><span class="line">                &#123;</span><br><span class="line">                vt+=v[i][u].x;</span><br><span class="line">                va+=v[i][u].y;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(j&gt;=vt)</span><br><span class="line">            f[j]=<span class="built_in">max</span>(f[j-vt]+va,f[j]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">算法题解</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">背包</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">金明的预算方案</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">题解</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">dp，分组背包，位运算</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">知识点</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/题解//" class="article-tag-list-link color3">题解</a>
+        			<a href="/categories/基础知识//" class="article-tag-list-link color5">基础知识</a>
         		</li>
       		
 		</ul>
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2022/03/05/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2022/03/05/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-4/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">每日总结2022-3-4.md</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93"><span class="toc-number">1.</span> <span class="toc-text">背包问题总结</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#01%E8%83%8C%E5%8C%85%EF%BC%88%E5%8F%AA%E8%83%BD%E5%8F%961%E6%AC%A1%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">01背包（只能取1次）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%8C%E5%85%A8%E8%83%8C%E5%8C%85%EF%BC%88%E5%8F%AF%E4%BB%A5%E5%8F%96%E6%97%A0%E9%99%90%E6%AC%A1%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">完全背包（可以取无限次）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E9%87%8D%E8%83%8C%E5%8C%85%EF%BC%88%E5%8F%AF%E4%BB%A5%E5%8F%96%E6%9C%89%E9%99%90%E6%AC%A1%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">多重背包（可以取有限次）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E7%BB%84%E8%83%8C%E5%8C%85%EF%BC%88%E6%AF%8F%E7%BB%84%E5%8F%AA%E8%83%BD%E9%80%89%E4%B8%80%E4%B8%AA%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">分组背包（每组只能选一个）</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -261,9 +674,9 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
