@@ -164,6 +164,117 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-RPC原理介绍" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/01/RPC%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/">RPC原理介绍</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/01/RPC%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/" class="archive-article-date">
+  	<time datetime="2022-02-28T20:19:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-01</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="RPC-原理介绍"><a href="#RPC-原理介绍" class="headerlink" title="RPC 原理介绍"></a>RPC 原理介绍</h3><h4 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h4><ul>
+<li>为了进行多个模块相互调用，传统的方法是采用http协议来进行调用，接口提供者和接口调用者共同协商一套规范，然后双方按照规范独立开发。既然如此，我们为什们又需要RPC协议呢？</li>
+</ul>
+<h4 id="http接口协议存在的问题："><a href="#http接口协议存在的问题：" class="headerlink" title="http接口协议存在的问题："></a>http接口协议存在的问题：</h4><ol>
+<li>http协议是基于文本的传输协议，对于我们目前的项目需求是无法满足的。</li>
+<li>由于http协议的表达能力较差，需要将复杂的数据转换成http协议可以传输的数据。所以我们接口提供者和接口调用者分别需要进行数据的序列化和反序列化。</li>
+<li>http协议后期扩展能力也很差：运维困难（1.原生的nginx很难实现高度定制化。2.DNS本身存在被篡改和攻击的风险。）基于http协议的通信架构可扩展性差。</li>
+</ol>
+<h4 id="RPC简介"><a href="#RPC简介" class="headerlink" title="RPC简介"></a>RPC简介</h4><h5 id="主要概念："><a href="#主要概念：" class="headerlink" title="主要概念："></a>主要概念：</h5><ul>
+<li>将远程调用变成程序员熟悉的本地调用，由中间层负责整个通信过程的各项校验、编码、解码、序列化、反序列化等工作。开发者只需要把精力集中在自身的项目中。</li>
+</ul>
+<h5 id="RPC的组成"><a href="#RPC的组成" class="headerlink" title="RPC的组成"></a>RPC的组成</h5><ol>
+<li>user：发起远程调用的client端，调用本地的下一个成员，user_stub。</li>
+<li>user_stub：负责对于协议中要传输的数据进行校验、序列化、编码。编码成易于传输的字节流格式，然后对服务器端传过来的字节流数据进行解码、反序列化、校验还原成易于本地工作的结构化数据。</li>
+<li>RPCRuntime：负责通信和传输</li>
+<li>server_stub：类似与user_stub，将工作重心转向了对于服务器端。</li>
+<li>server：与user的地位相同，负责代理server_stub，实现便于用户使用的api，提供远程接口服务。</li>
+</ol>
+<h5 id="RPC的优势"><a href="#RPC的优势" class="headerlink" title="RPC的优势"></a>RPC的优势</h5><ul>
+<li>更加友好，将远程调用转换成本地调用，在提供强大的远程调用能力的同时不损失本地调用语意的简洁。</li>
+<li>更加方便快捷，省去程序员大量编码，解码，序列化，反序列化，数据校验等工作。</li>
+<li>更加多样化，由于对于通信协议，编码方式没有进行严格规定，所以程序员有更多的发挥空间进行自定义。</li>
+</ul>
+<h5 id="RPC的不足"><a href="#RPC的不足" class="headerlink" title="RPC的不足"></a>RPC的不足</h5><ul>
+<li>由于要将远程调用转化为本地调用，在跨语言调用时存在一定的问题，这使得很多<strong>RPC</strong>框架都局限于单一语言实现，这样接口实现方和接口调用方更加方便维护。</li>
+</ul>
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">必背</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/基础知识//" class="article-tag-list-link color5">基础知识</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/01/RPC%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-项目创建" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1234,103 +1345,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2022/02/28/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-2-27/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-每日总结2022-2-25" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/02/26/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-2-25/">每日总结2022/2/25</a>
-    </h1>
-  
-
-        
-        <a href="/2022/02/26/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-2-25/" class="archive-article-date">
-  	<time datetime="2022-02-25T16:58:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h2 id="2022-x2F-2-x2F-25"><a href="#2022-x2F-2-x2F-25" class="headerlink" title="2022&#x2F;2&#x2F;25"></a>2022&#x2F;2&#x2F;25</h2><h3 id="刷题"><a href="#刷题" class="headerlink" title="刷题"></a>刷题</h3><h4 id="Acwing"><a href="#Acwing" class="headerlink" title="Acwing"></a>Acwing</h4><ul>
-<li>模拟队列、栈</li>
-<li>滑动窗口</li>
-<li>01背包</li>
-<li>完全背包</li>
-<li>多重背包（三维）</li>
-<li>多重背包Ⅱ（二进制优化）</li>
-<li>分组背包（分组讨论）</li>
-</ul>
-<h4 id="力扣"><a href="#力扣" class="headerlink" title="力扣"></a>力扣</h4><ul>
-<li>每日一题</li>
-</ul>
-<h4 id="技术"><a href="#技术" class="headerlink" title="技术"></a>技术</h4>
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/02/26/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-2-25/">展开全文 >></a>
         </p>
       
 
