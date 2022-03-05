@@ -16,7 +16,7 @@
 <meta property="og:description" content="创建游戏界面修改为模块化引入由于上节课引入game.js会导致其中的变量，会变成全局变量，所以我们考虑使用模块引入的功能，让网页只引入在html中需要的部分。 修改web.html 12345678910&lt;!-- 首先，先删掉上面整个引入 game.js 的部分 --&gt;&lt;!-- 然后，下方创建对象的部分，先使用模块化引入 --&gt;......    &lt;script ty">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-03-04T08:17:14.000Z">
-<meta property="article:modified_time" content="2022-03-04T08:24:41.084Z">
+<meta property="article:modified_time" content="2022-03-05T10:51:28.824Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="项目">
 <meta property="article:tag" content="后端">
@@ -51,7 +51,7 @@
 <div class="intrude-less">
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
-			<img src="" class="js-avatar">
+			<img src="/pictures/personal/avatar.png" class="js-avatar">
 		</a>
 		<hgroup>
 		  <h1 class="header-author"><a href="/"></a></h1>
@@ -113,7 +113,7 @@
 	<div class="intrude-less">
 		<header id="header" class="inner">
 			<div class="profilepic">
-				<img src="" class="js-avatar">
+				<img src="/pictures/personal/avatar.png" class="js-avatar">
 			</div>
 			<hgroup>
 			  <h1 class="header-author js-header-author"></h1>
@@ -200,6 +200,8 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export class AcGame &#123;</span><br><span class="line">    ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>这样，在全局中，只会出现引入的模块，其他的<code>.js</code>代码不会出现在全局变量中。</p>
+<span id="more"></span>
+
 <h4 id="构建游戏界面框架"><a href="#构建游戏界面框架" class="headerlink" title="构建游戏界面框架"></a>构建游戏界面框架</h4><p>先写总的背景js文件<code>game/static/js/src/playground/zbase.js</code></p>
 <p><code>zbase.js</code></p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">AcGamePlayground</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params">root</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">root</span> = root;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">$playground</span> = $(<span class="string">`</span></span><br><span class="line"><span class="string">&lt;div class=&quot;ac-game-playground&quot;&gt;&lt;/div&gt;</span></span><br><span class="line"><span class="string">`</span>); <span class="comment">// 这里定义了新HTML类</span></span><br><span class="line"></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">root</span>.<span class="property">$ac_game</span>.<span class="title function_">append</span>(<span class="variable language_">this</span>.<span class="property">$playground</span>);</span><br><span class="line"></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">width</span> = <span class="variable language_">this</span>.<span class="property">$playground</span>.<span class="property">width</span>; <span class="comment">// 领域的宽度</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">height</span> = <span class="variable language_">this</span>.<span class="property">$playground</span>.<span class="property">height</span>; <span class="comment">// 领域的高度</span></span><br><span class="line"></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">$back</span> = <span class="variable language_">this</span>.<span class="property">$playground</span>.<span class="title function_">find</span>(<span class="string">&#x27;.ac-game-playground-item-back&#x27;</span>)</span><br><span class="line">        <span class="variable language_">this</span>.<span class="title function_">start</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">add_listening_events</span>(<span class="params"></span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">let</span> outer = <span class="variable language_">this</span>;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">$back</span>.<span class="title function_">click</span>(<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">            outer.<span class="title function_">hide</span>();</span><br><span class="line">            outer.<span class="property">root</span>.<span class="property">$menu</span>.<span class="title function_">show</span>();</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">show</span>(<span class="params"></span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">$playground</span>.<span class="title function_">show</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">hide</span>(<span class="params"></span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">$playground</span>.<span class="title function_">hide</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">start</span>(<span class="params"></span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="title function_">hide</span>();</span><br><span class="line">        <span class="variable language_">this</span>.<span class="title function_">add_listening_events</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">update</span>(<span class="params"></span>)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -708,6 +710,14 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">知识点</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">动态规划</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">状态机</a>
               </li>
             
             <div class="clearfix"></div>

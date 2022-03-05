@@ -6,14 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives: 2022 | Hexo</title>
+  <title>状态机模型DP | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/archives/2022/page/3/index.html">
+  <meta name="description" content="状态机模型DP1049大盗阿福 题意：你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。 给定一个代表每个房屋存放金额的非负整数数组，计算你 不触动警报装置的情况下 ，一夜之内能够偷窃到的最高金额。  思路：考虑两个状态，对于每个房间都有偷和不偷两种，偷了上个房间就">
+<meta property="og:type" content="article">
+<meta property="og:title" content="状态机模型DP">
+<meta property="og:url" content="http://example.com/2022/03/05/%E7%8A%B6%E6%80%81%E6%9C%BA%E6%A8%A1%E5%9E%8BDP/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="状态机模型DP1049大盗阿福 题意：你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。 给定一个代表每个房屋存放金额的非负整数数组，计算你 不触动警报装置的情况下 ，一夜之内能够偷窃到的最高金额。  思路：考虑两个状态，对于每个房间都有偷和不偷两种，偷了上个房间就">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-03-05T10:43:48.000Z">
+<meta property="article:modified_time" content="2022-03-05T10:51:17.813Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="题解">
+<meta property="article:tag" content="知识点">
+<meta property="article:tag" content="动态规划">
+<meta property="article:tag" content="状态机">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -162,278 +170,247 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-状态机模型DP" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2022" class="archive-year">2022</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/02/28/%E7%AC%AC282%E6%AC%A1%E5%91%A8%E8%B5%9B%E7%AC%AC%E5%9B%9B%E9%A2%98-%E5%AE%8C%E6%88%90%E6%AF%94%E8%B5%9B%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/" class="archive-article-date">
-  	<time datetime="2022-02-27T18:15:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-28</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/02/28/%E7%AC%AC282%E6%AC%A1%E5%91%A8%E8%B5%9B%E7%AC%AC%E5%9B%9B%E9%A2%98-%E5%AE%8C%E6%88%90%E6%AF%94%E8%B5%9B%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/">第282次周赛第四题-完成比赛的最少时间</a>
+    <h1 class="article-title" itemprop="name">
+      状态机模型DP
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2022/03/05/%E7%8A%B6%E6%80%81%E6%9C%BA%E6%A8%A1%E5%9E%8BDP/" class="archive-article-date">
+  	<time datetime="2022-03-05T10:43:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h4 id="状态机模型DP"><a href="#状态机模型DP" class="headerlink" title="状态机模型DP"></a>状态机模型DP</h4><h5 id="1049大盗阿福"><a href="#1049大盗阿福" class="headerlink" title="1049大盗阿福"></a>1049大盗阿福</h5><ul>
+<li><p>题意：你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。</p>
+<p>给定一个代表每个房屋存放金额的非负整数数组，计算你 不触动警报装置的情况下 ，一夜之内能够偷窃到的最高金额。</p>
+</li>
+<li><p>思路：考虑两个状态，对于每个房间都有偷和不偷两种，偷了上个房间就没法偷下个房间，可以写出状态转移方程：</p>
+<ul>
+<li>$f(i,0)&#x3D;max(f(i-1,0),f(i-1,1))$</li>
+<li>$f(i,1)&#x3D;max(f(i-1,0)+w,f(i-1,1))$</li>
+</ul>
+</li>
+<li><p>代码</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">memset</span>(f,<span class="number">-0x3f</span>,<span class="keyword">sizeof</span> f);</span><br><span class="line">f[<span class="number">0</span>][<span class="number">0</span>]=<span class="number">0</span>;</span><br><span class="line"><span class="type">int</span> n;</span><br><span class="line">cin&gt;&gt;n;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> a;</span><br><span class="line">    cin&gt;&gt;a;</span><br><span class="line">    f[i][<span class="number">0</span>]=<span class="built_in">max</span>(f[i<span class="number">-1</span>][<span class="number">0</span>],f[i<span class="number">-1</span>][<span class="number">1</span>]);</span><br><span class="line">    f[i][<span class="number">1</span>]=<span class="built_in">max</span>(f[i<span class="number">-1</span>][<span class="number">0</span>]+a,f[i<span class="number">-1</span>][<span class="number">1</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+
+<h5 id="打家劫舍Ⅱ"><a href="#打家劫舍Ⅱ" class="headerlink" title="打家劫舍Ⅱ"></a>打家劫舍Ⅱ</h5><ul>
+<li><p>题意：跟上述一样，只是第一个房间和最后一个房间只能选一个</p>
+</li>
+<li><p>思路：考虑两种情况，第一种情况是选第一个房间，第二种情况是不选第一个房间</p>
+<ul>
+<li>选第一个房间：$f(0,0)&#x3D;-inf,f(0,1)&#x3D;nums[0],res&#x3D;max(res,f(n,0))$</li>
+<li>不选第一个房间：$f(0,1)&#x3D;-inf,f(0,0)&#x3D;0,res&#x3D;max(f(n,1),f(n,0))$</li>
+</ul>
+</li>
+<li><p>代码</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">f[<span class="number">0</span>][<span class="number">1</span>]=<span class="number">-1e8</span>;</span><br><span class="line">f[<span class="number">0</span>][<span class="number">0</span>]=<span class="number">0</span>;</span><br><span class="line"><span class="type">int</span> n=nums.<span class="built_in">size</span>();</span><br><span class="line"><span class="comment">//不选第一个数</span></span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;n;i++)</span><br><span class="line">&#123;</span><br><span class="line">    f[i][<span class="number">0</span>]=<span class="built_in">max</span>(f[i<span class="number">-1</span>][<span class="number">0</span>],f[i<span class="number">-1</span>][<span class="number">1</span>]);</span><br><span class="line">    f[i][<span class="number">1</span>]=f[i<span class="number">-1</span>][<span class="number">0</span>]+nums[i];</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> res=<span class="built_in">max</span>(f[n<span class="number">-1</span>][<span class="number">0</span>],f[n<span class="number">-1</span>][<span class="number">1</span>]);</span><br><span class="line"><span class="comment">//选第一个数</span></span><br><span class="line"><span class="built_in">memset</span>(f,<span class="number">0</span>,<span class="keyword">sizeof</span> f);</span><br><span class="line">f[<span class="number">0</span>][<span class="number">1</span>]=nums[<span class="number">0</span>];</span><br><span class="line">f[<span class="number">0</span>][<span class="number">0</span>]=<span class="number">-1e8</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;n;i++)</span><br><span class="line">&#123;</span><br><span class="line">    f[i][<span class="number">0</span>]=<span class="built_in">max</span>(f[i<span class="number">-1</span>][<span class="number">0</span>],f[i<span class="number">-1</span>][<span class="number">1</span>]);</span><br><span class="line">    f[i][<span class="number">1</span>]=f[i<span class="number">-1</span>][<span class="number">0</span>]+nums[i];</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> <span class="built_in">max</span>(res,f[n<span class="number">-1</span>][<span class="number">0</span>]);</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="1057股票买卖Ⅳ"><a href="#1057股票买卖Ⅳ" class="headerlink" title="1057股票买卖Ⅳ"></a>1057股票买卖Ⅳ</h5><ul>
+<li>题意：给定一个长度为 $N$的数组 $w$，数组的第 $i$ 个元素 $w_i$ 表示第 $i$ 天的股票 价格</li>
+</ul>
+<p>一次买入一次卖出为一笔 合法交易，且不能同时产生多笔交易（必须在再次购买前出售掉之前的股票）</p>
+<p>设计一个方案，使得总 合法交易数 不超过 $k$ 次，总利润最大</p>
+<ul>
+<li><p>思路：由于每次只能一笔交易，所以有两种状态：<strong>空仓</strong>、<strong>满仓</strong>，只有满仓到空仓的情况算是一次交易，转移情况也很简单：</p>
+<ul>
+<li>$f(i,j,0)&#x3D;max(f(i-1,j,0),f(i-1,j-1,1)+w(i))$  卖出昨天的股票，或者原地不动</li>
+<li>$f(i,j,1)&#x3D;max(f(i-1,j,1),f(i-1,j,0)-w(i))$ 买入今天的股票，或者原地不动 </li>
+<li>初始化：由于交易的次数必须小于天数，所以应该先把所有情况初始化为0。对于第一天，不持仓，不交易:$f(0,0,0)&#x3D;0$。</li>
+</ul>
+</li>
+<li><p>代码</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">&#123;  </span><br><span class="line">    <span class="type">int</span> a;</span><br><span class="line">    cin&gt;&gt;a;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;=k;j++)</span><br><span class="line">&#123;</span><br><span class="line">    f[i][j][<span class="number">0</span>]=f[i<span class="number">-1</span>][j][<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">if</span>(j)</span><br><span class="line">    f[i][j][<span class="number">0</span>]=<span class="built_in">max</span>(f[i][j][<span class="number">0</span>],f[i<span class="number">-1</span>][j<span class="number">-1</span>][<span class="number">1</span>]+a);</span><br><span class="line">    f[i][j][<span class="number">1</span>]=<span class="built_in">max</span>(f[i<span class="number">-1</span>][j][<span class="number">1</span>],f[i<span class="number">-1</span>][j][<span class="number">0</span>]-a);</span><br><span class="line">    <span class="keyword">if</span>(i==n)</span><br><span class="line">    res=<span class="built_in">max</span>(res,f[n][j][<span class="number">0</span>]);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="1058股票买卖Ⅴ"><a href="#1058股票买卖Ⅴ" class="headerlink" title="1058股票买卖Ⅴ"></a>1058股票买卖Ⅴ</h5><ul>
+<li><p>题意：给定一个长度为 $N$ 的数组 $w$，数组的第 $i$ 个元素 $w_i$ 表示第 $i$ 天的股票 价格</p>
+<ul>
+<li><p>一次买入一次卖出为一笔 合法交易，且不能同时产生多笔交易（必须在再次购买前出售掉之前的股票）</p>
+</li>
+<li><p>卖出股票后，无法在第二天买入股票（冷冻期为1天）</p>
+</li>
+<li><p>设计一个方案，使得总利润最大</p>
+</li>
+</ul>
+</li>
+<li><p>思路：还是用状态机的方法分析问题，只不过这次增加了一个状态就是冷却期，冷却期只能由持股期转移过来，并且只能转移到未持股的状态。</p>
+</li>
+<li><p>代码：</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> a;</span><br><span class="line">    cin&gt;&gt;a;</span><br><span class="line">    f[i][<span class="number">0</span>]=<span class="built_in">max</span>(f[i<span class="number">-1</span>][<span class="number">1</span>],f[i<span class="number">-1</span>][<span class="number">0</span>]);</span><br><span class="line">    f[i][<span class="number">1</span>]=f[i<span class="number">-1</span>][<span class="number">2</span>]+a;</span><br><span class="line">    f[i][<span class="number">2</span>]=<span class="built_in">max</span>(f[i<span class="number">-1</span>][<span class="number">2</span>],f[i<span class="number">-1</span>][<span class="number">0</span>]-a);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">算法题解</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">题解</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">背包</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">知识点</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">贪心</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">动态规划</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">状态机</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/题解//" class="article-tag-list-link color3">题解</a>
+        			<a href="/categories/基础知识//" class="article-tag-list-link color5">基础知识</a>
         		</li>
       		
 		</ul>
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2022/03/05/%E7%8A%B6%E6%80%81%E6%9C%BA%E6%A8%A1%E5%9E%8BDP/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/02/28/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-2-26/" class="archive-article-date">
-  	<time datetime="2022-02-27T18:14:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-28</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2022/03/05/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">背包问题总结</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/02/28/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-2-26/">每日总结2022-2-26</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E6%9C%BA%E6%A8%A1%E5%9E%8BDP"><span class="toc-number">1.</span> <span class="toc-text">状态机模型DP</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1049%E5%A4%A7%E7%9B%97%E9%98%BF%E7%A6%8F"><span class="toc-number">1.1.</span> <span class="toc-text">1049大盗阿福</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D%E2%85%A1"><span class="toc-number">1.2.</span> <span class="toc-text">打家劫舍Ⅱ</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1057%E8%82%A1%E7%A5%A8%E4%B9%B0%E5%8D%96%E2%85%A3"><span class="toc-number">1.3.</span> <span class="toc-text">1057股票买卖Ⅳ</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1058%E8%82%A1%E7%A5%A8%E4%B9%B0%E5%8D%96%E2%85%A4"><span class="toc-number">1.4.</span> <span class="toc-text">1058股票买卖Ⅴ</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/02/28/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-2-27/" class="archive-article-date">
-  	<time datetime="2022-02-27T18:14:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/02/28/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-2-27/">每日总结2022-2-27</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
-        		</li>
-      		
-		</ul>
-	</div>
+        
+    </div>
+</aside>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/02/26/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-2-25/" class="archive-article-date">
-  	<time datetime="2022-02-25T16:58:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/02/26/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-2-25/">每日总结2022/2/25</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/02/25/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-2-24/" class="archive-article-date">
-  	<time datetime="2022-02-24T16:24:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/02/25/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-2-24/">每日总结</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
   
-    </div></section>
   
 
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/2022/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/archives/2022/">1</a><a class="page-number" href="/archives/2022/page/2/">2</a><span class="page-number current">3</span>
-    </nav>
+  
+
+  
+
   
 
 
@@ -457,8 +434,8 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
