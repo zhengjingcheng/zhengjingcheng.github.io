@@ -164,6 +164,656 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-部署nginx与对接acapp" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/06/%E9%83%A8%E7%BD%B2nginx%E4%B8%8E%E5%AF%B9%E6%8E%A5acapp/">部署nginx与对接acapp</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/06/%E9%83%A8%E7%BD%B2nginx%E4%B8%8E%E5%AF%B9%E6%8E%A5acapp/" class="archive-article-date">
+  	<time datetime="2022-03-05T18:43:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h2 id="部署nginx与对接acapp"><a href="#部署nginx与对接acapp" class="headerlink" title="部署nginx与对接acapp"></a>部署nginx与对接acapp</h2><h3 id="背景知识"><a href="#背景知识" class="headerlink" title="背景知识"></a>背景知识</h3><h4 id="什么是Nginx"><a href="#什么是Nginx" class="headerlink" title="什么是Nginx"></a>什么是Nginx</h4><p><em>Nginx</em> (engine x) 是一个高性能的HTTP和反向代理(不需要知道目标服务器的地址)web服务器。</p>
+<h4 id="uWSGI是什么"><a href="#uWSGI是什么" class="headerlink" title="uWSGI是什么"></a>uWSGI是什么</h4><ul>
+<li>uWSGI是一个Web服务器，它实现了WSGI协议、uwsgi、http等协议。Nginx中HttpUwsgiModule的作用是与uWSGI服务器进行交换。</li>
+<li>WSGI协议是Python 语言定义的 Web 服务器和 Web 应用程序或框架之间的一种简单而通用的接口。</li>
+<li>简单来说uWSGI就是用来沟通nginx和django的一座桥梁。</li>
+</ul>
+<h4 id="为什么需要Nginx"><a href="#为什么需要Nginx" class="headerlink" title="为什么需要Nginx"></a>为什么需要Nginx</h4><p>Django有个runserver直接起了一个WebServer，为什么还要Nginx起一个-</p>
+<ul>
+<li><p>安全：程序不能直接被浏览器访问到，而是通过nginx，nginx只开放某个端口，这样运维人员在nginx上加上安全性的限制，可以达到保护程序的作用。</p>
+</li>
+<li><p>负载均衡：由于一台机器的cppu和内存都是有限的，所以一个项目中一个uwsgi很有可能不够用，有了nginx做代理，一个nginx可以代理多台uwsgi完成uwsgi的负载均衡。</p>
+<ul>
+<li><p>计算机或者服务器的每一个服务或者进程都是对应一个端口号的。我们在一个服务器想部署多个项目，本质上就是把不同的服务运行在不同的端口，然后用域名的不同二级域名去解析每一个项目。但是DNS无法直接做到这一点，那么就需要一个，帮你把不同网址发来的请求去转发到不同端口上的一层代理。他就是nginx</p>
+<p>其实nginx的主要作用是把实现负载均衡把一个项目分布到不同服务器上，来降低服务器的负载压力。这里用它来部署多个项目，其实是杀鸡用牛刀。</p>
+</li>
+</ul>
+</li>
+<li><p>nginx静态处理能力强，uWSGI动态处理能力强，nginx处理静态文件，把动态文件转发给uWSGI，可以达到很好的客户端响应。</p>
+</li>
+</ul>
+<h4 id="nginx-uwsgi-django工作流程"><a href="#nginx-uwsgi-django工作流程" class="headerlink" title="nginx+uwsgi+django工作流程"></a>nginx+uwsgi+django工作流程</h4><ul>
+<li>nginx 是对外的服务接口，外部浏览器通过url访问nginx。nginx 接收到浏览器发送过来的http请求，将包进行解析，分析url，如果是静态文件请求就直接访问用户给nginx配置的静态文件目录，直接返回用户请求的静态文件，如果不是静态文件，而是一个动态的请求，那么nginx就将请求转发给uwsgi,uwsgi 接收到请求之后将包进行处理，处理成wsgi可以接受的格式，并发给wsgi,wsgi 根据请求调用应用程序的某个文件，某个文件的某个函数，最后处理完将返回值再次交给wsgi,wsgi将返回值进行打包，打包成uwsgi能够接收的格式，uwsgi接收wsgi 发送的请求，并转发给nginx,nginx最终将返回值返回给浏览器。</li>
+</ul>
+<h3 id="部署流程"><a href="#部署流程" class="headerlink" title="部署流程"></a>部署流程</h3><p>可以参考配置nginx的讲义。</p>
+<h3 id="优化Acapp"><a href="#优化Acapp" class="headerlink" title="优化Acapp"></a>优化Acapp</h3><h4 id="鼠标点击事件的相对偏移"><a href="#鼠标点击事件的相对偏移" class="headerlink" title="鼠标点击事件的相对偏移"></a>鼠标点击事件的相对偏移</h4><p>由于写游戏界面的时候，玩家移动是按照鼠标相对于当前整个浏览器取的位置参数<code> e.clientX</code></p>
+<p>而 <code>acapp</code> 里，每个应用是一个小窗口，鼠标点击位置的参数应当是 相对于整个游戏窗口的位置参数</p>
+<p>所有会导致出现，点击的位置与移动的位置不同，这里需要做出小优化</p>
+<p>优化的逻辑 :</p>
+<ul>
+<li>$clientX−窗口左侧到浏览器左侧的距离&#x3D;玩家的目标X$</li>
+<li>$clientY−窗口上侧到浏览器上侧的距离&#x3D;玩家的目标Y$</li>
+</ul>
+<p><code>js/zbase.js</code>的注释取消，使之创建出 menu 对象</p>
+<p><code>js/playground/zbase.js</code> 的注释取消，并设置逻辑，让 playground 打开后，才进行游戏界面初始化</p>
+<h4 id="设置游戏菜单界面"><a href="#设置游戏菜单界面" class="headerlink" title="设置游戏菜单界面"></a>设置游戏菜单界面</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">AcGamePlayground</span> &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params">root</span>) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">root</span> = root;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">$playground</span> = $(<span class="string">`&lt;div class=&quot;ac-game-playground&quot;&gt;&lt;/div&gt;`</span>);</span><br><span class="line"></span><br><span class="line">        <span class="variable language_">this</span>.<span class="title function_">hide</span>();    <span class="comment">//初始时隐藏</span></span><br><span class="line">        <span class="comment">// 游戏界面生成代码在下面展示 playground 时执行</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="title function_">start</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">    <span class="title function_">show</span>(<span class="params"></span>) &#123;    <span class="comment">//打开 playground 界面</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">$playground</span>.<span class="title function_">show</span>();</span><br><span class="line">        <span class="comment">//开始生成游戏界面</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">root</span>.<span class="property">$ac_game</span>.<span class="title function_">append</span>(<span class="variable language_">this</span>.<span class="property">$playground</span>);</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">width</span> = <span class="variable language_">this</span>.<span class="property">$playground</span>.<span class="title function_">width</span>();</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">height</span> = <span class="variable language_">this</span>.<span class="property">$playground</span>.<span class="title function_">height</span>();</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">game_map</span> = <span class="keyword">new</span> <span class="title class_">GameMap</span>(<span class="variable language_">this</span>);</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">players</span> = [];  <span class="comment">// 存放当前游戏中的所有玩家</span></span><br><span class="line">        <span class="comment">//将玩家加入游戏中</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">players</span>.<span class="title function_">push</span>(<span class="keyword">new</span> <span class="title class_">Player</span>(<span class="variable language_">this</span>, <span class="variable language_">this</span>.<span class="property">width</span> / <span class="number">2</span>, <span class="variable language_">this</span>.<span class="property">height</span> / <span class="number">2</span>, <span class="variable language_">this</span>.<span class="property">height</span> * <span class="number">0.05</span>, <span class="string">&quot;white&quot;</span>, <span class="variable language_">this</span>.<span class="property">height</span> * <span class="number">0.15</span>, <span class="literal">true</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">//创建好 5 个人机</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i ++ ) &#123;</span><br><span class="line">            <span class="variable language_">this</span>.<span class="property">players</span>.<span class="title function_">push</span>(<span class="keyword">new</span> <span class="title class_">Player</span>(<span class="variable language_">this</span>, <span class="variable language_">this</span>.<span class="property">width</span> / <span class="number">2</span>, <span class="variable language_">this</span>.<span class="property">height</span> / <span class="number">2</span>, <span class="variable language_">this</span>.<span class="property">height</span> * <span class="number">0.05</span>, <span class="variable language_">this</span>.<span class="title function_">get_random_color</span>(), <span class="variable language_">this</span>.<span class="property">height</span> * <span class="number">0.15</span>, <span class="literal">false</span>));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="调整-css-文件，适应窗口"><a href="#调整-css-文件，适应窗口" class="headerlink" title="调整 css 文件，适应窗口"></a>调整 css 文件，适应窗口</h4><p><code>game.css</code></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">.ac-game-menu-field &#123;</span><br><span class="line">    ...</span><br><span class="line">    top: <span class="number">40</span>%;</span><br><span class="line">    left: <span class="number">20</span>%;</span><br><span class="line">&#125;</span><br><span class="line">.ac-game-menu-field-item &#123;</span><br><span class="line">    height: <span class="number">6</span>vh;</span><br><span class="line">    ...</span><br><span class="line">    font-size: <span class="number">4</span>vh;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">项目</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">后端</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">django</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">nginx</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">uWSGI</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/新版球球大作战项目//" class="article-tag-list-link color5">新版球球大作战项目</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/06/%E9%83%A8%E7%BD%B2nginx%E4%B8%8E%E5%AF%B9%E6%8E%A5acapp/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-每日总结2022-3-5" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/06/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-5/">每日总结2022-3-5</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/06/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-5/" class="archive-article-date">
+  	<time datetime="2022-03-05T17:23:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="刷题"><a href="#刷题" class="headerlink" title="刷题"></a>刷题</h3><h4 id="Acwing"><a href="#Acwing" class="headerlink" title="Acwing"></a>Acwing</h4><ul>
+<li>打家劫舍</li>
+<li>打家劫舍Ⅱ</li>
+<li>买卖股票Ⅳ</li>
+<li>买卖股票Ⅴ</li>
+</ul>
+<h4 id="力扣"><a href="#力扣" class="headerlink" title="力扣"></a>力扣</h4><ul>
+<li>周赛1：哈希表</li>
+<li>周赛2：排序</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sort</span>(a.<span class="built_in">begin</span>(),b.<span class="built_in">begin</span>()[&amp;](<span class="type">int</span> x,<span class="type">int</span> y)&#123;</span><br><span class="line">    <span class="keyword">return</span> x&gt;y;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>周赛3：bfs</li>
+</ul>
+<h4 id="技术"><a href="#技术" class="headerlink" title="技术"></a>技术</h4><ul>
+<li>django笔记</li>
+</ul>
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/06/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-5/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-状态机模型DP" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/05/%E7%8A%B6%E6%80%81%E6%9C%BA%E6%A8%A1%E5%9E%8BDP/">状态机模型DP</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/05/%E7%8A%B6%E6%80%81%E6%9C%BA%E6%A8%A1%E5%9E%8BDP/" class="archive-article-date">
+  	<time datetime="2022-03-05T10:43:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+			<h4 id="状态机模型DP"><a href="#状态机模型DP" class="headerlink" title="状态机模型DP"></a>状态机模型DP</h4><h5 id="1049大盗阿福"><a href="#1049大盗阿福" class="headerlink" title="1049大盗阿福"></a>1049大盗阿福</h5><ul>
+<li><p>题意：你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。</p>
+<p>给定一个代表每个房屋存放金额的非负整数数组，计算你 不触动警报装置的情况下 ，一夜之内能够偷窃到的最高金额。</p>
+</li>
+<li><p>思路：考虑两个状态，对于每个房间都有偷和不偷两种，偷了上个房间就没法偷下个房间，可以写出状态转移方程：</p>
+<ul>
+<li>$f(i,0)&#x3D;max(f(i-1,0),f(i-1,1))$</li>
+<li>$f(i,1)&#x3D;max(f(i-1,0)+w,f(i-1,1))$</li>
+</ul>
+</li>
+<li><p>代码</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">memset</span>(f,<span class="number">-0x3f</span>,<span class="keyword">sizeof</span> f);</span><br><span class="line">f[<span class="number">0</span>][<span class="number">0</span>]=<span class="number">0</span>;</span><br><span class="line"><span class="type">int</span> n;</span><br><span class="line">cin&gt;&gt;n;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> a;</span><br><span class="line">    cin&gt;&gt;a;</span><br><span class="line">    f[i][<span class="number">0</span>]=<span class="built_in">max</span>(f[i<span class="number">-1</span>][<span class="number">0</span>],f[i<span class="number">-1</span>][<span class="number">1</span>]);</span><br><span class="line">    f[i][<span class="number">1</span>]=<span class="built_in">max</span>(f[i<span class="number">-1</span>][<span class="number">0</span>]+a,f[i<span class="number">-1</span>][<span class="number">1</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">题解</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">知识点</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">动态规划</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">状态机</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/算法//" class="article-tag-list-link color3">算法</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/05/%E7%8A%B6%E6%80%81%E6%9C%BA%E6%A8%A1%E5%9E%8BDP/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-背包问题总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/05/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/">背包问题总结</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/05/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/" class="archive-article-date">
+  	<time datetime="2022-03-04T19:03:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+			<h3 id="背包问题总结"><a href="#背包问题总结" class="headerlink" title="背包问题总结"></a>背包问题总结</h3><h4 id="01背包（只能取1次）"><a href="#01背包（只能取1次）" class="headerlink" title="01背包（只能取1次）"></a>01背包（只能取1次）</h4><ul>
+<li>2.01背包</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//核心：从后往前遍历</span></span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)<span class="comment">//遍历物品</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j=m;j&gt;=<span class="number">0</span>;j--)<span class="comment">//遍历体积</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>423.采药</p>
+<ul>
+<li>一个很裸的背包问题 ：把时间当作体积直接套用01背包模板即可</li>
+</ul>
+</li>
+</ul>
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">背包</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">题解</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">知识点</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/算法//" class="article-tag-list-link color3">算法</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/05/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-每日总结2022-3-4" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/05/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-4/">每日总结2022-3-4.md</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/05/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-4/" class="archive-article-date">
+  	<time datetime="2022-03-04T19:00:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h2 id="2022-x2F-3-x2F-2"><a href="#2022-x2F-3-x2F-2" class="headerlink" title="2022&#x2F;3&#x2F;2"></a>2022&#x2F;3&#x2F;2</h2><h3 id="刷题"><a href="#刷题" class="headerlink" title="刷题"></a>刷题</h3><h4 id="Acwing"><a href="#Acwing" class="headerlink" title="Acwing"></a>Acwing</h4><ul>
+<li>滑雪</li>
+<li>没有上司的舞会</li>
+<li>总结背包问题</li>
+</ul>
+<h3 id="技术"><a href="#技术" class="headerlink" title="技术"></a>技术</h3><ul>
+<li>django项目：创建游戏界面</li>
+</ul>
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/05/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-4/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-创建游戏界面" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/04/%E5%88%9B%E5%BB%BA%E6%B8%B8%E6%88%8F%E7%95%8C%E9%9D%A2/">创建游戏界面</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/04/%E5%88%9B%E5%BB%BA%E6%B8%B8%E6%88%8F%E7%95%8C%E9%9D%A2/" class="archive-article-date">
+  	<time datetime="2022-03-04T08:17:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+			<h3 id="创建游戏界面"><a href="#创建游戏界面" class="headerlink" title="创建游戏界面"></a>创建游戏界面</h3><h4 id="修改为模块化引入"><a href="#修改为模块化引入" class="headerlink" title="修改为模块化引入"></a>修改为模块化引入</h4><p>由于上节课引入<code>game.js</code>会导致其中的变量，会变成全局变量，所以我们考虑使用模块引入的功能，让网页只引入在html中需要的部分。</p>
+<p>修改<code>web.html</code></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 首先，先删掉上面整个引入 game.js 的部分 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 然后，下方创建对象的部分，先使用模块化引入 --&gt;</span></span><br><span class="line">......</span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;module&quot;</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">import</span> &#123;<span class="title class_">AcGame</span>&#125; <span class="keyword">from</span> <span class="string">&quot;&#123;% static &#x27;js/dist/game.js&#x27; %&#125;&quot;</span></span></span><br><span class="line"><span class="language-javascript">        $(<span class="variable language_">document</span>).<span class="title function_">ready</span>(<span class="keyword">function</span>(<span class="params"></span>)&#123;</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">let</span> ac_game = <span class="keyword">new</span> <span class="title class_">AcGame</span>(<span class="string">&quot;ac_game_12345678&quot;</span>)</span></span><br><span class="line"><span class="language-javascript">        &#125;)</span></span><br><span class="line"><span class="language-javascript">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">......</span><br></pre></td></tr></table></figure>
+
+<p>此外，还有修改引入的类，在前面加上 <code>export</code>，如下修改 <code>js/src/zbase.js</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export class AcGame &#123;</span><br><span class="line">    ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样，在全局中，只会出现引入的模块，其他的<code>.js</code>代码不会出现在全局变量中。</p>
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">项目</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">后端</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">django</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">前端</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/新版球球大作战项目//" class="article-tag-list-link color5">新版球球大作战项目</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/04/%E5%88%9B%E5%BB%BA%E6%B8%B8%E6%88%8F%E7%95%8C%E9%9D%A2/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-每日总结2022-3-3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -652,813 +1302,6 @@
 
 
   
-    <article id="post-力扣169多数元素" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/02/%E5%8A%9B%E6%89%A3169%E5%A4%9A%E6%95%B0%E5%85%83%E7%B4%A0/">力扣169多数元素</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/02/%E5%8A%9B%E6%89%A3169%E5%A4%9A%E6%95%B0%E5%85%83%E7%B4%A0/" class="archive-article-date">
-  	<time datetime="2022-03-01T18:58:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="力扣169多数元素"><a href="#力扣169多数元素" class="headerlink" title="力扣169多数元素"></a>力扣169多数元素</h3><h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><ul>
-<li>给定一个大小为 <em>n</em> 的数组，找到其中的多数元素。多数元素是指在数组中出现次数 <strong>大于</strong> <code>⌊ n/2 ⌋</code> 的元素。</li>
-</ul>
-<h4 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h4><ul>
-<li>朴素解：<ul>
-<li>开一个哈希表，存储每个数出现的次数，如果大于一半则输出。</li>
-</ul>
-</li>
-<li>最优解（摩尔投票法）：<ul>
-<li>此方法很巧妙，我们定义两个变量r、c。r维护当前库存的是哪个数，c代表这个数的库存量。然后依次遍历整个数组，如果当前的数x与r相等c就加一，否则c减一。如果库存为零，则把当前数x置为r，c置为1。然后最后剩余的r就是多数元素。</li>
-<li>此方法就用到了抵消的概念，就是说因为多数元素是超过一半的，所以就算每次抵消一个，最终也会有所剩余。</li>
-</ul>
-</li>
-</ul>
-<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> r=<span class="number">0</span>,c=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span> x:nums)</span><br><span class="line">    <span class="keyword">if</span>(!c)r=x,c++;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(x==r)c++;</span><br><span class="line">    <span class="keyword">else</span> c--;</span><br><span class="line"><span class="keyword">return</span> r;</span><br></pre></td></tr></table></figure>
-
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">数学</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">摩尔投票</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/题解//" class="article-tag-list-link color3">题解</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/02/%E5%8A%9B%E6%89%A3169%E5%A4%9A%E6%95%B0%E5%85%83%E7%B4%A0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-潜水员" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/02/%E6%BD%9C%E6%B0%B4%E5%91%98/">潜水员</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/02/%E6%BD%9C%E6%B0%B4%E5%91%98/" class="archive-article-date">
-  	<time datetime="2022-03-01T18:58:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="潜水员"><a href="#潜水员" class="headerlink" title="潜水员"></a>潜水员</h3><h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><p>潜水员为了潜水要使用特殊的装备。</p>
-<p>他有一个带2种气体的气缸：一个为氧气，一个为氮气。</p>
-<p>让潜水员下潜的深度需要各种数量的氧和氮。</p>
-<p>潜水员有一定数量的气缸。</p>
-<p>每个气缸都有重量和气体容量。</p>
-<p>潜水员为了完成他的工作需要特定数量的氧和氮。</p>
-<p>他完成工作所需气缸的总重的最低限度的是多少？</p>
-<p>例如：潜水员有5个气缸。每行三个数字为：氧，氮的（升）量和气缸的重量：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">3 36 120</span><br><span class="line"></span><br><span class="line">10 25 129</span><br><span class="line"></span><br><span class="line">5 50 250</span><br><span class="line"></span><br><span class="line">1 45 130</span><br><span class="line"></span><br><span class="line">4 20 119</span><br></pre></td></tr></table></figure>
-
-<p>如果潜水员需要5升的氧和60升的氮则总重最小为249（1，2或者4，5号气缸）。</p>
-<p>你的任务就是计算潜水员为了完成他的工作需要的气缸的重量的最低值。</p>
-<h4 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">5 60</span><br><span class="line">5</span><br><span class="line">3 36 120</span><br><span class="line">10 25 129</span><br><span class="line">5 50 250</span><br><span class="line">1 45 130</span><br><span class="line">4 20 119</span><br></pre></td></tr></table></figure>
-
-<h4 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">249</span><br></pre></td></tr></table></figure>
-
-<h4 id="题解："><a href="#题解：" class="headerlink" title="题解："></a>题解：</h4><p>这个题就是典型的二维费用的背包问题（01背包的进阶版），<br>$$<br>f(i,j)&#x3D;min(f(i,j),f(i-v_1,j-v_2)+w)<br>$$<br>需要注意的一点是要求算出最小值,所以我们要考虑边界情况，就是说如果对于我们可以提供的氧气<strong>a</strong>大于需要的氧气<strong>j</strong>时，应该用0来代替，所以有：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> x=j-a,y=k-b;</span><br><span class="line"><span class="keyword">if</span>(x&lt;<span class="number">0</span>)x=<span class="number">0</span>; <span class="keyword">if</span>(y&lt;<span class="number">0</span>)y=<span class="number">0</span>;</span><br></pre></td></tr></table></figure>
-
-<p>现在此问题就可以套用二维费用的背包问题模板了</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f[j][k]=<span class="built_in">min</span>(f[j][k],f[x][y]+c);</span><br></pre></td></tr></table></figure>
-
-<h5 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">int</span> v1,v2,n,m;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">80</span>;</span><br><span class="line"><span class="type">int</span> f[N][N];</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin&gt;&gt;v1&gt;&gt;v2&gt;&gt;n;</span><br><span class="line">    <span class="built_in">memset</span>(f,<span class="number">0x3f</span>,<span class="keyword">sizeof</span> f);</span><br><span class="line">    f[<span class="number">0</span>][<span class="number">0</span>]=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> a,b,c;</span><br><span class="line">        cin&gt;&gt;a&gt;&gt;b&gt;&gt;c;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=v1;j&gt;=<span class="number">0</span>;j--)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k=v2;k&gt;=<span class="number">0</span>;k--)</span><br><span class="line">        &#123;   </span><br><span class="line">          <span class="type">int</span> x=j-a,y=k-b;</span><br><span class="line">          <span class="keyword">if</span>(x&lt;<span class="number">0</span>)x=<span class="number">0</span>; <span class="keyword">if</span>(y&lt;<span class="number">0</span>)y=<span class="number">0</span>;</span><br><span class="line">         f[j][k]=<span class="built_in">min</span>(f[j][k],f[x][y]+c);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;f[v1][v2];</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">算法题解</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">背包</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">二维费用背包</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">dp</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/题解//" class="article-tag-list-link color3">题解</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/02/%E6%BD%9C%E6%B0%B4%E5%91%98/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-背包问题求具体方案" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/02/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E6%B1%82%E5%85%B7%E4%BD%93%E6%96%B9%E6%A1%88/">背包问题求具体方案</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/02/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E6%B1%82%E5%85%B7%E4%BD%93%E6%96%B9%E6%A1%88/" class="archive-article-date">
-  	<time datetime="2022-03-01T18:58:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="背包问题求具体方案"><a href="#背包问题求具体方案" class="headerlink" title="背包问题求具体方案"></a>背包问题求具体方案</h3><h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><p>01背包问题，按照字典序最小输出方案。</p>
-<h4 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h4><ul>
-<li><p>输出方案：</p>
-<ul>
-<li>要想输出方案，我们首先要考虑，当前物品是否在最优解里。从状态方程定义出发：f(i,j)表示（0到i）个物品中我们可以选择的最优结果，如果选择第i个物品，则说明f(i-1)中的最优结果加上第i个物品的价值就是最优解。所以我们可以判定出i是属于最优解集合的。</li>
-<li>这样我们就只能从后往前判断第i个物品。</li>
-</ul>
-</li>
-<li><p>字典序最小</p>
-<ul>
-<li>要想字典序最小我们应该从前往后依次遍历，看第i个物品是不是属于最优解，如果属于我们就应该加入，也就是早加入就早加入。</li>
-<li>我们要想从后往前遍历就需要改变状态方程的含义，也就是让确定i和f(i+1的关系)，即f(i+1)是最优解，当加入i后f(i)也是最优解，所以我们可以将f(i)表示为从i到n之间选取相应的物品可以获得的最大值。</li>
-</ul>
-</li>
-<li><p>处理方法</p>
-<ul>
-<li><p>按照逆序进行dp，先判断第f(n),也就是只有n一个数时的最优方案，f(n-1)是从n-1和n两个数中选。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=n;i&gt;=<span class="number">1</span>;i--)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;=m;j++)</span><br><span class="line">    &#123;</span><br><span class="line">        f[i][j]=f[i+<span class="number">1</span>][j];<span class="comment">//表示不考虑第i个元素</span></span><br><span class="line">        <span class="keyword">if</span>(j&gt;=v[i])<span class="comment">//如果可以选第i个元素</span></span><br><span class="line">            f[i][j]=<span class="built_in">max</span>(f[i][j],f[i+<span class="number">1</span>][j-		v[i]]+w[i]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-</li>
-<li><p>正序输出答案。从前往后遍历判断是不是属于最优解，如果是则输出。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)<span class="comment">//从第一个元素开始看是不是需要选</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(j&gt;=v[i]&amp;&amp;f[i][j]==f[i+<span class="number">1</span>][j-v[i]]+w[i])</span><br><span class="line">   &#123;   <span class="comment">//如果可以选就一定要选上   </span></span><br><span class="line">       j-=v[i];</span><br><span class="line">       cout&lt;&lt;i&lt;&lt;<span class="string">&quot; &quot;</span>;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
-</li>
-</ul>
-<h4 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">1010</span>;</span><br><span class="line"><span class="type">int</span> f[N][N];<span class="comment">//f[i]表示第i个元素到第n个元素之间的最优解</span></span><br><span class="line"><span class="type">int</span> w[N],v[N];</span><br><span class="line"><span class="type">int</span> n,m;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;m;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)cin&gt;&gt;v[i]&gt;&gt;w[i];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=n;i&gt;=<span class="number">1</span>;i--)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;=m;j++)</span><br><span class="line">        &#123;</span><br><span class="line">            f[i][j]=f[i+<span class="number">1</span>][j];<span class="comment">//表示不考虑第i个元素</span></span><br><span class="line">            <span class="keyword">if</span>(j&gt;=v[i])<span class="comment">//如果可以选第i个元素</span></span><br><span class="line">            f[i][j]=<span class="built_in">max</span>(f[i][j],f[i+<span class="number">1</span>][j-v[i]]+w[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> j=m;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)<span class="comment">//从第一个元素开始看是不是需要选</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(j&gt;=v[i]&amp;&amp;f[i][j]==f[i+<span class="number">1</span>][j-v[i]]+w[i])</span><br><span class="line">       &#123;   <span class="comment">//如果可以选就一定要选上   </span></span><br><span class="line">           j-=v[i];</span><br><span class="line">           cout&lt;&lt;i&lt;&lt;<span class="string">&quot; &quot;</span>;</span><br><span class="line">       &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">算法题解</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">背包</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">dp</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">背包求具体方案</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/题解//" class="article-tag-list-link color3">题解</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/02/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E6%B1%82%E5%85%B7%E4%BD%93%E6%96%B9%E6%A1%88/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-每日总结2022-3-1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/02/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-1/">每日总结2022-3-1</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/02/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-1/" class="archive-article-date">
-  	<time datetime="2022-03-01T18:21:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h2 id="2022-x2F-3-x2F-1"><a href="#2022-x2F-3-x2F-1" class="headerlink" title="2022&#x2F;3&#x2F;1"></a>2022&#x2F;3&#x2F;1</h2><h3 id="刷题"><a href="#刷题" class="headerlink" title="刷题"></a>刷题</h3><h4 id="力扣"><a href="#力扣" class="headerlink" title="力扣"></a>力扣</h4><ul>
-<li>145 二叉树的后序遍历    简单</li>
-</ul>
-<h4 id="Acwing"><a href="#Acwing" class="headerlink" title="Acwing"></a>Acwing</h4><ul>
-<li>算法提高课背包问题第三节课<ul>
-<li>1020潜水员（二维费用）</li>
-<li>12背包问题求具体方案（逆序）</li>
-<li>1013机器分配（求方案数）</li>
-</ul>
-</li>
-</ul>
-<h3 id="技术"><a href="#技术" class="headerlink" title="技术"></a>技术</h3><h5 id="项目"><a href="#项目" class="headerlink" title="项目"></a>项目</h5><ul>
-<li>总结完django的菜单创建</li>
-</ul>
-<h5 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h5><ul>
-<li>C++必背知识点（1）总结</li>
-</ul>
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/02/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-C++必背知识点一" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/02/C++%E5%BF%85%E8%83%8C%E7%9F%A5%E8%AF%86%E7%82%B9%E4%B8%80/">C++必背知识点一</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/02/C++%E5%BF%85%E8%83%8C%E7%9F%A5%E8%AF%86%E7%82%B9%E4%B8%80/" class="archive-article-date">
-  	<time datetime="2022-03-01T18:18:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="C-必背知识点一"><a href="#C-必背知识点一" class="headerlink" title="C++必背知识点一"></a>C++必背知识点一</h3><h4 id="C-面向对象的三种特性"><a href="#C-面向对象的三种特性" class="headerlink" title="C++面向对象的三种特性"></a>C++面向对象的三种特性</h4><ul>
-<li>封装：把客观的事物封装成一个具体的类，在一个对象中某些代码和数据可以是私有的。</li>
-<li>继承：继承就是可以让某个类型的对象可以获得另一个类型的对象的属性的方法。可以继承父类的公有属性和函数。继承的实现方式有两种：实现继承和接口继承。<ul>
-<li>实现继承：直接使用父类的属性和方法无需自己编码。</li>
-<li>接口继承：仅使用属性和方法的名称，但是子类需要自己实现。</li>
-</ul>
-</li>
-<li>多态：多态的核心就是用父类指针指向不同的子类对象。父类需要定义虚函数，然后不同的子类重写父类的虚函数，也就是多种形态。多态使代码组织结构清晰，可读性强，便于后期的扩展与维护。</li>
-</ul>
-<h4 id="C-继承和组合？你在实际项目中是怎么使用的？什么情况下使用继承？什么情况下使用组合？"><a href="#C-继承和组合？你在实际项目中是怎么使用的？什么情况下使用继承？什么情况下使用组合？" class="headerlink" title="C++继承和组合？你在实际项目中是怎么使用的？什么情况下使用继承？什么情况下使用组合？"></a>C++继承和组合？你在实际项目中是怎么使用的？什么情况下使用继承？什么情况下使用组合？</h4><ul>
-<li>继承是通过扩展已有的类来获得新的代码的重写方法。</li>
-<li>组合是将现有的类合并成一个新类的构造方法。</li>
-<li>考虑是否要从新类上溯回基础类。若必须要上溯，就需要使用继承，否则使用组合。</li>
-<li>组合偏向于实现层面，继承偏向于扩展层面。</li>
-<li>继承偏重于集体，如汽车对于交通工具。</li>
-<li>组合偏重于个体，如轮子对于汽车。</li>
-<li>继承偏抽象。</li>
-<li>组合偏具体。</li>
-</ul>
-<h4 id="C-的构造函数可以是虚函数吗？为什么？"><a href="#C-的构造函数可以是虚函数吗？为什么？" class="headerlink" title="C++的构造函数可以是虚函数吗？为什么？"></a>C++的构造函数可以是虚函数吗？为什么？</h4><ul>
-<li>不可以，虚函数对应一个虚函数表，而虚函数表是存储在对象的内存空间的。如果构造函数是虚的，就需要通过虚函数表进行调用，但是在这个时候对象还没有被实例化，也就没有内存空间，更找不到虚函数表。</li>
-</ul>
-<h4 id="C-的析构函数可以是虚函数吗？为什么要将析构函数设置为虚函数？"><a href="#C-的析构函数可以是虚函数吗？为什么要将析构函数设置为虚函数？" class="headerlink" title="C++的析构函数可以是虚函数吗？为什么要将析构函数设置为虚函数？"></a>C++的析构函数可以是虚函数吗？为什么要将析构函数设置为虚函数？</h4><ul>
-<li>可以，为了防止内存泄漏。如果采用的是非虚析构函数，在删除派生类对象时只会调用基类的析构函数，而不会调用派生类的析构函数，派生类申请的内存空间就会产生内存泄漏。</li>
-</ul>
-<h4 id="C-如何实现多态？虚表指针是什么时候被初始化的？实例化一个对象需要那几个阶段？（三个）"><a href="#C-如何实现多态？虚表指针是什么时候被初始化的？实例化一个对象需要那几个阶段？（三个）" class="headerlink" title="C++如何实现多态？虚表指针是什么时候被初始化的？实例化一个对象需要那几个阶段？（三个）"></a>C++如何实现多态？虚表指针是什么时候被初始化的？实例化一个对象需要那几个阶段？（三个）</h4><ul>
-<li>多态就是指多种形态。c++有两种多态，静态多态和动态多态。<ul>
-<li>静态多态就是重载，在<strong>编译</strong>的时候就可以确定函数的地址。</li>
-<li>动态多态就是重写基类的虚函数，<strong>运行</strong>时通过虚函数表寻找调用函数的地址。</li>
-</ul>
-</li>
-<li>初始化发生在构造函数的调用过程中，但是在执行构造函数体之前。</li>
-<li>三个阶段<ol>
-<li>子类属性默认初始化</li>
-<li>父类构造函数初始化</li>
-<li>子类属性显示初始化</li>
-</ol>
-</li>
-</ul>
-<h4 id="C-偏特化"><a href="#C-偏特化" class="headerlink" title="C++偏特化"></a>C++偏特化</h4><ul>
-<li>全特化就是限定死模板实现的具体类型，偏特化就是如果这个模板有多个类型，那么只能限定其中的一部分。</li>
-<li>偏特化的条件：<ul>
-<li>必须有一个主模板</li>
-<li>模板类型被部分明确化</li>
-</ul>
-</li>
-</ul>
-<h4 id="重写、重载"><a href="#重写、重载" class="headerlink" title="重写、重载"></a>重写、重载</h4><ul>
-<li>范围区别：重写和被重写的函数在不同的类中，重载和被重载的函数在同一类中。</li>
-<li>参数区别：重写与被重写的函数参数列表一定相同，重载和被重载的函数参数列表一定不同。</li>
-<li>virtual的区别：重写的基类必须要有virtual修饰，重载函数和被重载函数可以被virtual修饰，也可以没有。</li>
-</ul>
-<h4 id="static关键字的作用？"><a href="#static关键字的作用？" class="headerlink" title="static关键字的作用？"></a>static关键字的作用？</h4><ul>
-<li><p>可以在不同的文件中定义同名函数和同名变量，而不必担心命名冲突。</p>
-</li>
-<li><p>static的第二个作用是保持变量内容的持久。（static变量中的记忆功能和全局生存期）。</p>
-</li>
-<li><p>static的第三个作用是默认初始化为0。</p>
-</li>
-<li><p>在类中用static修饰的成员是类的成员，不是对象的成员，没有this指针，不可以定义为虚函数。</p>
-</li>
-</ul>
-<h4 id="指针和引用的区别"><a href="#指针和引用的区别" class="headerlink" title="指针和引用的区别"></a>指针和引用的区别</h4><ul>
-<li>指针是一个变量，这个变量存储的是一个地址，指向内存的一个存储单元。引用跟原来的变量实质上是一个东西，只不过是原变量的一个别名而已。（引用更加安全）</li>
-</ul>
-<h4 id="C-内存管理"><a href="#C-内存管理" class="headerlink" title="C++内存管理"></a>C++内存管理</h4><ul>
-<li>从静态存储区域分配：<ul>
-<li>全局变量</li>
-<li>static静态成员变量</li>
-</ul>
-</li>
-<li>从栈上创建<ul>
-<li>函数内部的存储单位</li>
-</ul>
-</li>
-<li>在堆上分配<ul>
-<li>用malloc或者new申请free或者delete释放</li>
-</ul>
-</li>
-</ul>
-<h4 id="malloc和new的区别"><a href="#malloc和new的区别" class="headerlink" title="malloc和new的区别"></a>malloc和new的区别</h4><ul>
-<li>new运算不需要强制类型转换，使用更简单</li>
-<li>new不需要计算创建的内存大小</li>
-<li>new是通过调用构造函数初始化动态创建的对象，执行效率更高</li>
-<li>使用new能够进行异常处理，更加安全</li>
-</ul>
-<h4 id="栈区和堆区的区别"><a href="#栈区和堆区的区别" class="headerlink" title="栈区和堆区的区别"></a>栈区和堆区的区别</h4><ul>
-<li><strong>分配方式</strong>：<ul>
-<li>堆都是动态分配的，没有静态分配方式。</li>
-<li>栈有两种分配方式：静态分配和动态分配。静态分配是编译器完成的，比如局部变量的分配。动态分配由函数malloc进行分配。</li>
-</ul>
-</li>
-<li><strong>空间大小</strong>：栈的空间小，一般最多为2M，堆的空间大，1-4G。</li>
-<li><strong>结构</strong>：栈是线性结构，堆是链式结构。</li>
-<li><strong>效率</strong>：栈的效率高，堆的效率低。</li>
-</ul>
-<h4 id="野指针"><a href="#野指针" class="headerlink" title="野指针"></a>野指针</h4><ul>
-<li>野指针就是指针指向的位置是不可知的，指针变量在定义时如果没有初始化，其值是随机的。</li>
-</ul>
-<h4 id="智能指针"><a href="#智能指针" class="headerlink" title="智能指针"></a>智能指针</h4><ul>
-<li>智能指针了解的不是很多，主要是为了解决new，delete的匹配问题。</li>
-</ul>
-<h4 id="类对象的大小？内存对齐？成员函数是否占空间？"><a href="#类对象的大小？内存对齐？成员函数是否占空间？" class="headerlink" title="类对象的大小？内存对齐？成员函数是否占空间？"></a>类对象的大小？内存对齐？成员函数是否占空间？</h4><ul>
-<li>类对象的大小主要来自两部分：<ul>
-<li>类内部的成员变量：<ul>
-<li>普通的变量是要占用内存的但是要注意对齐原则。</li>
-<li>static修饰的静态变量不占用内存，因为编译器将其放在全局变量的位置上。</li>
-</ul>
-</li>
-<li>类内部的成员函数<ul>
-<li>普通的成员函数不占用内存。</li>
-<li>虚函数占用四个字节，用来指定虚函数的虚拟函数表的入口地址，和虚函数的个数是没关系的。</li>
-</ul>
-</li>
-<li>空类的大小为1，用来占位。</li>
-</ul>
-</li>
-</ul>
-<h4 id="深拷贝和浅拷贝"><a href="#深拷贝和浅拷贝" class="headerlink" title="深拷贝和浅拷贝"></a>深拷贝和浅拷贝</h4><ul>
-<li>浅拷贝：简单的赋值操作</li>
-<li>深拷贝：在堆区重新申请空间，进行拷贝操作</li>
-</ul>
-<h4 id="Struct与Class的区别"><a href="#Struct与Class的区别" class="headerlink" title="Struct与Class的区别"></a>Struct与Class的区别</h4><ul>
-<li>struct 是public的</li>
-<li>class是private的</li>
-</ul>
-<h4 id="如何避免内存泄漏"><a href="#如何避免内存泄漏" class="headerlink" title="如何避免内存泄漏"></a>如何避免内存泄漏</h4><ul>
-<li>尽量避免在堆上分配内存</li>
-<li>尽早释放无用对象的引用</li>
-<li>尽量少用静态变量，因为静态变量是全局的</li>
-</ul>
-<h4 id="vector的底层实现"><a href="#vector的底层实现" class="headerlink" title="vector的底层实现"></a>vector的底层实现</h4><ul>
-<li>vector是一种动态增长的数组，当原始容量被用尽后，在别的地方进行扩充，大小为原来的1.5倍或者2倍，然后再将内容拷贝过去。</li>
-<li>以倍数扩容的好处：vector在push_back以成倍增长可以在均摊后达到O(1)的时间复杂度，相对于增长指定大小的O(n)的复杂度更好。</li>
-<li>1.5倍的增长方式可以更好的实现对内存的重复利用。</li>
-</ul>
-<h4 id="vector和list的区别"><a href="#vector和list的区别" class="headerlink" title="vector和list的区别"></a>vector和list的区别</h4><ul>
-<li>vector是可变大小数组。支持快速随机访问。在尾部之外的位置插入或删除元素可能会很慢。</li>
-<li>list双向链表，支持双向顺序访问。在list任何位置进行插入和删除都很快，但访问速度较慢。</li>
-</ul>
-<h4 id="unordered-map和map的区别"><a href="#unordered-map和map的区别" class="headerlink" title="unordered_map和map的区别"></a>unordered_map和map的区别</h4><ul>
-<li>map是基于红黑树结构实现的。红黑树是一种平衡二叉查找树的变体结构，它的左右子树的高度差有可能会大于 1。红黑树具有自动排序的功能。因此在map中的元素排列都是有序的。操作的复杂度为O(logn)，复杂度即为红黑树的高度。</li>
-<li>unordered_map：基于散列表（哈希表），复杂度依赖于散列函数产生的冲突多少，但大多数情况下其复杂度接近于O(1)。</li>
-</ul>
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">c++</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">面向对象</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">必背</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/基础知识//" class="article-tag-list-link color5">基础知识</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/02/C++%E5%BF%85%E8%83%8C%E7%9F%A5%E8%AF%86%E7%82%B9%E4%B8%80/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-RPC原理介绍" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/01/RPC%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/">RPC原理介绍</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/01/RPC%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/" class="archive-article-date">
-  	<time datetime="2022-02-28T20:19:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="RPC-原理介绍"><a href="#RPC-原理介绍" class="headerlink" title="RPC 原理介绍"></a>RPC 原理介绍</h3><h4 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h4><ul>
-<li>为了进行多个模块相互调用，传统的方法是采用http协议来进行调用，接口提供者和接口调用者共同协商一套规范，然后双方按照规范独立开发。既然如此，我们为什们又需要RPC协议呢？</li>
-</ul>
-<h4 id="http接口协议存在的问题："><a href="#http接口协议存在的问题：" class="headerlink" title="http接口协议存在的问题："></a>http接口协议存在的问题：</h4><ol>
-<li>http协议是基于文本的传输协议，对于我们目前的项目需求是无法满足的。</li>
-<li>由于http协议的表达能力较差，需要将复杂的数据转换成http协议可以传输的数据。所以我们接口提供者和接口调用者分别需要进行数据的序列化和反序列化。</li>
-<li>http协议后期扩展能力也很差：运维困难（1.原生的nginx很难实现高度定制化。2.DNS本身存在被篡改和攻击的风险。）基于http协议的通信架构可扩展性差。</li>
-</ol>
-<h4 id="RPC简介"><a href="#RPC简介" class="headerlink" title="RPC简介"></a>RPC简介</h4><h5 id="主要概念："><a href="#主要概念：" class="headerlink" title="主要概念："></a>主要概念：</h5><ul>
-<li>将远程调用变成程序员熟悉的本地调用，由中间层负责整个通信过程的各项校验、编码、解码、序列化、反序列化等工作。开发者只需要把精力集中在自身的项目中。</li>
-</ul>
-<h5 id="RPC的组成"><a href="#RPC的组成" class="headerlink" title="RPC的组成"></a>RPC的组成</h5><ol>
-<li>user：发起远程调用的client端，调用本地的下一个成员，user_stub。</li>
-<li>user_stub：负责对于协议中要传输的数据进行校验、序列化、编码。编码成易于传输的字节流格式，然后对服务器端传过来的字节流数据进行解码、反序列化、校验还原成易于本地工作的结构化数据。</li>
-<li>RPCRuntime：负责通信和传输</li>
-<li>server_stub：类似与user_stub，将工作重心转向了对于服务器端。</li>
-<li>server：与user的地位相同，负责代理server_stub，实现便于用户使用的api，提供远程接口服务。</li>
-</ol>
-<h5 id="RPC的优势"><a href="#RPC的优势" class="headerlink" title="RPC的优势"></a>RPC的优势</h5><ul>
-<li>更加友好，将远程调用转换成本地调用，在提供强大的远程调用能力的同时不损失本地调用语意的简洁。</li>
-<li>更加方便快捷，省去程序员大量编码，解码，序列化，反序列化，数据校验等工作。</li>
-<li>更加多样化，由于对于通信协议，编码方式没有进行严格规定，所以程序员有更多的发挥空间进行自定义。</li>
-</ul>
-<h5 id="RPC的不足"><a href="#RPC的不足" class="headerlink" title="RPC的不足"></a>RPC的不足</h5><ul>
-<li>由于要将远程调用转化为本地调用，在跨语言调用时存在一定的问题，这使得很多<strong>RPC</strong>框架都局限于单一语言实现，这样接口实现方和接口调用方更加方便维护。</li>
-</ul>
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">必背</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/基础知识//" class="article-tag-list-link color5">基础知识</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/01/RPC%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/3/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/">Next &amp;raquo;</a>
@@ -1782,6 +1625,26 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">接口</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">区间dp</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">操作系统</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">枚举</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">单调队列</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">栈</a>
               </li>
             
             <div class="clearfix"></div>
