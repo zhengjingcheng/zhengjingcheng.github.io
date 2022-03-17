@@ -164,6 +164,113 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-滑动窗口最大值" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/15/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E6%9C%80%E5%A4%A7%E5%80%BC/">滑动窗口最大值</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/15/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E6%9C%80%E5%A4%A7%E5%80%BC/" class="archive-article-date">
+  	<time datetime="2022-03-14T18:23:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="滑动窗口最大值"><a href="#滑动窗口最大值" class="headerlink" title="滑动窗口最大值"></a>滑动窗口最大值</h3><h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><ul>
+<li><p>给你一个整数数组 nums，有一个大小为 k 的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 k 个数字。滑动窗口每次只向右移动一位。</p>
+<p>返回 滑动窗口中的最大值 。</p>
+</li>
+</ul>
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><ul>
+<li>暴力做法自然就是维护一个长度为k的固定窗口，但是肯定会超时，所以我们这个时候应该想怎么优化，对于固定窗口的最值问题，我们一般都采用单调队列来优化。这里我们维护一个单调递减的队列，每次将队头插入答案集合即可。</li>
+<li>这里我们用到了deque</li>
+</ul>
+<p><img src="https://gitee.com/bhb100/drawing-bed/raw/master/blog/C++%E6%8F%90%E9%AB%98%E7%BC%96%E7%A8%8BPDF%E7%89%88.jpg"></p>
+<ul>
+<li>每次需要判断是不是当前值大于队列的最小值</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(q.<span class="built_in">back</span>()&lt;nums[i])q.<span class="built_in">pop_back</span>();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>判断当前队头是不是已经年纪太大该退休了</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(q.<span class="built_in">front</span>()&lt;i-k+<span class="number">1</span>)q.<span class="built_in">pop_front</span>();</span><br></pre></td></tr></table></figure>
+
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">maxSlidingWindow</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> k)</span> </span>&#123;</span><br><span class="line">                deque&lt;<span class="type">int</span>&gt;q;</span><br><span class="line">                vector&lt;<span class="type">int</span>&gt;res;</span><br><span class="line">                <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;nums.<span class="built_in">size</span>();i++)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">if</span>(q.<span class="built_in">size</span>()&amp;&amp;q.<span class="built_in">front</span>()&lt;=i-k)<span class="comment">//如果人数已经超过滑动窗口的容量就将最先入队的那个人出队，也就是队头</span></span><br><span class="line">                        q.<span class="built_in">pop_front</span>();</span><br><span class="line">                    <span class="keyword">while</span>(q.<span class="built_in">size</span>()&amp;&amp;nums[q.<span class="built_in">back</span>()]&lt;=nums[i])<span class="comment">//由于单调队列是从大到小排序，所以从后往前比较如果比自己小就出队</span></span><br><span class="line">                        q.<span class="built_in">pop_back</span>();</span><br><span class="line">                    q.<span class="built_in">push_back</span>(i);<span class="comment">//插入当前值</span></span><br><span class="line">                    <span class="keyword">if</span>(i&gt;=k<span class="number">-1</span>)<span class="comment">//如果窗口已经超过K人</span></span><br><span class="line">                      res.<span class="built_in">push_back</span>(nums[q.<span class="built_in">front</span>()]);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">单调队列</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/高频算法题//" class="article-tag-list-link color1">高频算法题</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/15/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E6%9C%80%E5%A4%A7%E5%80%BC/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-区间dp" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1357,119 +1464,6 @@
 
 
   
-    <article id="post-统计最高点的节点数目" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/11/%E7%BB%9F%E8%AE%A1%E6%9C%80%E9%AB%98%E7%82%B9%E7%9A%84%E8%8A%82%E7%82%B9%E6%95%B0%E7%9B%AE/">统计最高点的节点数目</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/11/%E7%BB%9F%E8%AE%A1%E6%9C%80%E9%AB%98%E7%82%B9%E7%9A%84%E8%8A%82%E7%82%B9%E6%95%B0%E7%9B%AE/" class="archive-article-date">
-  	<time datetime="2022-03-11T09:22:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="统计最高点的节点数目"><a href="#统计最高点的节点数目" class="headerlink" title="统计最高点的节点数目"></a>统计最高点的节点数目</h3><h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><p>给你一棵根节点为 0 的 二叉树 ，它总共有 n 个节点，节点编号为 0 到 n - 1 。同时给你一个下标从 0 开始的整数数组 <code>parents</code> 表示这棵树，其中<code> parents[i]</code> 是节点 i 的父节点。由于节点 0 是根，所以 <code>parents[0] == -1 </code>。</p>
-<p>一个子树的 大小 为这个子树内节点的数目。每个节点都有一个与之关联的 分数 。求出某个节点分数的方法是，将这个节点和与它相连的边全部 删除 ，剩余部分是若干个 非空 子树，这个节点的<strong>分数</strong>为所有这些子树<strong>大小</strong>的乘积 。</p>
-<p>请你返回有<strong>最高得分</strong>节点的数目 。</p>
-<p><img src="https://gitee.com/bhb100/drawing-bed/raw/master/blog/20220311170748.png"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">输入：parents = [-1,2,0,2,0]</span><br><span class="line">输出：3</span><br><span class="line">解释：</span><br><span class="line">- 节点 0 的分数为：3 * 1 = 3</span><br><span class="line">- 节点 1 的分数为：4 = 4</span><br><span class="line">- 节点 2 的分数为：1 * 1 * 2 = 2</span><br><span class="line">- 节点 3 的分数为：4 = 4</span><br><span class="line">- 节点 4 的分数为：4 = 4</span><br><span class="line">最高得分为 4 ，有三个节点得分为 4 （分别是节点 1，3 和 4 ）。</span><br></pre></td></tr></table></figure>
-
-<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><ul>
-<li><p>由于每个点的分数是独立的，我们可以考虑分别遍历每个节点计算出该节点的分数值，然后再进行比较得出<strong>方案数</strong>。</p>
-</li>
-<li><p>除了根节点外，每个点都有三条路径：两条子树，一条父节点。父节点对于当前节点的贡献可以用总结点的数量减去当前节点的数量获得。</p>
-</li>
-<li><p>注意是求最大分数的<strong>方案数</strong>，所以更新时要判断是不是可以更新最大分数，如果可以更新就将方案数重置为1，否则判断是不是当前方案和最大方案数相同，若相同则继续进行叠加。</p>
-</li>
-</ul>
-<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;g;</span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    <span class="type">long</span> <span class="type">long</span> res=<span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> ans=<span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> u)</span><span class="comment">//返回以当前点为跟的得分</span></span></span><br><span class="line"><span class="function">    </span>&#123;   <span class="type">int</span> sore=<span class="number">1</span>;</span><br><span class="line">        <span class="type">long</span> <span class="type">long</span> t=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> x:g[u])</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="type">int</span> a=<span class="built_in">dfs</span>(x);<span class="comment">//求孩子节点的得分</span></span><br><span class="line">                sore+=a;</span><br><span class="line">                t*=a;</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="keyword">if</span>(sore&lt;n)<span class="comment">//如果不是根节点</span></span><br><span class="line">           t*=(n-sore);</span><br><span class="line">        <span class="keyword">if</span>(res&lt;t)</span><br><span class="line">        &#123;</span><br><span class="line">            res=t;</span><br><span class="line">            ans=<span class="number">1</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(t==res)&#123;<span class="comment">//与最大方案数相等</span></span><br><span class="line">            ans++;</span><br><span class="line">        &#125;</span><br><span class="line">          <span class="keyword">return</span> sore;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">countHighestScoreNodes</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; parents)</span> </span>&#123;</span><br><span class="line">        n=parents.<span class="built_in">size</span>();</span><br><span class="line">        g.<span class="built_in">resize</span>(n);</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;n;i++)<span class="comment">//把每个点的父节点存下来,0节点没有父节点所以从1开始</span></span><br><span class="line">            g[parents[i]].<span class="built_in">push_back</span>(i);</span><br><span class="line">        <span class="built_in">dfs</span>(<span class="number">0</span>);<span class="comment">//从0节点开始遍历每个</span></span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">算法题解</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">树</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">记忆化搜索</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">dfs</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/题解//" class="article-tag-list-link color3">题解</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/11/%E7%BB%9F%E8%AE%A1%E6%9C%80%E9%AB%98%E7%82%B9%E7%9A%84%E8%8A%82%E7%82%B9%E6%95%B0%E7%9B%AE/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/3/">Next &amp;raquo;</a>
@@ -1821,6 +1815,10 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">模板，必背</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">mapreduce</a>
               </li>
             
             <div class="clearfix"></div>
