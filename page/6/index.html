@@ -164,6 +164,297 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-每日总结2022-3-2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<hr>
+<p>title: 每日总结2022-3-2<br>date: 2022-03-03 03:08:39<br>tags: 每日总结<br>categories: 日志<br>​—</p>
+<h2 id="2022-x2F-3-x2F-2"><a href="#2022-x2F-3-x2F-2" class="headerlink" title="2022&#x2F;3&#x2F;2"></a>2022&#x2F;3&#x2F;2</h2><h3 id="刷题"><a href="#刷题" class="headerlink" title="刷题"></a>刷题</h3><h4 id="力扣"><a href="#力扣" class="headerlink" title="力扣"></a>力扣</h4><ul>
+<li>二叉树的最近公共祖先</li>
+</ul>
+<h4 id="Acwing"><a href="#Acwing" class="headerlink" title="Acwing"></a>Acwing</h4><ul>
+<li>算法提高课背包问题第三节课<ul>
+<li>开心的金明</li>
+</ul>
+</li>
+</ul>
+<h3 id="技术"><a href="#技术" class="headerlink" title="技术"></a>技术</h3><h5 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h5><ul>
+<li>计算机网络必背知识点 总结</li>
+</ul>
+<h4 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h4><ul>
+<li>今天状态太差了QT完全没整明白，浪费了很多的时间。</li>
+</ul>
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/03/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-2/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-力扣169多数元素" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/02/%E5%8A%9B%E6%89%A3169%E5%A4%9A%E6%95%B0%E5%85%83%E7%B4%A0/">力扣169多数元素</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/02/%E5%8A%9B%E6%89%A3169%E5%A4%9A%E6%95%B0%E5%85%83%E7%B4%A0/" class="archive-article-date">
+  	<time datetime="2022-03-01T18:58:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="力扣169多数元素"><a href="#力扣169多数元素" class="headerlink" title="力扣169多数元素"></a>力扣169多数元素</h3><h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><ul>
+<li>给定一个大小为 <em>n</em> 的数组，找到其中的多数元素。多数元素是指在数组中出现次数 <strong>大于</strong> <code>⌊ n/2 ⌋</code> 的元素。</li>
+</ul>
+<h4 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h4><ul>
+<li>朴素解：<ul>
+<li>开一个哈希表，存储每个数出现的次数，如果大于一半则输出。</li>
+</ul>
+</li>
+<li>最优解（摩尔投票法）：<ul>
+<li>此方法很巧妙，我们定义两个变量r、c。r维护当前库存的是哪个数，c代表这个数的库存量。然后依次遍历整个数组，如果当前的数x与r相等c就加一，否则c减一。如果库存为零，则把当前数x置为r，c置为1。然后最后剩余的r就是多数元素。</li>
+<li>此方法就用到了抵消的概念，就是说因为多数元素是超过一半的，所以就算每次抵消一个，最终也会有所剩余。</li>
+</ul>
+</li>
+</ul>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> r=<span class="number">0</span>,c=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span> x:nums)</span><br><span class="line">    <span class="keyword">if</span>(!c)r=x,c++;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(x==r)c++;</span><br><span class="line">    <span class="keyword">else</span> c--;</span><br><span class="line"><span class="keyword">return</span> r;</span><br></pre></td></tr></table></figure>
+
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">数学</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">摩尔投票</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/题解//" class="article-tag-list-link color3">题解</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/02/%E5%8A%9B%E6%89%A3169%E5%A4%9A%E6%95%B0%E5%85%83%E7%B4%A0/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-潜水员" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/02/%E6%BD%9C%E6%B0%B4%E5%91%98/">潜水员</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/02/%E6%BD%9C%E6%B0%B4%E5%91%98/" class="archive-article-date">
+  	<time datetime="2022-03-01T18:58:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="潜水员"><a href="#潜水员" class="headerlink" title="潜水员"></a>潜水员</h3><h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><p>潜水员为了潜水要使用特殊的装备。</p>
+<p>他有一个带2种气体的气缸：一个为氧气，一个为氮气。</p>
+<p>让潜水员下潜的深度需要各种数量的氧和氮。</p>
+<p>潜水员有一定数量的气缸。</p>
+<p>每个气缸都有重量和气体容量。</p>
+<p>潜水员为了完成他的工作需要特定数量的氧和氮。</p>
+<p>他完成工作所需气缸的总重的最低限度的是多少？</p>
+<p>例如：潜水员有5个气缸。每行三个数字为：氧，氮的（升）量和气缸的重量：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">3 36 120</span><br><span class="line"></span><br><span class="line">10 25 129</span><br><span class="line"></span><br><span class="line">5 50 250</span><br><span class="line"></span><br><span class="line">1 45 130</span><br><span class="line"></span><br><span class="line">4 20 119</span><br></pre></td></tr></table></figure>
+
+<p>如果潜水员需要5升的氧和60升的氮则总重最小为249（1，2或者4，5号气缸）。</p>
+<p>你的任务就是计算潜水员为了完成他的工作需要的气缸的重量的最低值。</p>
+<h4 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">5 60</span><br><span class="line">5</span><br><span class="line">3 36 120</span><br><span class="line">10 25 129</span><br><span class="line">5 50 250</span><br><span class="line">1 45 130</span><br><span class="line">4 20 119</span><br></pre></td></tr></table></figure>
+
+<h4 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">249</span><br></pre></td></tr></table></figure>
+
+<h4 id="题解："><a href="#题解：" class="headerlink" title="题解："></a>题解：</h4><p>这个题就是典型的二维费用的背包问题（01背包的进阶版），<br>$$<br>f(i,j)&#x3D;min(f(i,j),f(i-v_1,j-v_2)+w)<br>$$<br>需要注意的一点是要求算出最小值,所以我们要考虑边界情况，就是说如果对于我们可以提供的氧气<strong>a</strong>大于需要的氧气<strong>j</strong>时，应该用0来代替，所以有：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> x=j-a,y=k-b;</span><br><span class="line"><span class="keyword">if</span>(x&lt;<span class="number">0</span>)x=<span class="number">0</span>; <span class="keyword">if</span>(y&lt;<span class="number">0</span>)y=<span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+
+<p>现在此问题就可以套用二维费用的背包问题模板了</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f[j][k]=<span class="built_in">min</span>(f[j][k],f[x][y]+c);</span><br></pre></td></tr></table></figure>
+
+<h5 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">int</span> v1,v2,n,m;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">80</span>;</span><br><span class="line"><span class="type">int</span> f[N][N];</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin&gt;&gt;v1&gt;&gt;v2&gt;&gt;n;</span><br><span class="line">    <span class="built_in">memset</span>(f,<span class="number">0x3f</span>,<span class="keyword">sizeof</span> f);</span><br><span class="line">    f[<span class="number">0</span>][<span class="number">0</span>]=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> a,b,c;</span><br><span class="line">        cin&gt;&gt;a&gt;&gt;b&gt;&gt;c;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=v1;j&gt;=<span class="number">0</span>;j--)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k=v2;k&gt;=<span class="number">0</span>;k--)</span><br><span class="line">        &#123;   </span><br><span class="line">          <span class="type">int</span> x=j-a,y=k-b;</span><br><span class="line">          <span class="keyword">if</span>(x&lt;<span class="number">0</span>)x=<span class="number">0</span>; <span class="keyword">if</span>(y&lt;<span class="number">0</span>)y=<span class="number">0</span>;</span><br><span class="line">         f[j][k]=<span class="built_in">min</span>(f[j][k],f[x][y]+c);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;f[v1][v2];</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">算法题解</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">背包</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">二维费用背包</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">dp</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/题解//" class="article-tag-list-link color3">题解</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/02/%E6%BD%9C%E6%B0%B4%E5%91%98/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-背包问题求具体方案" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1255,293 +1546,6 @@
 
 
   
-    <article id="post-每日总结2022-2-28" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/01/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-2-28/">每日总结2022-2-28</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/01/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-2-28/" class="archive-article-date">
-  	<time datetime="2022-02-28T18:21:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="刷题"><a href="#刷题" class="headerlink" title="刷题"></a>刷题</h3><h4 id="力扣"><a href="#力扣" class="headerlink" title="力扣"></a>力扣</h4><ul>
-<li>145 二叉树的后序遍历    简单    </li>
-<li>99 恢复二叉搜索树    中等    </li>
-<li>100 相同的树    简单    </li>
-<li>169 多数元素    简单    </li>
-<li>144 二叉树的前序遍历    简单    </li>
-<li>6 Z 字形变换    中等    </li>
-<li>494 目标和    中等</li>
-</ul>
-<h4 id="Acwing"><a href="#Acwing" class="headerlink" title="Acwing"></a>Acwing</h4><ul>
-<li>算法提高课背包问题第二节课<ul>
-<li>278数字组合</li>
-<li>1023买书</li>
-<li>1019庆功会</li>
-</ul>
-</li>
-</ul>
-<h3 id="技术"><a href="#技术" class="headerlink" title="技术"></a>技术</h3><h5 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h5><ul>
-<li>第三章函数</li>
-<li>第四章约束</li>
-</ul>
-<h5 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h5><ul>
-<li>RPC原理介绍</li>
-</ul>
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/01/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-2-28/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-最多可达成的换楼请求数目" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/02/28/%E6%9C%80%E5%A4%9A%E5%8F%AF%E8%BE%BE%E6%88%90%E7%9A%84%E6%8D%A2%E6%A5%BC%E8%AF%B7%E6%B1%82%E6%95%B0%E7%9B%AE/">最多可达成的换楼请求数目</a>
-    </h1>
-  
-
-        
-        <a href="/2022/02/28/%E6%9C%80%E5%A4%9A%E5%8F%AF%E8%BE%BE%E6%88%90%E7%9A%84%E6%8D%A2%E6%A5%BC%E8%AF%B7%E6%B1%82%E6%95%B0%E7%9B%AE/" class="archive-article-date">
-  	<time datetime="2022-02-27T18:15:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h5 id="最多可达成的换楼请求数目"><a href="#最多可达成的换楼请求数目" class="headerlink" title="最多可达成的换楼请求数目"></a>最多可达成的换楼请求数目</h5><p>​        分析数据范围，请求数量是16，一般来说小于20的数据都可以用状态压缩算法。想明白这一点，问题就很容易解决了，我们可以枚举所有的请求，然后看在当前情况下是否满足，搬出公寓和搬进公寓的人达到动态平衡。</p>
-<p>​       维护一个数组f[n]，当有人搬出时f[i]–,当有人搬入时f[i]++。最后遍历f数组，若f[i]&lt;0则不符合条件，退出即可。否则更新最大值。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">maximumRequests</span><span class="params">(<span class="type">int</span> n, vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; requests)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> m=requests.<span class="built_in">size</span>();</span><br><span class="line">        <span class="type">int</span> res=INT_MIN;</span><br><span class="line">        <span class="type">int</span> v[n];</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;(<span class="number">1</span>&lt;&lt;m);i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> t=<span class="number">0</span>;</span><br><span class="line">            <span class="built_in">memset</span>(v,<span class="number">0</span>,<span class="keyword">sizeof</span> v);</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;m;j++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(i&gt;&gt;j&amp;<span class="number">1</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    t++;</span><br><span class="line">                    v[requests[j][<span class="number">1</span>]]++;</span><br><span class="line">                    v[requests[j][<span class="number">0</span>]]--;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">0</span>;k&lt;n;k++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(v[k]&lt;<span class="number">0</span>)<span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">if</span>(k==n<span class="number">-1</span>)res=<span class="built_in">max</span>(res,t);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">算法题解</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/题解//" class="article-tag-list-link color3">题解</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/02/28/%E6%9C%80%E5%A4%9A%E5%8F%AF%E8%BE%BE%E6%88%90%E7%9A%84%E6%8D%A2%E6%A5%BC%E8%AF%B7%E6%B1%82%E6%95%B0%E7%9B%AE/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-相交链表Ⅱ" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/02/28/%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8%E2%85%A1/">相交链表Ⅱ</a>
-    </h1>
-  
-
-        
-        <a href="/2022/02/28/%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8%E2%85%A1/" class="archive-article-date">
-  	<time datetime="2022-02-27T18:15:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<p>回忆下相交链表1的做法就是维护快慢指针，快指针是慢指针的二倍，如果被快指针追上，有相遇点就说明有环。</p>
-<p>设a为起始点，b为环的入口，c为相遇点。</p>
-<p>设慢指针从入口到达相遇点需要x的路程，则同样的时间快指针在c’点。a点到b点的距离为y。</p>
-<p>已知a点到c点慢指针走了x+y的距离，由于快指针的速度是慢指针的二倍，快指针走了2x+2y的距离。这里的距离是广义距离，包括循环。则可以求出c到b的距离为2x+2y-y-2x&#x3D;y,所以a到b的距离等于c到b的距离，即如果我们求到相遇点后，可以用两个指针，一个指针指向起点a，一个指针指向相遇点c，让两个指针同时走，下一次相遇的位置就是b点。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ListNode *<span class="title">detectCycle</span><span class="params">(ListNode *head)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!head||!head-&gt;next) <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">auto</span> f=head-&gt;next-&gt;next;</span><br><span class="line">    <span class="keyword">auto</span> s=head-&gt;next;</span><br><span class="line">    <span class="keyword">while</span>(f&amp;&amp;s)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(f==s)</span><br><span class="line">        &#123;<span class="comment">//相遇点</span></span><br><span class="line">            <span class="keyword">auto</span> x=head,y=f;</span><br><span class="line">            <span class="keyword">while</span>(x!=y) x=x-&gt;next,y=y-&gt;next;</span><br><span class="line">            <span class="keyword">return</span> x;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(!f-&gt;next) <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">        f=f-&gt;next-&gt;next;</span><br><span class="line">        s=s-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">算法题解</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/题解//" class="article-tag-list-link color3">题解</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/02/28/%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8%E2%85%A1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/5/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/7/">Next &amp;raquo;</a>
@@ -1897,6 +1901,14 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">mapreduce</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">堆，必背</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">动态规划，记忆化搜索</a>
               </li>
             
             <div class="clearfix"></div>
