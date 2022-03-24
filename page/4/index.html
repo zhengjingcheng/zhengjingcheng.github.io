@@ -164,6 +164,215 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-最长有效括号" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/15/%E6%9C%80%E9%95%BF%E6%9C%89%E6%95%88%E6%8B%AC%E5%8F%B7/">最长有效括号</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/15/%E6%9C%80%E9%95%BF%E6%9C%89%E6%95%88%E6%8B%AC%E5%8F%B7/" class="archive-article-date">
+  	<time datetime="2022-03-14T18:28:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="最长有效括号"><a href="#最长有效括号" class="headerlink" title="最长有效括号"></a>最长有效括号</h3><h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><p>给你一个只包含 <code>&#39;(&#39;</code> 和 <code>&#39;)&#39;</code> 的字符串，找出最长有效（格式正确且连续）括号子串的长度。</p>
+<h4 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ul>
+<li>由于要求<strong>最长</strong>，我们很容易类比到最长上升子序列问题，考虑每个位置是否可以表示，由于每个位置只有两种可能性，所以种种迹象都表现了这个题可以用动态规划思想进行分析。</li>
+<li>我们将状态表示为以<strong>i</strong>点结尾的最长有效括号，很容易知道如果是“（”，则$f(i)$等于0，否则就与$i-1$的状态有关，所以有递推关系。</li>
+</ul>
+<h5 id="状态计算"><a href="#状态计算" class="headerlink" title="状态计算"></a>状态计算</h5><p>$f(i)&#x3D;max(f(i),f(i-2)+2)when:s[i-1]&#x3D;’(‘$                 “()()”</p>
+<p>$f(i)&#x3D;max(f(i),f(i-f(i-1)-2)+f(i-1)+2)$              “(())”</p>
+<h5 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h5><ul>
+<li>每次都要和前两位相比，所以需要在左边增加一个哨兵：<code>s=&#39;(&#39;+s</code></li>
+<li>注意考虑是否越界</li>
+<li>“（））”这种情况也是不合法的</li>
+</ul>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">longestValidParentheses</span><span class="params">(string s)</span> </span>&#123;</span><br><span class="line">        s=<span class="string">&#x27;(&#x27;</span>+s;</span><br><span class="line">        <span class="type">int</span> n=s.<span class="built_in">size</span>();</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt;<span class="built_in">f</span>(n+<span class="number">1</span>,<span class="number">0</span>);</span><br><span class="line">        <span class="type">int</span> maxn=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++) &#123;</span><br><span class="line">            <span class="keyword">if</span>(s[i]==<span class="string">&#x27;)&#x27;</span>)&#123;</span><br><span class="line">                <span class="keyword">if</span>(i<span class="number">-1</span>&gt;<span class="number">0</span>&amp;&amp;s[i<span class="number">-1</span>]==<span class="string">&#x27;(&#x27;</span>)<span class="comment">//()()</span></span><br><span class="line">                f[i]=<span class="built_in">max</span>(f[i],f[i<span class="number">-2</span>]+<span class="number">2</span>);</span><br><span class="line">                <span class="keyword">else</span>&#123;<span class="comment">//(())</span></span><br><span class="line">                    <span class="keyword">if</span>(i<span class="number">-1</span>&gt;=<span class="number">0</span>&amp;&amp;f[i<span class="number">-1</span>]&gt;<span class="number">0</span>)&#123;</span><br><span class="line">                        <span class="keyword">if</span>(i-f[i<span class="number">-1</span>]<span class="number">-1</span>&gt;<span class="number">0</span>&amp;&amp;s[i-f[i<span class="number">-1</span>]<span class="number">-1</span>]==<span class="string">&#x27;(&#x27;</span>)</span><br><span class="line">                        f[i]=<span class="built_in">max</span>(f[i],f[i-f[i<span class="number">-1</span>]<span class="number">-2</span>]+f[i<span class="number">-1</span>]+<span class="number">2</span>);</span><br><span class="line">                    &#125;  </span><br><span class="line">                &#125;</span><br><span class="line">                maxn=<span class="built_in">max</span>(maxn,f[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> maxn;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="栈模拟"><a href="#栈模拟" class="headerlink" title="栈模拟"></a>栈模拟</h4><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><ul>
+<li>常规的考虑方法，遇到左括号就入栈，右括号就弹栈，只不过在弹栈的时候要进行判断，如果栈顶还有元素就可以更新最大值，如果没有元素就将当前下标入栈，也就是栈中存放第一个不可满足的位置。</li>
+</ul>
+<h5 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h5><ul>
+<li>要在左侧增加一个哨兵，从而减少边界条件。</li>
+</ul>
+<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">longestValidParentheses</span><span class="params">(string s)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> maxans = <span class="number">0</span>;</span><br><span class="line">        stack&lt;<span class="type">int</span>&gt; stk;</span><br><span class="line">        stk.<span class="built_in">push</span>(<span class="number">-1</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; s.<span class="built_in">length</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (s[i] == <span class="string">&#x27;(&#x27;</span>) &#123;</span><br><span class="line">                stk.<span class="built_in">push</span>(i);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                stk.<span class="built_in">pop</span>();</span><br><span class="line">                <span class="keyword">if</span> (stk.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">                    stk.<span class="built_in">push</span>(i);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    maxans = <span class="built_in">max</span>(maxans, i - stk.<span class="built_in">top</span>());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> maxans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">dp</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">栈</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/高频算法题//" class="article-tag-list-link color1">高频算法题</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/15/%E6%9C%80%E9%95%BF%E6%9C%89%E6%95%88%E6%8B%AC%E5%8F%B7/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-最小覆盖子串" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/15/%E6%9C%80%E5%B0%8F%E8%A6%86%E7%9B%96%E5%AD%90%E4%B8%B2/">最小覆盖子串</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/15/%E6%9C%80%E5%B0%8F%E8%A6%86%E7%9B%96%E5%AD%90%E4%B8%B2/" class="archive-article-date">
+  	<time datetime="2022-03-14T18:23:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="最小覆盖子串"><a href="#最小覆盖子串" class="headerlink" title="最小覆盖子串"></a>最小覆盖子串</h3><h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><p>给你一个字符串 <code>s</code> 、一个字符串 <code>t</code> 。返回 <code>s</code> 中涵盖 <code>t</code> 所有字符的最小子串。如果 <code>s</code> 中不存在涵盖 <code>t</code> 所有字符的子串，则返回空字符串 <code>&quot;&quot;</code> 。</p>
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><ul>
+<li>经典滑动窗口算法，我们通过移动右指针，看当前元素是不是属于匹配串的一部分（<code>s[j]</code>的个数少于匹配串的个数），如果是的话则将<code>cnt++</code>,然后滑动左指针，删除掉冗余的字符（<code>s[i]</code>的个数多于匹配串中的个数），在判断当前是不是已经实现了全覆盖（<code>cnt==t.size()</code>），如果是的话，按照最小值进行更新。</li>
+<li>由于是更新最小覆盖子串，所以我们可以将初始值设到一个不可能达到的值。<code>s=s+&#39;a&#39;</code></li>
+</ul>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">string <span class="title">minWindow</span><span class="params">(string s, string t)</span> </span>&#123;</span><br><span class="line">        unordered_map&lt;<span class="type">char</span>,<span class="type">int</span>&gt;hs,ht;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> x:t) ht[x]++;</span><br><span class="line">        <span class="type">int</span> cnt=<span class="number">0</span>;</span><br><span class="line">        string res=s+<span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>,j=<span class="number">0</span>;i&lt;s.<span class="built_in">size</span>();i++)</span><br><span class="line">        &#123;</span><br><span class="line">               hs[s[i]]++;</span><br><span class="line">            <span class="keyword">if</span>(ht.<span class="built_in">count</span>(s[i])&amp;&amp;hs[s[i]]&lt;=ht[s[i]])<span class="comment">//统计有效字符个数</span></span><br><span class="line">              cnt++;</span><br><span class="line">            <span class="keyword">while</span>(hs[s[j]]&gt;ht[s[j]])<span class="comment">//冗余的字母</span></span><br><span class="line">               hs[s[j++]]--;</span><br><span class="line">            <span class="keyword">if</span>(cnt==t.<span class="built_in">size</span>())</span><br><span class="line">            &#123;<span class="comment">//更新答案</span></span><br><span class="line">               <span class="keyword">if</span>(res.<span class="built_in">size</span>()&gt;i-j+<span class="number">1</span>)</span><br><span class="line">               res=s.<span class="built_in">substr</span>(j,i-j+<span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(res==s+<span class="string">&#x27;a&#x27;</span>) <span class="keyword">return</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">双指针</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">枚举</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/高频算法题//" class="article-tag-list-link color1">高频算法题</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/15/%E6%9C%80%E5%B0%8F%E8%A6%86%E7%9B%96%E5%AD%90%E4%B8%B2/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-滑动窗口最大值" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1259,211 +1468,6 @@
 
 
   
-    <article id="post-每日总结2022-3-11" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/12/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-11/">每日总结2022-3-11</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/12/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-11/" class="archive-article-date">
-  	<time datetime="2022-03-11T17:08:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="刷题"><a href="#刷题" class="headerlink" title="刷题"></a>刷题</h3><h4 id="力扣"><a href="#力扣" class="headerlink" title="力扣"></a>力扣</h4><ul>
-<li>缺失的第一个正数</li>
-<li>N叉树的后序遍历</li>
-<li>统计最高分的节点数目</li>
-</ul>
-<h5 id="ACWING"><a href="#ACWING" class="headerlink" title="ACWING"></a>ACWING</h5><ul>
-<li>能量项链：环形dp</li>
-</ul>
-<h4 id="课程"><a href="#课程" class="headerlink" title="课程"></a>课程</h4><ul>
-<li>深度学习——卷积神经网络</li>
-<li>go语言基础</li>
-</ul>
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/12/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-11/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-缺失的第一个正数" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/12/%E7%BC%BA%E5%A4%B1%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%AD%A3%E6%95%B0/">缺失的第一个正数</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/12/%E7%BC%BA%E5%A4%B1%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%AD%A3%E6%95%B0/" class="archive-article-date">
-  	<time datetime="2022-03-11T17:07:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="缺失的第一个正数"><a href="#缺失的第一个正数" class="headerlink" title="缺失的第一个正数"></a>缺失的第一个正数</h3><h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><p>给你一个未排序的整数数组 <code>nums</code> ，请你找出其中没有出现的最小的正整数。</p>
-<p>请你实现时间复杂度为 <code>O(n)</code> 并且只使用常数级别额外空间的解决方案。</p>
-<p> <strong>示例 1：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：nums = [1,2,0]</span><br><span class="line">输出：3</span><br></pre></td></tr></table></figure>
-
-<p><strong>示例 2：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：nums = [3,4,-1,1]</span><br><span class="line">输出：2</span><br></pre></td></tr></table></figure>
-
-<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>由于要求$O(1)$的空间复杂度，所以排序和哈希都不满足要求，在这里我们采用置换的方法，遍历每一个元素，如果这个元素不是它应该存在的位置就进行置换。置换完后，从前往后遍历，第一个不符合要求的位置就是答案。</p>
-<h4 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h4><ul>
-<li>可能会越界</li>
-<li>注意下标与元素的映射，应该用元素值减一与下标比较。</li>
-</ul>
-<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">firstMissingPositive</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n=nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">while</span>(nums[i]&gt;<span class="number">0</span>&amp;&amp;nums[i]&lt;=nums.<span class="built_in">size</span>()&amp;&amp;nums[nums[i]<span class="number">-1</span>]!=nums[i])</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">swap</span>(nums[nums[i]<span class="number">-1</span>],nums[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[i]!=i+<span class="number">1</span>) <span class="keyword">return</span> i+<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> n+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hard</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">置换</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">原地哈希</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/高频算法题//" class="article-tag-list-link color1">高频算法题</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/12/%E7%BC%BA%E5%A4%B1%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%AD%A3%E6%95%B0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/3/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/5/">Next &amp;raquo;</a>
@@ -1855,6 +1859,14 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">数位统计，枚举</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">bfs</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">队列</a>
               </li>
             
             <div class="clearfix"></div>
