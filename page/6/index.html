@@ -164,6 +164,440 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-thrift" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/14/thrift/">thrift</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/14/thrift/" class="archive-article-date">
+  	<time datetime="2022-03-13T16:39:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="Thrift"><a href="#Thrift" class="headerlink" title="Thrift"></a>Thrift</h3><p>thrift主要用于各个服务之间的RPC通信，支持跨语言。thrift是一个典型的CS结构，客户端和服务端可以使用不同的语言开发</p>
+<p>thrift就是两个服务器之间的有向边，两个服务器之间的交互，</p>
+<p>thrift三步走：</p>
+<ul>
+<li><p>1、定义接口</p>
+</li>
+<li><p>2、server</p>
+</li>
+<li><p>3、client</p>
+</li>
+</ul>
+<p>写thrift的关键就是先编译通过然后再在里边不断添加模块，</p>
+<h4 id="Thrift-IDL"><a href="#Thrift-IDL" class="headerlink" title="Thrift IDL"></a>Thrift IDL</h4><p>Thrift 采用IDL（Interface Definition Language）来定义通用的服务接口，然后通过Thrift提供的编译器，可以将服务接口编译成不同语言编写的代码，通过这个方式来实现跨语言的功能。</p>
+<ul>
+<li>通过命令调用Thrift提供的编译器将服务接口编译成不同语言编写的代码。</li>
+<li>这些代码又分为服务端和客户端，将所在不同进程(或服务器)的功能连接起来。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">thrift -r --gen &lt;language&gt; &lt;Thrift filename&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="基本框架"><a href="#基本框架" class="headerlink" title="基本框架"></a>基本框架</h4><p><img src="https://gitee.com/bhb100/drawing-bed/raw/master/blog/97206_32d5aa8525-%E6%97%A0%E6%A0%87%E9%A2%98.png"></p>
+<ol>
+<li>游戏应用端（Python3）<ol>
+<li>客户端：与 匹配系统服务器 的服务端交互</li>
+</ol>
+</li>
+<li>匹配系统服务器（C++）<ol>
+<li>服务端：与 游戏应用端 的客户端交互</li>
+<li>客户端：与 数据存储服务器 的服务端交互</li>
+</ol>
+</li>
+<li>数据存储服务器（已经实现）<ol>
+<li>服务端：与 匹配系统服务器 的客户端交互</li>
+</ol>
+</li>
+</ol>
+<ul>
+<li>服务接口功能介绍:<ul>
+<li>add_user：向匹配池中添加玩家。 </li>
+<li>remove_user：从匹配池中删除玩家。 </li>
+<li>save_data：将匹配信息存储起来。</li>
+</ul>
+</li>
+</ul>
+<h4 id="初始化项目"><a href="#初始化项目" class="headerlink" title="初始化项目"></a>初始化项目</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> thrift_lesson</span><br><span class="line"><span class="built_in">cd</span> thrift_lesson</span><br><span class="line">git init</span><br><span class="line"></span><br><span class="line"><span class="built_in">mkdir</span> thrift        <span class="comment"># 存放 thrift 源文件</span></span><br><span class="line"><span class="built_in">mkdir</span> game          <span class="comment"># 实现 游戏应用端 的 客户端 功能</span></span><br><span class="line"><span class="built_in">mkdir</span> match_system  <span class="comment"># 实现 匹配系统服务器 的 服务端 和 客户端 功能</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">touch</span> readme.md</span><br><span class="line"><span class="comment"># 远程创建好git上的repo</span></span><br><span class="line">git remote add origin git@git.acwing.com:colopen/thrift_lesson.git</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;init repo&quot;</span></span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
+
+<h4 id="定义服务接口"><a href="#定义服务接口" class="headerlink" title="定义服务接口"></a>定义服务接口</h4><ul>
+<li>定义添加玩家和删除玩家的两个接口。在thrift文件夹中，创建match.thrift文件。</li>
+</ul>
+<p><code>match.thrift</code></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> cpp match_service <span class="comment">//声明转换为C++语言</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">User</span> &#123;   <span class="comment">//定义结构体 User</span></span><br><span class="line">    <span class="number">1</span>: i32 id, </span><br><span class="line">    <span class="number">2</span>: string name,</span><br><span class="line">    <span class="number">3</span>: i32 score</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">service Match &#123; <span class="comment">//定义service服务</span></span><br><span class="line">    <span class="comment">/** </span></span><br><span class="line"><span class="comment">     * user: 添加的用户信息</span></span><br><span class="line"><span class="comment">     * info: 附加信息</span></span><br><span class="line"><span class="comment">     * 在匹配池中添加一个名用户</span></span><br><span class="line"><span class="comment">     */</span>  </span><br><span class="line"></span><br><span class="line">    <span class="function">i32 <span class="title">add_user</span><span class="params">(<span class="number">1</span>: User user, <span class="number">2</span>: string info)</span>,</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    <span class="comment">/** </span></span></span><br><span class="line"><span class="comment"><span class="function">     * user: 删除的用户信息</span></span></span><br><span class="line"><span class="comment"><span class="function">     * info: 附加信息</span></span></span><br><span class="line"><span class="comment"><span class="function">     * 从匹配池中删除一名用户</span></span></span><br><span class="line"><span class="comment"><span class="function">     */</span>  </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    i32 <span class="title">remove_user</span><span class="params">(<span class="number">1</span>: User user, <span class="number">2</span>: string info)</span>,</span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="实现匹配服务器客户端-与数据存储服务器交互"><a href="#实现匹配服务器客户端-与数据存储服务器交互" class="headerlink" title="实现匹配服务器客户端(与数据存储服务器交互)"></a>实现匹配服务器客户端(与数据存储服务器交互)</h4><h5 id="运行match-thrift接口文件在匹配系统服务器端生成c-源文件"><a href="#运行match-thrift接口文件在匹配系统服务器端生成c-源文件" class="headerlink" title="运行match.thrift接口文件在匹配系统服务器端生成c++源文件"></a>运行match.thrift接口文件在匹配系统服务器端生成c++源文件</h5><p>进入 match_system 中新建文件夹 src （之后所有的 匹配服务器 源文件放在 src 下）</p>
+<p>并在 src 文件夹中运行 thrift 脚本生成 C++ 版本的文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 原始的thrift生成文件语法：thrift -r --gen &lt;language&gt; &lt;Thrift filename&gt;</span></span><br><span class="line"><span class="built_in">mkdir</span> match_system/src</span><br><span class="line"><span class="built_in">cd</span> match_system/src</span><br><span class="line">thrift -r --gen cpp ../../thrift/match.thrift</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将该文件夹重命名为 match_server（区别于之后要此处生成的client server）</span></span><br><span class="line"><span class="comment"># match_server 与 游戏应用端交互 ; client_server 与 数据存储服务器交互</span></span><br><span class="line"><span class="built_in">mv</span> gen-cpp match_server</span><br><span class="line"></span><br><span class="line"><span class="comment"># 把 Match_server.skeleton.cpp 移动到当前 src 目录下并重命名为 main.cpp</span></span><br><span class="line"><span class="comment"># 方便之后调试 main.cpp 文件，其他的源文件仍被存放在 src 文件夹下</span></span><br><span class="line"><span class="built_in">mv</span> match_server/Match_server.skeleton.cpp main.cpp</span><br><span class="line"></span><br><span class="line"><span class="comment"># 由于移动了 main.cpp 故需要修改一下 main.cpp 中头文件里关于 Math.cpp 的引用路径</span></span><br><span class="line"><span class="comment"># 之后写 client_server 同理</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="文件结构"><a href="#文件结构" class="headerlink" title="文件结构"></a>文件结构</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">|-- game</span><br><span class="line">|-- match_system</span><br><span class="line">|   `-- src</span><br><span class="line">|       |--main.cpp</span><br><span class="line">|       `-- match_server</span><br><span class="line">|           |-- Match.cpp</span><br><span class="line">|           |-- Match.h</span><br><span class="line">|           |-- match_types.cpp</span><br><span class="line">|           `-- match_types.h</span><br><span class="line">|-- readme.md</span><br><span class="line">`-- thrift</span><br><span class="line">    `-- match.thrift</span><br></pre></td></tr></table></figure>
+
+<h4 id="游戏应用端的客户端（与匹配服务器端交互）"><a href="#游戏应用端的客户端（与匹配服务器端交互）" class="headerlink" title="游戏应用端的客户端（与匹配服务器端交互）"></a>游戏应用端的客户端（与匹配服务器端交互）</h4><h5 id="运行-match-thrift-在游戏应用端生成-python3-源文件"><a href="#运行-match-thrift-在游戏应用端生成-python3-源文件" class="headerlink" title="运行 match.thrift 在游戏应用端生成 python3 源文件"></a>运行 match.thrift 在游戏应用端生成 python3 源文件</h5><p>同上，在 game 文件夹下实现 游戏应用端 的 客户端</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 原始的thrift生成文件语法：thrift -r --gen &lt;language&gt; &lt;Thrift filename&gt;</span></span><br><span class="line"><span class="built_in">mkdir</span> game/src</span><br><span class="line"><span class="built_in">cd</span> game/src</span><br><span class="line">thrift -r --gen py ../../thrift/match.thrift</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将该文件夹重命名为 match_client</span></span><br><span class="line"><span class="comment"># 不过这里不改也无所谓，游戏应用端只有匹配的客户端</span></span><br><span class="line"><span class="built_in">mv</span> gen-py match_client</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删掉 Match_remote </span></span><br><span class="line"><span class="comment"># 该文件是用 py 实现 服务端 时用的文件</span></span><br><span class="line"><span class="comment"># 此处我们只需要实现 客户端 功能，因此他没有作用，不妨删掉，让文档简洁一点</span></span><br><span class="line"><span class="built_in">rm</span> match_client/match/Match-remote</span><br></pre></td></tr></table></figure>
+
+<h5 id="编写客户端代码"><a href="#编写客户端代码" class="headerlink" title="编写客户端代码"></a>编写客户端代码</h5><p><code>client.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 先删去开头三行声明</span></span><br><span class="line"><span class="comment"># 此处修改路径，以及Calculator 为 Match</span></span><br><span class="line"><span class="comment"># 此处修改 ttypes 路径 以及 User 类</span></span><br><span class="line"><span class="keyword">from</span> match_client.match <span class="keyword">import</span> Match</span><br><span class="line"><span class="keyword">from</span> match_client.match.ttypes <span class="keyword">import</span> User</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> thrift <span class="keyword">import</span> Thrift</span><br><span class="line"><span class="keyword">from</span> thrift.transport <span class="keyword">import</span> TSocket</span><br><span class="line"><span class="keyword">from</span> thrift.transport <span class="keyword">import</span> TTransport</span><br><span class="line"><span class="keyword">from</span> thrift.protocol <span class="keyword">import</span> TBinaryProtocol</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    <span class="comment"># Make socket</span></span><br><span class="line">    transport = TSocket.TSocket(<span class="string">&#x27;localhost&#x27;</span>, <span class="number">9090</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Buffering is critical. Raw sockets are very slow</span></span><br><span class="line">    transport = TTransport.TBufferedTransport(transport)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Wrap in a protocol</span></span><br><span class="line">    protocol = TBinaryProtocol.TBinaryProtocol(transport)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Create a client to use the protocol encoder</span></span><br><span class="line">    client = Match.Client(protocol)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Connect!</span></span><br><span class="line">    transport.<span class="built_in">open</span>()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 调试语句</span></span><br><span class="line">    user = User(<span class="number">1</span>, <span class="string">&#x27;yxc&#x27;</span>, <span class="number">1500</span>)</span><br><span class="line">    client.add_user(user, <span class="string">&quot;&quot;</span>) </span><br><span class="line"></span><br><span class="line">    <span class="comment"># Close!</span></span><br><span class="line">    transport.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调用 main 函数</span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    main() </span><br></pre></td></tr></table></figure>
+
+<h5 id="修改客户端代码使之可以不断从终端读入信息"><a href="#修改客户端代码使之可以不断从终端读入信息" class="headerlink" title="修改客户端代码使之可以不断从终端读入信息"></a>修改客户端代码使之可以不断从终端读入信息</h5><p><code>client.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 利用 python 在终端读入信息需要引入 stdin</span></span><br><span class="line"><span class="keyword">from</span> sys <span class="keyword">import</span> stdin</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将原来的通信 main 函数改写成operate函数，每次需要的时候调用一次建立通信传递信息</span></span><br><span class="line"><span class="comment"># 目的是可以一直不断处理信息</span></span><br><span class="line"><span class="comment"># 然后重写 main 函数，使之能不断从终端读入信息</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">operate</span>(<span class="params">op, user_id, user_name, score</span>):</span><br><span class="line">    <span class="comment"># ...........................</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 针对 op 参数，分别进行 &quot;增加&quot; 与 &quot;删出&quot; 操作</span></span><br><span class="line">    user = User(user_id, user_name, score)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> op == <span class="string">&quot;add&quot;</span>:<span class="comment">#如果是添加操作</span></span><br><span class="line">        client.add_user(user, <span class="string">&quot;&quot;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        client.remove_user(user, <span class="string">&quot;&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># ...........................</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> stdin:</span><br><span class="line">        op, user_id, user_name, score = line.split(<span class="string">&#x27; &#x27;</span>)</span><br><span class="line">        operate(op, <span class="built_in">int</span>(user_id), user_name, <span class="built_in">int</span>(score))</span><br></pre></td></tr></table></figure>
+
+<h5 id="匹配系统最初版-来两个人就匹配"><a href="#匹配系统最初版-来两个人就匹配" class="headerlink" title="匹配系统最初版(来两个人就匹配)"></a>匹配系统最初版(来两个人就匹配)</h5><ul>
+<li><p>1、不断地读用户，每来一个用户就要加到系统里，删除一个用户就要从系统里删除</p>
+<p>2、同时还需要不断匹配，所以就需要多线程：经典生产者消费者模型</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// This autogenerated skeleton file illustrates how to build a server.</span></span><br><span class="line"><span class="comment">// You should copy it to another filename to avoid overwriting it.</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;match_server/Match.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;thrift/protocol/TBinaryProtocol.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;thrift/server/TSimpleServer.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;thrift/transport/TServerSocket.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;thrift/transport/TBufferTransports.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;thread&gt;</span>               <span class="comment">// 需要线程，引入头文件</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;mutex&gt;</span>                <span class="comment">// 互斥信号量 锁</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;condition_variable&gt;</span>   <span class="comment">// 条件变量，对锁进行封装用于 阻塞和唤醒 线程</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;queue&gt;</span>                <span class="comment">// 用于模拟消息队列</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> ::apache::thrift;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> ::apache::thrift::protocol;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> ::apache::thrift::transport;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> ::apache::thrift::server;</span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span>  ::match_service;</span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Task</span> <span class="comment">//任务类型</span></span><br><span class="line">&#123;</span><br><span class="line">    User user;<span class="comment">//用户</span></span><br><span class="line">    string type;<span class="comment">//操作类型</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">MessageQueue</span> <span class="comment">//自定义消息队列</span></span><br><span class="line">&#123;</span><br><span class="line">    queue&lt;Task&gt; q;          <span class="comment">//消息队列本体</span></span><br><span class="line">    mutex m;                <span class="comment">//互斥信号量</span></span><br><span class="line">    condition_variable cv;  <span class="comment">//条件变量，用于阻塞唤醒线程</span></span><br><span class="line">&#125;message_queue;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Pool</span>  <span class="comment">// 模拟匹配池</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">save_result</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span>  <span class="comment">// 记录成功匹配的信息</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;Match Result: %d %d\n&quot;</span>, a, b);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">match</span><span class="params">()</span>    <span class="comment">// 匹配池中的第一、第二个用户进行匹配</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">while</span> (users.<span class="built_in">size</span>() &gt; <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">auto</span> a = users[<span class="number">0</span>], b = users[<span class="number">1</span>];<span class="comment">//来两个人就匹配</span></span><br><span class="line">            users.<span class="built_in">erase</span>(users.<span class="built_in">begin</span>());</span><br><span class="line">            users.<span class="built_in">erase</span>(users.<span class="built_in">begin</span>());</span><br><span class="line"></span><br><span class="line">            <span class="built_in">save_result</span>(a.id, b.id);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">add</span><span class="params">(User user)</span> <span class="comment">// 向匹配池中加入用户</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        users.<span class="built_in">push_back</span>(user);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">remove</span><span class="params">(User user)</span>  <span class="comment">// 从匹配池中删除用户</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">uint32_t</span> i = <span class="number">0</span>; i &lt; users.<span class="built_in">size</span>(); i ++ )</span><br><span class="line">        &#123;<span class="comment">//遍历所有的玩家</span></span><br><span class="line">            <span class="keyword">if</span> (users[i].id == user.id)</span><br><span class="line">            &#123;</span><br><span class="line">                users.<span class="built_in">erase</span>(users.<span class="built_in">begin</span>() + i);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    vector&lt;User&gt; users; <span class="comment">// 匹配池中的用户，用 vector 记录</span></span><br><span class="line">&#125;pool;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MatchHandler</span> : <span class="keyword">virtual</span> <span class="keyword">public</span> MatchIf &#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="built_in">MatchHandler</span>() &#123;</span><br><span class="line">            <span class="comment">// Your initialization goes here</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="type">int32_t</span> <span class="title">add_user</span><span class="params">(<span class="type">const</span> User&amp; user, <span class="type">const</span> std::string&amp; info)</span> </span>&#123;</span><br><span class="line">            <span class="comment">// Your implementation goes here</span></span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;add_user\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">            <span class="function">unique_lock&lt;mutex&gt; <span class="title">lck</span><span class="params">(message_queue.m)</span></span>;    <span class="comment">// 访问临界区(消息队列)，先上锁,保证所有有关队列的操作同一时间只有一个线程在操作他.这么写的好处是不需要显式解锁</span></span><br><span class="line">            message_queue.q.<span class="built_in">push</span>(&#123;user, <span class="string">&quot;add&quot;</span>&#125;);        <span class="comment">// 把新消息加入消息队列</span></span><br><span class="line">            message_queue.cv.<span class="built_in">notify_all</span>();              <span class="comment">// 唤醒阻塞的线程</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="type">int32_t</span> <span class="title">remove_user</span><span class="params">(<span class="type">const</span> User&amp; user, <span class="type">const</span> std::string&amp; info)</span> </span>&#123;</span><br><span class="line">            <span class="comment">// Your implementation goes here</span></span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;remove_user\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">            <span class="function">unique_lock&lt;mutex&gt; <span class="title">lck</span><span class="params">(message_queue.m)</span></span>;    <span class="comment">// 访问临界区(消息队列)，先上锁,保证所有有关队列的操作同一时间只有一个线程在操作他.这么写的好处是不需要显式解锁</span></span><br><span class="line">            message_queue.q.<span class="built_in">push</span>(&#123;user, <span class="string">&quot;remove&quot;</span>&#125;);     <span class="comment">// 把新消息加入消息队列</span></span><br><span class="line">            message_queue.cv.<span class="built_in">notify_all</span>();              <span class="comment">// 唤醒阻塞的线程</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 基于 &quot;生产者-消费者模型&quot; 的线程</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">consume_task</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>)<span class="comment">//1、死循环不断读取，也是使用多线程的原因之一</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function">unique_lock&lt;mutex&gt; <span class="title">lck</span><span class="params">(message_queue.m)</span></span>;    <span class="comment">// 访问临界区(消息队列)，先上锁</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (message_queue.q.<span class="built_in">empty</span>())</span><br><span class="line">        &#123;</span><br><span class="line">            message_queue.cv.<span class="built_in">wait</span>(lck);     <span class="comment">//这里要阻塞进程</span></span><br><span class="line">            <span class="comment">// 避免队列为空时，一直反复运行该线程，导致一直占用临界区，而不能加入新消息</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">auto</span> task = message_queue.q.<span class="built_in">front</span>();    <span class="comment">// 取出消息队列队头元素</span></span><br><span class="line">            message_queue.q.<span class="built_in">pop</span>();</span><br><span class="line"></span><br><span class="line">            lck.<span class="built_in">unlock</span>();   <span class="comment">// 临界区访问结束，直接解锁</span></span><br><span class="line">            <span class="comment">// 避免后续没用到临界区信息，而长时间占用临界区的情况发生</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (task.type == <span class="string">&quot;add&quot;</span>) pool.<span class="built_in">add</span>(task.user);</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (task.type == <span class="string">&quot;remove&quot;</span>) pool.<span class="built_in">remove</span>(task.user);</span><br><span class="line"></span><br><span class="line">            pool.<span class="built_in">match</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> **argv)</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> port = <span class="number">9090</span>;</span><br><span class="line">    ::<span class="function">std::shared_ptr&lt;MatchHandler&gt; <span class="title">handler</span><span class="params">(<span class="keyword">new</span> MatchHandler())</span></span>;</span><br><span class="line">    ::<span class="function">std::shared_ptr&lt;TProcessor&gt; <span class="title">processor</span><span class="params">(<span class="keyword">new</span> MatchProcessor(handler))</span></span>;</span><br><span class="line">    ::<span class="function">std::shared_ptr&lt;TServerTransport&gt; <span class="title">serverTransport</span><span class="params">(<span class="keyword">new</span> TServerSocket(port))</span></span>;</span><br><span class="line">    ::<span class="function">std::shared_ptr&lt;TTransportFactory&gt; <span class="title">transportFactory</span><span class="params">(<span class="keyword">new</span> TBufferedTransportFactory())</span></span>;</span><br><span class="line">    ::<span class="function">std::shared_ptr&lt;TProtocolFactory&gt; <span class="title">protocolFactory</span><span class="params">(<span class="keyword">new</span> TBinaryProtocolFactory())</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">TSimpleServer <span class="title">server</span><span class="params">(processor, serverTransport, transportFactory, protocolFactory)</span></span>;</span><br><span class="line"></span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;Start Match Server&quot;</span> &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">    <span class="function">thread <span class="title">matching_thread</span><span class="params">(consume_task)</span></span>;   <span class="comment">// 调用一个线程运行 consume_task</span></span><br><span class="line"></span><br><span class="line">    server.<span class="built_in">serve</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="数据存储服务器-与-匹配系统服务器-的交互"><a href="#数据存储服务器-与-匹配系统服务器-的交互" class="headerlink" title="数据存储服务器 与 匹配系统服务器 的交互"></a>数据存储服务器 与 匹配系统服务器 的交互</h4><h5 id="数据存储服务器的服务端"><a href="#数据存储服务器的服务端" class="headerlink" title="数据存储服务器的服务端"></a>数据存储服务器的服务端</h5><p><code>save.thrift</code>文件（现成）</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> cpp save_service</span><br><span class="line"></span><br><span class="line">service Save &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * username: myserver的名称</span></span><br><span class="line"><span class="comment">     * password: myserver的密码的md5sum的前8位</span></span><br><span class="line"><span class="comment">     * 用户名密码验证成功会返回0，验证失败会返回1</span></span><br><span class="line"><span class="comment">     * 验证成功后，结果会被保存到myserver:homework/lesson_6/result.txt中</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">i32 <span class="title">save_data</span><span class="params">(<span class="number">1</span>: string username, <span class="number">2</span>: string password, <span class="number">3</span>: i32 player1_id, <span class="number">4</span>: i32 player2_id)</span></span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>在<strong>匹配系统服务器</strong>利用<strong>thrift</strong>生成**c++**文件</p>
+<p>并删掉不必要<strong>服务端</strong>文件，因为在该交互功能里，<strong>匹配系统服务器</strong>是作为客户端的</p>
+<p>而且，一个服务器里只能有一个 main 函数执行</p>
+<p>只保留<strong>客户端</strong>文件即可</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> match_system/src</span><br><span class="line">thrift -r --gen cpp ../../thrift/save.thrift</span><br><span class="line"><span class="built_in">mv</span> gen-cpp save_client</span><br><span class="line"><span class="built_in">rm</span> save_client/Save_server.skeleton.cpp</span><br></pre></td></tr></table></figure>
+
+<p>从<strong>thrift官网</strong>复制<strong>Client</strong>端的模板到<strong>main.cpp</strong>下与 数据存储服务器 交互的函数中，然后开始修改模板里的一些参数</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 需要额外引入的头文件</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;thrift/transport/TSocket.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;thrift/transport/TTransportUtils.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 需要额外声明的命名空间</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span>  ::save_service;</span><br><span class="line"></span><br><span class="line"><span class="comment">//重写 save_result 内的内容，使其能够与 &quot;数据存储服务器&quot; 交互</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">save_result</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span>  <span class="comment">// 记录成功匹配的信息</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Match Result: %d %d\n&quot;</span>, a, b);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Client端的板子</span></span><br><span class="line">    <span class="function">std::shared_ptr&lt;TTransport&gt; <span class="title">socket</span><span class="params">(<span class="keyword">new</span> TSocket(<span class="string">&quot;123.57.47.211&quot;</span>, <span class="number">9090</span>))</span></span>;</span><br><span class="line">    <span class="function">std::shared_ptr&lt;TTransport&gt; <span class="title">transport</span><span class="params">(<span class="keyword">new</span> TBufferedTransport(socket))</span></span>;</span><br><span class="line">    <span class="function">std::shared_ptr&lt;TProtocol&gt; <span class="title">protocol</span><span class="params">(<span class="keyword">new</span> TBinaryProtocol(transport))</span></span>;</span><br><span class="line">    <span class="function">SaveClient <span class="title">client</span><span class="params">(protocol)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        transport-&gt;<span class="built_in">open</span>();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//调用接口，把信息存储 &quot;数据存储服务器&quot; 中</span></span><br><span class="line">        <span class="type">int</span> res = client.<span class="built_in">save_data</span>(<span class="string">&quot;acs_2&quot;</span>, <span class="string">&quot;50c0f4b2&quot;</span>, a, b);</span><br><span class="line">        <span class="comment">//输出匹配结果</span></span><br><span class="line">        <span class="keyword">if</span> (!res) <span class="built_in">puts</span>(<span class="string">&quot;success&quot;</span>);</span><br><span class="line">        <span class="keyword">else</span> <span class="built_in">puts</span>(<span class="string">&quot;fail&quot;</span>);</span><br><span class="line"></span><br><span class="line">        transport-&gt;<span class="built_in">close</span>();</span><br><span class="line">    &#125; <span class="built_in">catch</span> (TException&amp; tx) &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;ERROR: &quot;</span> &lt;&lt; tx.<span class="built_in">what</span>() &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="优化实现匹配系统——每次只匹配分差小于50的用户"><a href="#优化实现匹配系统——每次只匹配分差小于50的用户" class="headerlink" title="优化实现匹配系统——每次只匹配分差小于50的用户"></a>优化实现匹配系统——每次只匹配分差小于50的用户</h4><h5 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h5><ul>
+<li>把锁去掉，每隔一秒钟匹配一次，按照排位分进行排序，如果分差最小的两个低于50就匹配成功。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//引入调用 sleep 函数的头文件</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span><span class="comment">// 用于调用 sleep 函数</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//修改 &quot;生产者 - 消费者模型&quot; 的线程中，关于消息队列为空时的处理</span></span><br><span class="line"><span class="keyword">if</span> (message_queue.q.<span class="built_in">empty</span>())</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//不用锁,每一秒钟匹配一次,不停的循环</span></span><br><span class="line">    <span class="comment">// 此处修改为每 1 秒进行一次匹配，而不是等到被唤醒时才匹配</span></span><br><span class="line">    lck.<span class="built_in">unlock</span>();   <span class="comment">// 直接解锁临界区资源</span></span><br><span class="line">    pool.match;     <span class="comment">//调用math()</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//重写匹配池Pool类中的match函数，使之可以匹配分数差在 50 以内的两个用户</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">match</span><span class="params">()</span>    <span class="comment">// 匹配池中的第一、第二个用户进行匹配</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (users.<span class="built_in">size</span>() &gt; <span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 按照 rank分 排序</span></span><br><span class="line">        <span class="built_in">sort</span>(users.<span class="built_in">begin</span>(), users.<span class="built_in">end</span>(), [&amp;](User &amp;a, User &amp;b)&#123;</span><br><span class="line">            <span class="keyword">return</span> a.score &lt; b.score;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="type">bool</span> flag = <span class="literal">true</span>;<span class="comment">//防止两个人分差1000会一直死循环 </span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">uint32_t</span> i = <span class="number">1</span>; i &lt; users.<span class="built_in">size</span>(); i ++ )</span><br><span class="line">        &#123;</span><br><span class="line">            User a = users[i - <span class="number">1</span>], b = users[i];</span><br><span class="line">            <span class="comment">// 两名玩家分数差小于50时进行匹配</span></span><br><span class="line">            <span class="keyword">if</span> (b.score - a.score &lt;= <span class="number">50</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                users.<span class="built_in">erase</span>(users.<span class="built_in">begin</span>() + i - <span class="number">1</span>, users.<span class="built_in">begin</span>() + i); <span class="comment">//删掉用户a,b</span></span><br><span class="line">                <span class="built_in">save_result</span>(a.id, b.id);</span><br><span class="line"></span><br><span class="line">                flag = <span class="literal">false</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (flag) <span class="keyword">break</span>;    <span class="comment">// 一轮扫描后，发现没有能够匹配的用户，就停止扫描，等待下次调用</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="优化匹配系统——实现多线程"><a href="#优化匹配系统——实现多线程" class="headerlink" title="优化匹配系统——实现多线程"></a>优化匹配系统——实现多线程</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ul>
+<li>引入新的多线程头文件</li>
+<li>使用MatchCloneFactory</li>
+<li>复制模板的类 CalculatorCloneFactory 然后改一改，把所有的 Calculator 改为 Match</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 引入新的多线程头文件</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;thrift/concurrency/ThreadManager.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;thrift/concurrency/ThreadFactory.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;thrift/server/TThreadPoolServer.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;thrift/server/TThreadedServer.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;thrift/TToString.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 复制模板的类 CalculatorCloneFactory 然后改一改，把所有的 Calculator 改为 Match</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MatchCloneFactory</span> : <span class="keyword">virtual</span> <span class="keyword">public</span> MatchIfFactory &#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        ~<span class="built_in">MatchCloneFactory</span>() <span class="keyword">override</span> = <span class="keyword">default</span>;</span><br><span class="line">        <span class="function">MatchIf* <span class="title">getHandler</span><span class="params">(<span class="type">const</span> ::apache::thrift::TConnectionInfo&amp; connInfo)</span> <span class="keyword">override</span></span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            std::shared_ptr&lt;TSocket&gt; sock = std::<span class="built_in">dynamic_pointer_cast</span>&lt;TSocket&gt;(connInfo.transport);</span><br><span class="line">            <span class="comment">/*</span></span><br><span class="line"><span class="comment">            cout &lt;&lt; &quot;Incoming connection\n&quot;;</span></span><br><span class="line"><span class="comment">            cout &lt;&lt; &quot;\tSocketInfo: &quot;  &lt;&lt; sock-&gt;getSocketInfo() &lt;&lt; &quot;\n&quot;;</span></span><br><span class="line"><span class="comment">            cout &lt;&lt; &quot;\tPeerHost: &quot;    &lt;&lt; sock-&gt;getPeerHost() &lt;&lt; &quot;\n&quot;;</span></span><br><span class="line"><span class="comment">            cout &lt;&lt; &quot;\tPeerAddress: &quot; &lt;&lt; sock-&gt;getPeerAddress() &lt;&lt; &quot;\n&quot;;</span></span><br><span class="line"><span class="comment">            cout &lt;&lt; &quot;\tPeerPort: &quot;    &lt;&lt; sock-&gt;getPeerPort() &lt;&lt; &quot;\n&quot;;</span></span><br><span class="line"><span class="comment">            */</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> MatchHandler;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="type">void</span> <span class="title">releaseHandler</span><span class="params">(MatchIf* handler)</span> <span class="keyword">override</span> </span>&#123;    <span class="comment">//改为MatchIf*  </span></span><br><span class="line">            <span class="keyword">delete</span> handler;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 重写main函数，启用多线程服务器</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> **argv)</span> </span>&#123;</span><br><span class="line">    <span class="function">TThreadedServer <span class="title">server</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">            std::make_shared&lt;MatchProcessorFactory&gt;(std::make_shared&lt;MatchCloneFactory&gt;()),</span></span></span><br><span class="line"><span class="params"><span class="function">            std::make_shared&lt;TServerSocket&gt;(<span class="number">9090</span>), <span class="comment">//port</span></span></span></span><br><span class="line"><span class="params"><span class="function">            std::make_shared&lt;TBufferedTransportFactory&gt;(),</span></span></span><br><span class="line"><span class="params"><span class="function">            std::make_shared&lt;TBinaryProtocolFactory&gt;())</span></span>;</span><br><span class="line"></span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;Start Match Server&quot;</span> &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">    <span class="function">thread <span class="title">matching_thread</span><span class="params">(consume_task)</span></span>;   <span class="comment">// 调用一个线程运行 consume_task</span></span><br><span class="line"></span><br><span class="line">    server.<span class="built_in">serve</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="优化匹配系统——随时间扩大匹配域"><a href="#优化匹配系统——随时间扩大匹配域" class="headerlink" title="优化匹配系统——随时间扩大匹配域"></a>优化匹配系统——随时间扩大匹配域</h4><ul>
+<li>思路</li>
+<li>两重循环匹配,如果两个人</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 主要修改的是 pool 类中关于 match 函数的部分</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Pool</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    ....</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">check</span><span class="params">(<span class="type">int</span> i, <span class="type">int</span> j)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        User a = users[i], b = users[j];</span><br><span class="line">        <span class="type">int</span> diff = <span class="built_in">abs</span>(a.score - b.score);</span><br><span class="line">        <span class="type">int</span> a_diff_max = wt[i] * <span class="number">50</span>; </span><br><span class="line">        <span class="type">int</span> b_diff_max = wt[j] * <span class="number">50</span>; </span><br><span class="line">        <span class="comment">//同时在a的等待时间也在b的等待时间内,每一秒扩大50</span></span><br><span class="line">        <span class="keyword">return</span> diff &lt;= a_diff_max &amp;&amp; diff &lt;= b_diff_max;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">match</span><span class="params">()</span>    <span class="comment">// 匹配池中的第一、第二个用户进行匹配</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 每 1 秒调用 1 次 match，实现 wt 自增 1，从而实现使所有用户等待时间增加</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> &amp;t: wt) </span><br><span class="line">            t ++ ;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (users.<span class="built_in">size</span>() &gt; <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">bool</span> flag = <span class="literal">true</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">uint32_t</span> i = <span class="number">0</span>; i &lt; users.<span class="built_in">size</span>(); i ++ )</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="type">uint32_t</span> j = i + <span class="number">1</span>; j &lt; users.<span class="built_in">size</span>(); j ++ )</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">if</span> (<span class="built_in">check</span>(i, j)) </span><br><span class="line">                    &#123;</span><br><span class="line">                        users.<span class="built_in">erase</span>(users.<span class="built_in">begin</span>() + j); </span><br><span class="line">                        users.<span class="built_in">erase</span>(users.<span class="built_in">begin</span>() + i); </span><br><span class="line">                        wt.<span class="built_in">erase</span>(wt.<span class="built_in">begin</span>() + j); </span><br><span class="line">                        wt.<span class="built_in">erase</span>(wt.<span class="built_in">begin</span>() + i); </span><br><span class="line"></span><br><span class="line">                        <span class="built_in">save_result</span>(users[i].id, users[j].id);</span><br><span class="line">                        flag = <span class="literal">false</span>;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">if</span> (!flag) <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (flag) <span class="keyword">break</span>;    <span class="comment">// 一轮扫描后，发现没有能够匹配的用户，就停止扫描，等待下次调用</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ....</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    ....</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt; wt; <span class="comment">//wait_time 记录每个用户的等待时间</span></span><br><span class="line">&#125;pool;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">必背</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">项目</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">接口</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/基础知识//" class="article-tag-list-link color5">基础知识</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/14/thrift/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-284场周赛" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/14/284%E5%9C%BA%E5%91%A8%E8%B5%9B/">284场周赛</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/14/284%E5%9C%BA%E5%91%A8%E8%B5%9B/" class="archive-article-date">
+  	<time datetime="2022-03-13T16:31:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<ul>
+<li>第二题一个简单模拟被想复杂了，应该直接用二维数组存图，第一次做的时候考虑成哈希表了。第三题贪心算法，考虑得也不是很全面。第四题图论太久没写，不会写<strong>kpfa</strong>算法了，并且没考虑到三源最短路要求反向边。(1&#x2F;4)</li>
+</ul>
+<h4 id="找出数组中的所有-K-近邻下标"><a href="#找出数组中的所有-K-近邻下标" class="headerlink" title="找出数组中的所有 K 近邻下标"></a>找出数组中的所有 K 近邻下标</h4><h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><ul>
+<li>给你一个下标从 0 开始的整数数组 nums 和两个整数 key 和 k 。K 近邻下标 是 nums 中的一个下标 i ，并满足至少存在一个下标 j 使得 |i - j| &lt;&#x3D; k 且 nums[j] &#x3D;&#x3D; key 。</li>
+<li>以列表形式返回按 递增顺序 排序的所有 K 近邻下标。</li>
+</ul>
+<h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ul>
+<li>暴力遍历当前数前边后边K个数即可</li>
+</ul>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">findKDistantIndices</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> key, <span class="type">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n=nums.<span class="built_in">size</span>();</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt;res;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;=k;j++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="type">int</span> t=i-j,s=i+j;</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span>(t&gt;=<span class="number">0</span>&amp;&amp;nums[t]==key) &#123;res.<span class="built_in">push_back</span>(i);<span class="keyword">break</span>;&#125;</span><br><span class="line">                <span class="keyword">if</span>(s&lt;n&amp;&amp;nums[s]==key)&#123;res.<span class="built_in">push_back</span>(i);<span class="keyword">break</span>;&#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="统计可以提取的工件"><a href="#统计可以提取的工件" class="headerlink" title="统计可以提取的工件"></a>统计可以提取的工件</h4><h5 id="题目描述-1"><a href="#题目描述-1" class="headerlink" title="题目描述"></a>题目描述</h5><ul>
+<li>略</li>
+</ul>
+<h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><ul>
+<li>简单的哈希做法，把所有可以挖的位置标记出来，然后遍历每个物件看是不是可以被提取。</li>
+</ul>
+<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">digArtifacts</span><span class="params">(<span class="type">int</span> n, vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; a, vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; dig)</span> </span>&#123;</span><br><span class="line">       <span class="comment">// typedef pair&lt;int,int&gt;pii;</span></span><br><span class="line">        unordered_set&lt;string&gt;st;</span><br><span class="line">       vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;<span class="built_in">g</span>(n,<span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(n,<span class="number">0</span>));</span><br><span class="line">        <span class="type">int</span> res=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> x:dig)</span><br><span class="line">            g[x[<span class="number">0</span>]][x[<span class="number">1</span>]]=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> x:a)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> s1=x[<span class="number">0</span>],s2=x[<span class="number">1</span>],t1=x[<span class="number">2</span>],t2=x[<span class="number">3</span>];</span><br><span class="line">            <span class="type">int</span> f=<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> i=s1;i&lt;=t1;i++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(!f)<span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">for</span>(<span class="type">int</span> j=s2;j&lt;=t2;j++)</span><br><span class="line">                &#123;</span><br><span class="line">                     <span class="keyword">if</span>(!g[i][j]) &#123;f=<span class="number">0</span>;<span class="keyword">break</span>;&#125;</span><br><span class="line">                     <span class="keyword">else</span>&#123;</span><br><span class="line">                         <span class="keyword">if</span>(i==t1&amp;&amp;j==t2&amp;&amp;f)</span><br><span class="line">                             res++;</span><br><span class="line">                     &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="K-次操作后最大化顶端元素"><a href="#K-次操作后最大化顶端元素" class="headerlink" title="K 次操作后最大化顶端元素"></a>K 次操作后最大化顶端元素</h4><h5 id="题目描述-2"><a href="#题目描述-2" class="headerlink" title="题目描述"></a>题目描述</h5><p>给你一个下标从 0 开始的整数数组 nums ，它表示一个 栈 ，其中 nums[0] 是栈顶的元素。</p>
+<p>每一次操作中，你可以执行以下操作 之一 ：</p>
+<ul>
+<li>如果栈非空，那么 删除 栈顶端的元素。</li>
+<li>如果存在 1 个或者多个被删除的元素，你可以从它们中选择任何一个，添加 回栈顶，这个元素成为新的栈顶元素。<br>同时给你一个整数 k ，它表示你总共需要执行操作的次数。</li>
+</ul>
+<p>请你返回 恰好 执行 k 次操作以后，栈顶元素的 最大值 。如果执行完 k 次操作以后，栈一定为空，请你返回 -1 。</p>
+<h5 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h5><ul>
+<li>这个题很坑，主要思路就是贪心看在前K个数中的最大值，如果符合要求就直接输出。</li>
+<li>需要将前k个值和删除所有元素后的第一个值比较</li>
+<li>如果只有一个元素，却有奇数次操作栈一定为空</li>
+</ul>
+<h5 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">maximumTop</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(nums.<span class="built_in">size</span>()==<span class="number">1</span>&amp;&amp;k%<span class="number">2</span>==<span class="number">1</span>) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        <span class="type">int</span> minn=<span class="built_in">min</span>(k<span class="number">-1</span>,(<span class="type">int</span>)nums.<span class="built_in">size</span>());</span><br><span class="line">        <span class="type">int</span> x=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;minn;i++)</span><br><span class="line">            x=<span class="built_in">max</span>(x,nums[i]);</span><br><span class="line">        <span class="type">int</span> n=nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">if</span>(k&lt;n)&#123;</span><br><span class="line">            x=<span class="built_in">max</span>(x,nums[k]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> x;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="得到要求路径的最小带权子图"><a href="#得到要求路径的最小带权子图" class="headerlink" title="得到要求路径的最小带权子图"></a>得到要求路径的最小带权子图</h4><h5 id="题目描述-3"><a href="#题目描述-3" class="headerlink" title="题目描述"></a>题目描述</h5><p>给你一个整数 n ，它表示一个 带权有向 图的节点数，节点编号为 0 到 n - 1 。</p>
+<p>同时给你一个二维整数数组 edges ，其中 edges[i] &#x3D; [fromi, toi, weighti] ，表示从 fromi 到 toi 有一条边权为 weighti 的 有向 边。</p>
+<p>最后，给你三个 互不相同 的整数 src1 ，src2 和 dest ，表示图中三个不同的点。</p>
+<p>请你从图中选出一个 边权和最小 的子图，使得从 src1 和 src2 出发，在这个子图中，都 可以 到达 dest 。如果这样的子图不存在，请返回 -1 。</p>
+<p>子图 中的点和边都应该属于原图的一部分。子图的边权和定义为它所包含的所有边的权值之和。</p>
+<h5 id="思路-3"><a href="#思路-3" class="headerlink" title="思路"></a>思路</h5><ul>
+<li>将模型简化后很容易发现就是一个简单的三源最短路问题，遍历所有的汇合点，更新最大值即可。</li>
+<li>使用kpfa算法求解最短路时应该注意入过队的元素不能重复入队，所以要用一个状态数组存储是否入队的状态。</li>
+</ul>
+<h5 id="代码-3"><a href="#代码-3" class="headerlink" title="代码"></a>代码</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">typedef</span> pair&lt;<span class="type">int</span>,<span class="type">long</span> <span class="type">long</span>&gt;pii;</span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">djk</span><span class="params">(<span class="type">int</span> src,vector&lt;vector&lt;pii&gt;&gt;&amp; g,vector&lt;<span class="type">long</span> <span class="type">long</span>&gt;&amp; dist)</span></span>&#123;</span><br><span class="line">              queue&lt;<span class="type">int</span>&gt;q;</span><br><span class="line">              q.<span class="built_in">push</span>(src);</span><br><span class="line">              dist[src]=<span class="number">0</span>;</span><br><span class="line">              <span class="keyword">while</span>(!q.<span class="built_in">empty</span>())&#123;</span><br><span class="line">                  <span class="keyword">auto</span> x=q.<span class="built_in">front</span>();</span><br><span class="line">                  q.<span class="built_in">pop</span>();</span><br><span class="line">                  <span class="keyword">for</span>(<span class="keyword">auto</span> it:g[x])&#123;</span><br><span class="line">                      <span class="keyword">auto</span> x1=it.first;</span><br><span class="line">                      <span class="keyword">auto</span> x2=it.second;</span><br><span class="line">                      <span class="keyword">if</span>(dist[x1]&gt;dist[x]+x2)&#123;</span><br><span class="line">                          dist[x1]=dist[x]+x2;</span><br><span class="line">                              q.<span class="built_in">push</span>(x1);</span><br><span class="line">                      &#125;</span><br><span class="line">                  &#125;</span><br><span class="line">              &#125;</span><br><span class="line">              <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">long</span> <span class="type">long</span> <span class="title">minimumWeight</span><span class="params">(<span class="type">int</span> _n, vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; edges, <span class="type">int</span> src1, <span class="type">int</span> src2, <span class="type">int</span> dest)</span> </span>&#123;</span><br><span class="line">        n=_n;</span><br><span class="line">        vector&lt;vector&lt;pii&gt;&gt;g,g1;</span><br><span class="line">        g.<span class="built_in">resize</span>(n+<span class="number">2</span>);</span><br><span class="line">        g1.<span class="built_in">resize</span>(n+<span class="number">2</span>);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> x:edges)</span><br><span class="line">            &#123;</span><br><span class="line">                 g[x[<span class="number">0</span>]].<span class="built_in">push_back</span>(&#123;x[<span class="number">1</span>],x[<span class="number">2</span>]&#125;);</span><br><span class="line">                 g1[x[<span class="number">1</span>]].<span class="built_in">push_back</span>(&#123;x[<span class="number">0</span>],x[<span class="number">2</span>]&#125;);</span><br><span class="line">            &#125;   </span><br><span class="line">         <span class="function">vector&lt;<span class="type">long</span> <span class="type">long</span>&gt; <span class="title">dist1</span><span class="params">(n+<span class="number">2</span>, <span class="number">1e15</span>)</span>, <span class="title">dist2</span><span class="params">(n+<span class="number">2</span>, <span class="number">1e15</span>)</span>, <span class="title">dist3</span><span class="params">(n+<span class="number">2</span>, <span class="number">1e15</span>)</span></span>;</span><br><span class="line">        <span class="type">long</span> <span class="type">long</span> maxn=<span class="number">1e15</span>;</span><br><span class="line">        <span class="built_in">djk</span>(src1,g,dist1);</span><br><span class="line">        <span class="built_in">djk</span>(src2,g,dist2);</span><br><span class="line">        <span class="built_in">djk</span>(dest,g1,dist3);</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            maxn=<span class="built_in">min</span>(dist1[i]+dist2[i]+dist3[i],maxn);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(maxn==<span class="number">1e15</span>) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">return</span> maxn;  </span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">题解</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">周赛</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/竞赛//" class="article-tag-list-link color3">竞赛</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/14/284%E5%9C%BA%E5%91%A8%E8%B5%9B/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-每日总结2022-3-12" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/13/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-12/">每日总结2022-3-12</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/13/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-12/" class="archive-article-date">
+  	<time datetime="2022-03-12T17:28:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-13</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="刷题"><a href="#刷题" class="headerlink" title="刷题"></a>刷题</h3><h4 id="力扣"><a href="#力扣" class="headerlink" title="力扣"></a>力扣</h4><ul>
+<li>UTF-8 编码验证：面向用例编程</li>
+<li><ol start="32">
+<li>最长有效括号：栈、动态规划</li>
+</ol>
+</li>
+</ul>
+<h4 id="技术"><a href="#技术" class="headerlink" title="技术"></a>技术</h4><ul>
+<li>go语言基础</li>
+<li>分布式系统</li>
+</ul>
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/13/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-12/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-分布式系统（二）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -975,362 +1409,6 @@
 
 
   
-    <article id="post-每日总结2022-3-9" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/10/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-9/">每日总结2022-3-9</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/10/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-9/" class="archive-article-date">
-  	<time datetime="2022-03-09T18:03:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="刷题"><a href="#刷题" class="headerlink" title="刷题"></a>刷题</h3><h4 id="力扣"><a href="#力扣" class="headerlink" title="力扣"></a>力扣</h4><ul>
-<li>每日一题：N 叉树的前序遍历(递归)</li>
-<li>分发糖果：双数组、记忆化搜索</li>
-<li>接雨水：双指针、单调栈、双单调栈</li>
-</ul>
-<h5 id="ACWING"><a href="#ACWING" class="headerlink" title="ACWING"></a>ACWING</h5><ul>
-<li>最短Hamilton路径：状态压缩</li>
-</ul>
-<h4 id="技术"><a href="#技术" class="headerlink" title="技术"></a>技术</h4><ul>
-<li><p>6.824 课程笔记</p>
-</li>
-<li><p>thrift 总结</p>
-</li>
-</ul>
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/10/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-9/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-分发糖果" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/10/%E5%88%86%E5%8F%91%E7%B3%96%E6%9E%9C/">分发糖果</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/10/%E5%88%86%E5%8F%91%E7%B3%96%E6%9E%9C/" class="archive-article-date">
-  	<time datetime="2022-03-09T17:59:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h4 id="分发糖果"><a href="#分发糖果" class="headerlink" title="分发糖果"></a>分发糖果</h4><p>n 个孩子站成一排。给你一个整数数组 ratings 表示每个孩子的评分。</p>
-<p>你需要按照以下要求，给这些孩子分发糖果：</p>
-<ul>
-<li>每个孩子至少分配到 1 个糖果。</li>
-<li>相邻两个孩子评分更高的孩子会获得更多的糖果。</li>
-</ul>
-<p>请你给每个孩子分发糖果，计算并返回需要准备的 最少糖果数目 。</p>
-<h5 id="双数组"><a href="#双数组" class="headerlink" title="双数组"></a>双数组</h5><ul>
-<li>从左到右依次扫描，最后统计左右数组的最大值。</li>
-<li>代码</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">candy</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; ratings)</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> n=ratings.<span class="built_in">size</span>();</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt;<span class="built_in">left</span>(n+<span class="number">1</span>,<span class="number">0</span>);</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt;<span class="built_in">right</span>(n+<span class="number">1</span>,<span class="number">0</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(i&gt;<span class="number">0</span>&amp;&amp;ratings[i<span class="number">-1</span>]&lt;ratings[i])</span><br><span class="line">            left[i]=left[i<span class="number">-1</span>]+<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            left[i]=<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=n<span class="number">-1</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">        <span class="keyword">if</span>(i&lt;n<span class="number">-1</span>&amp;&amp;ratings[i]&gt;ratings[i+<span class="number">1</span>])</span><br><span class="line">            right[i]=right[i+<span class="number">1</span>]+<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">else</span>     </span><br><span class="line">            right[i]=<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> res=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">        res+=<span class="built_in">max</span>(left[i],right[i]);</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="记忆化搜索"><a href="#记忆化搜索" class="headerlink" title="记忆化搜索"></a>记忆化搜索</h5><ul>
-<li>看每个位置可以到达的最远距离。</li>
-<li>然后遍历每个点进行累加。</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> n;</span><br><span class="line">vector&lt;<span class="type">int</span>&gt;f;</span><br><span class="line">vector&lt;<span class="type">int</span>&gt;g;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> x)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(f[x]!=<span class="number">-1</span>) <span class="keyword">return</span> f[x];</span><br><span class="line">    f[x]=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(x<span class="number">-1</span>&gt;=<span class="number">0</span>&amp;&amp;g[x<span class="number">-1</span>]&lt;g[x])</span><br><span class="line">        f[x]=<span class="built_in">max</span>(<span class="built_in">dfs</span>(x<span class="number">-1</span>)+<span class="number">1</span>,f[x]);</span><br><span class="line">    <span class="keyword">if</span>(x+<span class="number">1</span>&lt;n&amp;&amp;g[x+<span class="number">1</span>]&lt;g[x])</span><br><span class="line">        f[x]=<span class="built_in">max</span>(<span class="built_in">dfs</span>(x+<span class="number">1</span>)+<span class="number">1</span>,f[x]);</span><br><span class="line">    <span class="keyword">return</span> f[x];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">candy</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; ratings)</span> </span>&#123;</span><br><span class="line">    n=ratings.<span class="built_in">size</span>();</span><br><span class="line">    f.<span class="built_in">resize</span>(n,<span class="number">-1</span>);</span><br><span class="line">    g=ratings;</span><br><span class="line">    <span class="type">int</span> res=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">        res+=<span class="built_in">dfs</span>(i);</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">题解</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">面试</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">记忆化搜索</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/高频算法题//" class="article-tag-list-link color1">高频算法题</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/10/%E5%88%86%E5%8F%91%E7%B3%96%E6%9E%9C/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-分布式系统（课程简介）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/09/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%EF%BC%88%E8%AF%BE%E7%A8%8B%E7%AE%80%E4%BB%8B%EF%BC%89/">分布式系统（课程简介）</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/09/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%EF%BC%88%E8%AF%BE%E7%A8%8B%E7%AE%80%E4%BB%8B%EF%BC%89/" class="archive-article-date">
-  	<time datetime="2022-03-09T14:11:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="分布式系统（课程简介）"><a href="#分布式系统（课程简介）" class="headerlink" title="分布式系统（课程简介）"></a>分布式系统（课程简介）</h3><h4 id="什么是分布式系统？"><a href="#什么是分布式系统？" class="headerlink" title="什么是分布式系统？"></a>什么是分布式系统？</h4><ul>
-<li>多台协作的机器</li>
-<li>大型网站的存储，大数据的计算：MapReduce，p2p 分享</li>
-<li>分布式的管理多个基础架构</li>
-</ul>
-<h4 id="为什么要使用分布式系统？"><a href="#为什么要使用分布式系统？" class="headerlink" title="为什么要使用分布式系统？"></a>为什么要使用分布式系统？</h4><ul>
-<li>高性能</li>
-<li>因为物理上的原因不得不使用分布式架构（两家物理机不在一起但是需要一起提供某一服务）</li>
-<li>通过复制提高可用性（容错性）</li>
-<li>通过隔离保证可靠性</li>
-</ul>
-<h4 id="分布式系统的挑战："><a href="#分布式系统的挑战：" class="headerlink" title="分布式系统的挑战："></a>分布式系统的挑战：</h4><ul>
-<li>分布式系统的构建十分复杂</li>
-<li>需要应对部分组件的错误</li>
-<li>难以发挥机器的性能（并不是 1000 台计算机就会有 1000 倍的性能）</li>
-</ul>
-<h4 id="Topic："><a href="#Topic：" class="headerlink" title="Topic："></a>Topic：</h4><ul>
-<li>分布式系统的基础组件：RPC通信，线程机制，并发控制 etc</li>
-<li>高性能：横向扩展，同时也需要实现负载均衡，处理逻辑并发，共享资源瓶颈等等问题</li>
-<li>容错行：随着计算机数量的升级会频繁的出现程序或者集群节点的崩溃<ul>
-<li>可用性</li>
-<li>可恢复性</li>
-</ul>
-</li>
-<li>一致性：弱一致性和强一致性</li>
-</ul>
-<h4 id="MapReduce"><a href="#MapReduce" class="headerlink" title="MapReduce"></a>MapReduce</h4><p>MapReduce的模型设计很容易进行水平横向扩展以加强系统的能力，基本分为两种任务：map和reduce，通过map任务完成程序逻辑的并发，通过reduce任务完成并发结果的归约和收集，使用这个框架的开发者的任务就是把自己的业务逻辑先分为这两种任务，然后丢给MapReduce模型去运行。设计上，执行这两种任务的worker可以运行在普通的PC机器上，不需要使用太多资源。当系统整体能力不足时，通过增加worker即可解决。</p>
-<h5 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h5><p><img src="https://gitee.com/bhb100/drawing-bed/raw/master/blog/20220309220846.png"></p>
-<h5 id="MapReduce的一个字频统计的例子："><a href="#MapReduce的一个字频统计的例子：" class="headerlink" title="MapReduce的一个字频统计的例子："></a>MapReduce的一个字频统计的例子：</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Input1 -&gt; Map -&gt; a,1 b,1</span><br><span class="line">Input2 -&gt; Map -&gt;     b,1</span><br><span class="line">Input3 -&gt; Map -&gt; a,1     c,1</span><br><span class="line">                  |   |   |</span><br><span class="line">                  |   |   -&gt; Reduce -&gt; c,1</span><br><span class="line">                  |   -----&gt; Reduce -&gt; b,2</span><br><span class="line">                  ---------&gt; Reduce -&gt; a,2</span><br><span class="line">1) input is (already) split into M files</span><br><span class="line">2) MR calls Map() for each input file, produces set of k2,v2</span><br><span class="line">   &quot;intermediate&quot; data</span><br><span class="line">   each Map() call is a &quot;task&quot;</span><br><span class="line">3) when Maps are don,</span><br><span class="line">   MR gathers all intermediate v2&#x27;s for a given k2,</span><br><span class="line">   and passes each key + values to a Reduce call</span><br><span class="line">4) final output is set of &lt;k2,v3&gt; pairs from Reduce()s</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>代码</li>
-</ul>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Map(k, v)</span><br><span class="line">  split v into words</span><br><span class="line">  <span class="keyword">for</span> each word w</span><br><span class="line">    emit(w, <span class="string">&quot;1&quot;</span>)</span><br><span class="line">Reduce(k, v_set)</span><br><span class="line">  emit(<span class="built_in">len</span>(v_set))</span><br></pre></td></tr></table></figure>
-
-<h5 id="MapReduce-在规模上的优势（可以通过增加机器来增加数据吞吐量）"><a href="#MapReduce-在规模上的优势（可以通过增加机器来增加数据吞吐量）" class="headerlink" title="MapReduce 在规模上的优势（可以通过增加机器来增加数据吞吐量）"></a>MapReduce 在规模上的优势（可以通过增加机器来增加数据吞吐量）</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">N &quot;worker&quot; computers (might) get you Nx throughput.</span><br><span class="line">  Maps()s can run in parallel, since they don&#x27;t interact.</span><br><span class="line">  Same for Reduce()s.</span><br><span class="line">Thus more computers -&gt; more throughput -- very nice</span><br></pre></td></tr></table></figure>
-
-<h5 id="为什么会限制性能"><a href="#为什么会限制性能" class="headerlink" title="为什么会限制性能"></a>为什么会限制性能</h5><p>网络和cpu&#x2F;磁盘会限制性能，在 MapReduce 中网络带宽是很大的阻碍，论文第 8 小结关于网络带宽的优化方法总结如下:</p>
-<ol>
-<li>将输入数据保存到不同的机器上并就近原则执行 Map 方法,即 Input 数据和 Map() 在同一台机器上减少网络操作节约性能.</li>
-<li>将生成的中间数据的一个副本保存在本地磁盘上，作用和上面的类似，可以就近执行 Reduce 操作.这种并不能避免所有的 Reduce() 的网络带宽.</li>
-</ol>
-<p>但是发展到现在，其实网络带宽已经不是主要的问题了。</p>
-<h5 id="如何做负载均衡？"><a href="#如何做负载均衡？" class="headerlink" title="如何做负载均衡？"></a>如何做负载均衡？</h5><ul>
-<li>某个task运行时间比较其他N-1个都长，大家都必须等其结束那就尴尬了，因此参考论文3.5节、3.6节系统设计保证task比worker数量要多，做的快的worker可以继续先执行其他task，减少等待</li>
-</ul>
-<h5 id="如果worker在任务期间崩溃了怎么办"><a href="#如果worker在任务期间崩溃了怎么办" class="headerlink" title="如果worker在任务期间崩溃了怎么办"></a>如果worker在任务期间崩溃了怎么办</h5><ul>
-<li>master周期性的ping每个worker。如果在一个约定的时间范围内没有收到worker返回的信息，master将把这个 worker标记为失效。所有由这个失效的worker完成的Map任务被重设为初始的空闲状态，之后这些任务就可以被安排给其他的worker。同样 的，worker失效时正在运行的Map或Reduce任务也将被重新置为空闲状态，等待重新调度。</li>
-</ul>
-<h5 id="如果某个work最后几个任务运行时间较慢怎么办"><a href="#如果某个work最后几个任务运行时间较慢怎么办" class="headerlink" title="如果某个work最后几个任务运行时间较慢怎么办"></a>如果某个work最后几个任务运行时间较慢怎么办</h5><ul>
-<li>我们有一个通用的机制来减少“落伍者”出现的情况。当一个MapReduce操作接近完成的时候，master调度备用（backup）任务 进程来执行剩下的、处于处理中状态（in-progress）的任务。无论是最初的执行进程、还是备用（backup）任务进程完成了任务，我们都把这个任务标记成为已经完成。</li>
-</ul>
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">6.824</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">分布式</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">MapReduce</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/6-824//" class="article-tag-list-link color1">6.824</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/09/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%EF%BC%88%E8%AF%BE%E7%A8%8B%E7%AE%80%E4%BB%8B%EF%BC%89/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/5/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/7/">Next &amp;raquo;</a>
@@ -1733,10 +1811,6 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">搜索，模板</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">GFS</a>
               </li>
              
@@ -1762,6 +1836,10 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">数据结构，栈</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">搜索</a>
               </li>
             
             <div class="clearfix"></div>
