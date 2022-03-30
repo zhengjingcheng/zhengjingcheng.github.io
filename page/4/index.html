@@ -164,6 +164,720 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-ACWING135-最大子序和" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/21/ACWING135-%E6%9C%80%E5%A4%A7%E5%AD%90%E5%BA%8F%E5%92%8C/">ACWING135. 最大子序和</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/21/ACWING135-%E6%9C%80%E5%A4%A7%E5%AD%90%E5%BA%8F%E5%92%8C/" class="archive-article-date">
+  	<time datetime="2022-03-20T17:43:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="ACWING135-最大子序和"><a href="#ACWING135-最大子序和" class="headerlink" title="ACWING135. 最大子序和"></a>ACWING135. 最大子序和</h3><h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><p>输入一个长度为 $n$的整数序列，从中找出一段长度不超过$ m$的连续子序列，使得子序列中所有数的和最大。</p>
+<p><strong>注意：</strong> 子序列的长度至少是 $1$。</p>
+<h4 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h4><p>第一行输入两个整数$ n,m$。</p>
+<p>第二行输入$ n$个数，代表长度为$ n$的整数序列。</p>
+<p>同一行数之间用空格隔开。</p>
+<h4 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h4><p>输出一个整数，代表该序列的最大子序和。</p>
+<h4 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h4><p>$1≤n,m≤300000$</p>
+<h4 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">6 4</span><br><span class="line">1 -3 5 1 -2 3</span><br></pre></td></tr></table></figure>
+
+<h4 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">7</span><br></pre></td></tr></table></figure>
+
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><ul>
+<li>维护一个长度为m的窗口</li>
+<li>注意到对于当前点i而言，需要找到前m个数中能使当前s[i]-s[j]最大的位置，需要在窗口中维护最小的前缀和。</li>
+<li>注意把前缀和下标为0的插入</li>
+</ul>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">300010</span>;</span><br><span class="line"><span class="type">long</span> <span class="type">long</span> a[N],s[N];</span><br><span class="line"><span class="type">int</span> n,m;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;m;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        cin&gt;&gt;a[i];</span><br><span class="line">        s[i]=a[i]+s[i<span class="number">-1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    deque&lt;<span class="type">int</span>&gt;q;</span><br><span class="line">    <span class="type">long</span> <span class="type">long</span> res=INT_MIN;</span><br><span class="line">    q.<span class="built_in">push_back</span>(<span class="number">0</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">while</span>(q.<span class="built_in">size</span>()&amp;&amp;i-q.<span class="built_in">front</span>()&gt;m)q.<span class="built_in">pop_front</span>();</span><br><span class="line">        <span class="keyword">if</span>(q.<span class="built_in">size</span>())</span><br><span class="line">        res=<span class="built_in">max</span>(res,s[i]-s[q.<span class="built_in">front</span>()]);</span><br><span class="line">        <span class="keyword">while</span>(q.<span class="built_in">size</span>()&amp;&amp;s[q.<span class="built_in">back</span>()]&gt;s[i])</span><br><span class="line">        q.<span class="built_in">pop_back</span>();</span><br><span class="line">        q.<span class="built_in">push_back</span>(i);</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;res;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">前缀和</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">单调队列</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/高频算法题//" class="article-tag-list-link color1">高频算法题</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/21/ACWING135-%E6%9C%80%E5%A4%A7%E5%AD%90%E5%BA%8F%E5%92%8C/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-ACC-AcWing-Cup-全国高校联赛" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/21/ACC-AcWing-Cup-%E5%85%A8%E5%9B%BD%E9%AB%98%E6%A0%A1%E8%81%94%E8%B5%9B/">ACC(AcWing Cup)全国高校联赛</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/21/ACC-AcWing-Cup-%E5%85%A8%E5%9B%BD%E9%AB%98%E6%A0%A1%E8%81%94%E8%B5%9B/" class="archive-article-date">
+  	<time datetime="2022-03-20T17:42:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="ACC-AcWing-Cup-全国高校联赛"><a href="#ACC-AcWing-Cup-全国高校联赛" class="headerlink" title="ACC(AcWing Cup)全国高校联赛"></a>ACC(AcWing Cup)全国高校联赛</h3><ul>
+<li>（2&#x2F;3）</li>
+</ul>
+<h3 id="AcWing-4376-数圈圈"><a href="#AcWing-4376-数圈圈" class="headerlink" title="AcWing 4376. 数圈圈"></a>AcWing 4376. 数圈圈</h3><h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><p>十六进制是一种基数为 16 的计数系统，是一种逢 16进 1的进位制。</p>
+<p>通常用数字$ 0、1、2、3、4、5、6、7、8、9$和字母$ A、B、C、D、E、F $表示，其中:$ A∼F$ 表示 $10∼15$，这些称作十六进制数字。</p>
+<p>观察这些数字的图案，我们可以发现，有些数字上面包含圈圈，具体来说：</p>
+<ul>
+<li>数字 $0,4,6,9,A,D$ 中包含一个圈。</li>
+<li>数字 $8,B$中包含两个圈。</li>
+<li>数字 $1,2,3,5,7,C,E,F $中不含圈。</li>
+</ul>
+<p>现在，给定一个十进制整数 $n$，请你将其转化为十六进制表示，并数一数其十六进制表示中一共含有多少个圈圈。</p>
+<h4 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h4><p>一个整数$ n$。</p>
+<h4 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h4><p>一个整数，表示整数 $n$ 的十六进制表示包含的圈圈总数。</p>
+<h4 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h4><p>前三个测试点满足$ 0≤n≤100$,<br>所有测试点满足 $0≤n≤2×10^9$。</p>
+<h4 id="输入样例1："><a href="#输入样例1：" class="headerlink" title="输入样例1："></a>输入样例1：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">11</span><br></pre></td></tr></table></figure>
+
+<h4 id="输出样例1："><a href="#输出样例1：" class="headerlink" title="输出样例1："></a>输出样例1：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2</span><br></pre></td></tr></table></figure>
+
+<h4 id="输入样例2："><a href="#输入样例2：" class="headerlink" title="输入样例2："></a>输入样例2：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">14</span><br></pre></td></tr></table></figure>
+
+<h4 id="输出样例2："><a href="#输出样例2：" class="headerlink" title="输出样例2："></a>输出样例2：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0</span><br></pre></td></tr></table></figure>
+
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><ul>
+<li>签到题，直接哈希即可</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line">unordered_map&lt;<span class="type">int</span>,<span class="type">int</span>&gt;mp;</span><br><span class="line"><span class="type">int</span> res=<span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> x;</span><br><span class="line">    cin&gt;&gt;x; </span><br><span class="line">    mp[<span class="number">0</span>]=<span class="number">1</span>;</span><br><span class="line">    mp[<span class="number">4</span>]=<span class="number">1</span>;</span><br><span class="line">    mp[<span class="number">6</span>]=<span class="number">1</span>;</span><br><span class="line">    mp[<span class="number">9</span>]=<span class="number">1</span>;</span><br><span class="line">    mp[<span class="number">10</span>]=<span class="number">1</span>;</span><br><span class="line">    mp[<span class="number">13</span>]=<span class="number">1</span>;</span><br><span class="line">    mp[<span class="number">8</span>]=<span class="number">2</span>;</span><br><span class="line">    mp[<span class="number">11</span>]=<span class="number">2</span>;</span><br><span class="line">    <span class="keyword">if</span>(!x)&#123;</span><br><span class="line">        cout&lt;&lt;<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(x)&#123;</span><br><span class="line">        res+=mp[x%<span class="number">16</span>];</span><br><span class="line">        x/=<span class="number">16</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;res;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="AcWing-4377-农田灌溉"><a href="#AcWing-4377-农田灌溉" class="headerlink" title="AcWing 4377. 农田灌溉"></a>AcWing 4377. 农田灌溉</h3><h4 id="题目描述-1"><a href="#题目描述-1" class="headerlink" title="题目描述"></a>题目描述</h4><p>农夫约翰有$ n$片连续的农田，编号依次为 $1∼n$。</p>
+<p>其中有 $k$片农田中装有洒水器。</p>
+<p>装有洒水器的农田的编号<strong>从小到大</strong>依次为$ x_1,x_2,…,x_k$。</p>
+<p>在某个炎热的中午，约翰觉得是时候给他的所有农田浇水了。</p>
+<p>每个洒水器在打开以后，向两侧方向洒水，并且随着开启时间延长，有效覆盖距离也不断增长。</p>
+<p>具体来说，我们将第 $x_i$ 片农田中的洒水器打开，经过 11 秒后，第 xixi 片农田被其覆盖，经过 2 秒后，第 $[x_i−1,x_i+1] $片农田被其覆盖，经过$ j$ 秒后，第$ [x_i−(j−1),x_i+(j−1)] $片农田被其覆盖。</p>
+<p>注意，每个洒水器的有效覆盖距离在每经过<strong>整数秒</strong>后，才会有所增长。</p>
+<p>例如，经过$ 2.5 $秒后，被第 $x_i$片农田中的洒水器覆盖的农田仍是第$ [x_i−1,x_i+1] $片农田，而不是第 $[x_i−1.5,x_i+1.5]$ 片农田。</p>
+<p>现在，约翰将所有洒水器同时打开，请问经过多少秒后，所有农田均被灌溉。</p>
+<h4 id="输入格式-1"><a href="#输入格式-1" class="headerlink" title="输入格式"></a>输入格式</h4><p>第一行包含整数 $T$，表示共有$T$组测试数据。</p>
+<p>每组数据第一行包含两个整数 $n,k$。</p>
+<p>第二行包含 $k$ 个整数$ x_1,x_2,…,x_k$。</p>
+<h4 id="输出格式-1"><a href="#输出格式-1" class="headerlink" title="输出格式"></a>输出格式</h4><p>每组数据输出一行答案。</p>
+<h4 id="数据范围-1"><a href="#数据范围-1" class="headerlink" title="数据范围"></a>数据范围</h4><p>前三个测试点满足 $1≤n≤5,$<br>所有测试点满足$ 1≤T≤200$，$1≤n≤200$$，1≤k≤n，1≤x_i≤n，x_i−1&lt;x_i$，$T$ 组数据的$ n$ 相加之和不超过$ 200$。</p>
+<h4 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">3</span><br><span class="line">5 1</span><br><span class="line">3</span><br><span class="line">3 3</span><br><span class="line">1 2 3</span><br><span class="line">4 1</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<h4 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">3</span><br><span class="line">1</span><br><span class="line">4</span><br></pre></td></tr></table></figure>
+
+<h4 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h4><ul>
+<li><p>贪心，由于灌溉的长度每次增加一，所以我们可以把时间变成距离来考虑，并且每个灌溉器是从前往后排列的，所以我们可以先预处理出最左端和最右端的所需要的时间。$res&#x3D;max(f[0]-0,n+1-q[n-1])$</p>
+</li>
+<li><p>对于中间每个点我们都可以看做左右两边距离中点的长度：例如（0，3）距离终点的长度应该是$3&#x2F;2+1$</p>
+</li>
+</ul>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">210</span>;</span><br><span class="line"><span class="type">int</span> n,k;</span><br><span class="line"><span class="type">int</span> q[N];</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> T;</span><br><span class="line">    cin&gt;&gt;T;</span><br><span class="line">    <span class="keyword">while</span>(T--)&#123;</span><br><span class="line">        <span class="built_in">memset</span>(q,<span class="number">0</span>,<span class="keyword">sizeof</span> q);</span><br><span class="line">        cin&gt;&gt;n&gt;&gt;k;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;k;i++)cin&gt;&gt;q[i];</span><br><span class="line">        <span class="type">int</span> res=<span class="built_in">max</span>(q[<span class="number">0</span>]<span class="number">-0</span>,n-q[k<span class="number">-1</span>]+<span class="number">1</span>);</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;k;i++)&#123;</span><br><span class="line">            res=<span class="built_in">max</span>((q[i]-q[i<span class="number">-1</span>])/<span class="number">2</span>+<span class="number">1</span>,res);</span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;res&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="AcWing-4378-选取数对"><a href="#AcWing-4378-选取数对" class="headerlink" title="AcWing 4378. 选取数对"></a>AcWing 4378. 选取数对</h3><h4 id="题目描述-2"><a href="#题目描述-2" class="headerlink" title="题目描述"></a>题目描述</h4><p>给定一个长度为 $n $的整数数列$ a_1,a_2,…,a_n$。</p>
+<p>请你选择 $k $个数对$ [l_1,r_1],[l_2,r_2],…,[l_k,r_k]$，要求所选数对满足：</p>
+<ol>
+<li>$1≤l_1≤r_1&lt;l_2≤r_2&lt;…&lt;l_k≤r_k≤n$。</li>
+<li>对于 $1≤i≤k_1≤i≤k，r_i−l_i+1&#x3D;m$均成立。</li>
+<li>设 $sum&#x3D;∑∑a_j，sum $的值应尽可能大。</li>
+</ol>
+<p>请你输出$ sum$的最大可能值。</p>
+<h4 id="输入格式-2"><a href="#输入格式-2" class="headerlink" title="输入格式"></a>输入格式</h4><p>第一行包含三个整数 $n,m,k$。</p>
+<p>第二行包含 $n$个整数 $a_1,a_2,…,a_n$。</p>
+<h4 id="输出格式-2"><a href="#输出格式-2" class="headerlink" title="输出格式"></a>输出格式</h4><p>一个整数，表示$ sum$的最大可能值。</p>
+<h4 id="数据范围-2"><a href="#数据范围-2" class="headerlink" title="数据范围"></a>数据范围</h4><p>前 66 个测试点满足 $1≤m×k≤n≤20$。<br>所有测试点满足$ 1≤m×k≤n≤5000$，$0≤a_i≤10^9$。</p>
+<h4 id="输入样例1：-1"><a href="#输入样例1：-1" class="headerlink" title="输入样例1："></a>输入样例1：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">5 2 1</span><br><span class="line">1 2 3 4 5</span><br></pre></td></tr></table></figure>
+
+<h4 id="输出样例1：-1"><a href="#输出样例1：-1" class="headerlink" title="输出样例1："></a>输出样例1：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">9</span><br></pre></td></tr></table></figure>
+
+<h4 id="输入样例2：-1"><a href="#输入样例2：-1" class="headerlink" title="输入样例2："></a>输入样例2：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">7 1 3</span><br><span class="line">2 10 7 18 5 33 0</span><br></pre></td></tr></table></figure>
+
+<h4 id="输出样例2：-1"><a href="#输出样例2：-1" class="headerlink" title="输出样例2："></a>输出样例2：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">61</span><br></pre></td></tr></table></figure>
+
+<h4 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h4><ul>
+<li><p>题目描述比较难懂，但是最后可以抽象出来问题是：在一个序列中找到k个长度均为m的区间，求取所有方案的区间和最大值</p>
+</li>
+<li><p>由于是有很多方案，并且求极值，所以我们可以很容易考虑为dp问题，先考虑集合划分（求什么就把什么定成属性）</p>
+<ul>
+<li>$f(i,j)$表示为前$i$个数，共找到$j$个区间的最大区间和。</li>
+</ul>
+</li>
+<li><p>然后考虑状态计算</p>
+<ul>
+<li>由于不满m的状态都为0，所以$i$可以直接从m开始遍历</li>
+<li>$f(i,j)&#x3D;max(f(i-1,j),f(i-m,j-1)+s[i]-s[i-m])$</li>
+</ul>
+</li>
+</ul>
+<h4 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">5010</span>;</span><br><span class="line"><span class="type">int</span> n,m,k;</span><br><span class="line"><span class="type">int</span> a[N];</span><br><span class="line"><span class="type">long</span> <span class="type">long</span> f[N][N];<span class="comment">//前i个点，j个区间最大的和。</span></span><br><span class="line"><span class="type">long</span> <span class="type">long</span> s[N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;m&gt;&gt;k;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;cin&gt;&gt;a[i];s[i]=s[i<span class="number">-1</span>]+a[i];&#125;;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=m;i&lt;=n;i++)&#123;<span class="comment">//枚举已经遍历了i个点</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>;j&lt;=k;j++)<span class="comment">//枚举选取了几个区间</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">long</span> <span class="type">long</span> t=s[i]-s[i-m];<span class="comment">//以i为结尾的区间和</span></span><br><span class="line">            <span class="comment">//求出第j个区间最少需要从哪个位置开始</span></span><br><span class="line">            <span class="type">int</span> k=(j<span class="number">-1</span>)*m;</span><br><span class="line">            <span class="keyword">if</span>(k&lt;=i-m)&#123;</span><br><span class="line">                f[i][j]=<span class="built_in">max</span>(f[i<span class="number">-1</span>][j],f[i-m][j<span class="number">-1</span>]+t);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;f[n][k]&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">dp</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">竞赛，贪心</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/竞赛//" class="article-tag-list-link color3">竞赛</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/21/ACC-AcWing-Cup-%E5%85%A8%E5%9B%BD%E9%AB%98%E6%A0%A1%E8%81%94%E8%B5%9B/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-数位dp" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/21/%E6%95%B0%E4%BD%8Ddp/">数位dp</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/21/%E6%95%B0%E4%BD%8Ddp/" class="archive-article-date">
+  	<time datetime="2022-03-20T17:42:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="数位dp"><a href="#数位dp" class="headerlink" title="数位dp"></a>数位dp</h3><h4 id="模板"><a href="#模板" class="headerlink" title="模板"></a>模板</h4><h5 id="适用类型"><a href="#适用类型" class="headerlink" title="适用类型"></a>适用类型</h5><p>数位dp问题主要适用于求一个区间内，且范围很大的方案数。</p>
+<h5 id="主要思考方案"><a href="#主要思考方案" class="headerlink" title="主要思考方案"></a>主要思考方案</h5><ul>
+<li><p>考虑前缀和的思想提前预处理出所有的解决方案</p>
+</li>
+<li><p>把一个数字拆分成不同的位即可</p>
+</li>
+<li><p>用树的方式考虑问题，如果<strong>固定最高位和位数</strong>就可以求得具体方案数量，然后递归求取子问题。</p>
+<ul>
+<li>例如确定最高位的数字为5以后，就可以确定出小于5000的所有数。</li>
+</ul>
+</li>
+<li><p>预处理按照动态规划求解</p>
+</li>
+</ul>
+<p><img src="https://gitee.com/bhb100/drawing-bed/raw/master/blog/20220320160810.png"></p>
+<h5 id="模板-1"><a href="#模板-1" class="headerlink" title="模板"></a>模板</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">init</span><span class="params">()</span><span class="comment">//初始化代码预处理f(i,j)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;N;i++)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">dp</span><span class="params">(<span class="type">int</span> x)</span></span>&#123;</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt;v;</span><br><span class="line">    <span class="keyword">while</span>(x)&#123;</span><br><span class="line">        v.<span class="built_in">push_back</span>(x%<span class="number">10</span>);</span><br><span class="line">        x/=<span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> res=<span class="number">0</span>,last=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;v.<span class="built_in">size</span>();i++)<span class="comment">//枚举每一位</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//主要逻辑</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;m;</span><br><span class="line">    <span class="built_in">init</span>();</span><br><span class="line">    cout&lt;&lt;<span class="built_in">dp</span>(m)-<span class="built_in">dp</span>(n<span class="number">-1</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="度的数量"><a href="#度的数量" class="headerlink" title="度的数量"></a>度的数量</h3><h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><p>求给定区间 [X,Y] 中满足下列条件的整数个数：这个数恰好等于 $K$个互不相等的$ B$的整数次幂之和。</p>
+<p>例如，设 $X&#x3D;15,Y&#x3D;20,K&#x3D;2,B&#x3D;2$，则有且仅有下列三个数满足题意：</p>
+<p>$17&#x3D;24+20$<br>$18&#x3D;24+21$<br>$20&#x3D;24+22$</p>
+<h5 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h5><p>第一行包含两个整数 $X $和 $Y$，接下来两行包含整数 $K$和 $B$。</p>
+<h5 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h5><p>只包含一个整数，表示满足条件的数的个数。</p>
+<h5 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h5><p>$1≤X≤Y≤2^{31}−1,$<br>$1≤K≤20,$<br>$2≤B≤10$</p>
+<h5 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">15 20</span><br><span class="line">2</span><br><span class="line">2</span><br></pre></td></tr></table></figure>
+
+<h5 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3</span><br></pre></td></tr></table></figure>
+
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><ul>
+<li>把题意抽象出来发现很简单，就是求一个b进制数中1的个数是否等于k。</li>
+<li>我们可以很容易的发现如果最高位是0的话，只需要递归求解下一个子问题，否则我们可以求得在子问题里找到K个数的方案数，如果当前位是1我们只需要继续求解下一个子问题，若是大于1的话我们可以在去除当前位后，再剩余的数中找到K-1个数的方案数。注意如果所有情况都考察完了，我们需要判断last是否和k相等，相等的话说明所有的情况都找到了，需要将res++。</li>
+</ul>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">37</span>;</span><br><span class="line"><span class="type">int</span> f[N][N];</span><br><span class="line"><span class="type">int</span> k,b,n,m;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">init</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;N;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;=i;j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(!j)f[i][j]=<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> f[i][j]=f[i<span class="number">-1</span>][j]+f[i<span class="number">-1</span>][j<span class="number">-1</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">dp</span><span class="params">(<span class="type">int</span> x)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!x)<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt;v;</span><br><span class="line">    <span class="keyword">while</span>(x)&#123;</span><br><span class="line">        v.<span class="built_in">push_back</span>(x%b);</span><br><span class="line">        x/=b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> res=<span class="number">0</span>,last=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=v.<span class="built_in">size</span>()<span class="number">-1</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">        <span class="keyword">if</span>(v[i]!=<span class="number">0</span>)&#123;</span><br><span class="line">            res+=f[i][k-last];</span><br><span class="line">            <span class="keyword">if</span>(v[i]==<span class="number">1</span>)&#123;</span><br><span class="line">                last++;</span><br><span class="line">                <span class="keyword">if</span>(last&gt;k)<span class="keyword">break</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;<span class="comment">//当前的数大于1则当前值就算取1，后边的数任意取也可以满足要求，所以只需要在余下的数中任取即可。</span></span><br><span class="line">                res+=f[i][k-last<span class="number">-1</span>];</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(!i&amp;&amp;k==last) res++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;m;</span><br><span class="line">    cin&gt;&gt;k&gt;&gt;b;</span><br><span class="line">    <span class="built_in">init</span>();</span><br><span class="line">    cout&lt;&lt;<span class="built_in">dp</span>(m)-<span class="built_in">dp</span>(n<span class="number">-1</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="数字游戏"><a href="#数字游戏" class="headerlink" title="数字游戏"></a>数字游戏</h3><h4 id="题目描述-1"><a href="#题目描述-1" class="headerlink" title="题目描述"></a>题目描述</h4><p>科协里最近很流行数字游戏。</p>
+<p>某人命名了一种不降数，这种数字必须满足从左到右各位数字呈非下降关系，如 123，446。</p>
+<p>现在大家决定玩一个游戏，指定一个整数闭区间 [a,b]，问这个区间内有多少个不降数。</p>
+<h5 id="输入格式-1"><a href="#输入格式-1" class="headerlink" title="输入格式"></a>输入格式</h5><p>输入包含多组测试数据。</p>
+<p>每组数据占一行，包含两个整数 a 和 b。</p>
+<h5 id="输出格式-1"><a href="#输出格式-1" class="headerlink" title="输出格式"></a>输出格式</h5><p>每行给出一组测试数据的答案，即 [a,b]之间有多少不降数。</p>
+<h5 id="数据范围-1"><a href="#数据范围-1" class="headerlink" title="数据范围"></a>数据范围</h5><p>$1≤a≤b≤2^{31}−1$</p>
+<h5 id="输入样例：-1"><a href="#输入样例：-1" class="headerlink" title="输入样例："></a>输入样例：</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1 9</span><br><span class="line">1 19</span><br></pre></td></tr></table></figure>
+
+<h5 id="输出样例：-1"><a href="#输出样例：-1" class="headerlink" title="输出样例："></a>输出样例：</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">9</span><br><span class="line">18</span><br></pre></td></tr></table></figure>
+
+<h4 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h4><ul>
+<li>看到区间和数据范围首先确定出使用数位dp算法，由于要求所有的<strong>不减数</strong>，如果确定了最高位，以比最高位小的数开头的数量也可以通过预处理求得。例如最高为是9，（last-8）开头的方案数都可以确定，然后更新为last为9。</li>
+<li>我们需要提前预处理出所有以i开头，且共有j位的数的方案数:$f(i,j)$</li>
+</ul>
+<p><img src="https://gitee.com/bhb100/drawing-bed/raw/master/blog/20220320161919.png"></p>
+<h4 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">22</span>;</span><br><span class="line"><span class="type">int</span> f[N][N];</span><br><span class="line"><span class="type">int</span> n,m;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">init</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;=<span class="number">9</span>;i++)f[<span class="number">1</span>][i]=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">2</span>;i&lt;N;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;=<span class="number">9</span>;j++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> k=j;k&lt;=<span class="number">9</span>;k++)&#123;</span><br><span class="line">                f[i][j]+=f[i<span class="number">-1</span>][k];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">dp</span><span class="params">(<span class="type">int</span> x)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!x) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="type">int</span> res=<span class="number">0</span>,last=<span class="number">0</span>;</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt;v;</span><br><span class="line">    <span class="keyword">while</span>(x)&#123;</span><br><span class="line">        v.<span class="built_in">push_back</span>(x%<span class="number">10</span>);</span><br><span class="line">        x/=<span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=v.<span class="built_in">size</span>()<span class="number">-1</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">        <span class="type">int</span> t=v[i];</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=last;j&lt;t;j++)&#123;</span><br><span class="line">            res+=f[i+<span class="number">1</span>][j];</span><br><span class="line">        &#125;<span class="keyword">if</span>(last&gt;t)<span class="keyword">break</span>;</span><br><span class="line">        last=t;</span><br><span class="line">        <span class="keyword">if</span>(!i) res++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">init</span>();</span><br><span class="line">    <span class="keyword">while</span>(cin&gt;&gt;n&gt;&gt;m)&#123;</span><br><span class="line">        cout&lt;&lt;<span class="built_in">dp</span>(m)-<span class="built_in">dp</span>(n<span class="number">-1</span>)&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Windy数"><a href="#Windy数" class="headerlink" title="Windy数"></a>Windy数</h3><h4 id="题目描述-2"><a href="#题目描述-2" class="headerlink" title="题目描述"></a>题目描述</h4><p>Windy 定义了一种 Windy 数：不含前导零且相邻两个数字之差至少为 2 的正整数被称为 Windy 数。</p>
+<p>Windy 想知道，在 A 和 B 之间，包括 A 和 B，总共有多少个 Windy 数？</p>
+<h5 id="输入格式-2"><a href="#输入格式-2" class="headerlink" title="输入格式"></a>输入格式</h5><p>共一行，包含两个整数 A 和 B。</p>
+<h5 id="输出格式-2"><a href="#输出格式-2" class="headerlink" title="输出格式"></a>输出格式</h5><p>输出一个整数，表示答案。</p>
+<h5 id="数据范围-2"><a href="#数据范围-2" class="headerlink" title="数据范围"></a>数据范围</h5><p>$1≤A≤B≤2×10^9$</p>
+<h5 id="输入样例1："><a href="#输入样例1：" class="headerlink" title="输入样例1："></a>输入样例1：</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 10</span><br></pre></td></tr></table></figure>
+
+<h5 id="输出样例1："><a href="#输出样例1：" class="headerlink" title="输出样例1："></a>输出样例1：</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">9</span><br></pre></td></tr></table></figure>
+
+<h5 id="输入样例2："><a href="#输入样例2：" class="headerlink" title="输入样例2："></a>输入样例2：</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">25 50</span><br></pre></td></tr></table></figure>
+
+<h5 id="输出样例2："><a href="#输出样例2：" class="headerlink" title="输出样例2："></a>输出样例2：</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">20</span><br></pre></td></tr></table></figure>
+
+<h4 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h4><ul>
+<li><p>首先考虑对于一个数，如果位数确定，且最高位也确定，是否可以求得相应位数的合法方案数量。这是显然的，因为如果确定第一位后，对于第二位我们可以取任何满足差值大于2的数，并且递推子问题并相加。对于一位数，如1，2，3。这种应该特殊处理为1。</p>
+</li>
+<li><p>预处理状态数组时我们应该先枚举位数，再枚举最高位，然后枚举所有的次高位的可能性。</p>
+</li>
+<li><p>由于不含前导0，我们需要特判一下位数小于当前数的情况。并且开头的数需要从1开始</p>
+</li>
+</ul>
+<h4 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N =<span class="number">22</span>;</span><br><span class="line"><span class="type">int</span> f[N][<span class="number">10</span>];</span><br><span class="line"><span class="type">int</span> n,m;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">init</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)f[<span class="number">1</span>][i]=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">2</span>;i&lt;=N;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;=<span class="number">9</span>;j++)</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">0</span>;k&lt;=<span class="number">9</span>;k++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(<span class="built_in">abs</span>(j-k)&gt;=<span class="number">2</span>)</span><br><span class="line">                f[i][j]+=f[i<span class="number">-1</span>][k];</span><br><span class="line">            &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">dp</span><span class="params">(<span class="type">int</span> x)</span></span>&#123;</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt;v;</span><br><span class="line">    <span class="keyword">while</span>(x)</span><br><span class="line">        v.<span class="built_in">push_back</span>(x%<span class="number">10</span>),x/=<span class="number">10</span>;</span><br><span class="line">    <span class="type">int</span> res=<span class="number">0</span>,last=<span class="number">-2</span>;</span><br><span class="line">    <span class="type">int</span> len=v.<span class="built_in">size</span>()<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=len;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">        <span class="type">int</span> t=v[i];<span class="comment">//最高位为v[i]；</span></span><br><span class="line">         <span class="keyword">for</span>(<span class="type">int</span> j=(i==len);j&lt;t;j++)</span><br><span class="line">             <span class="keyword">if</span>(<span class="built_in">abs</span>(j-last)&gt;=<span class="number">2</span>) res+=f[i+<span class="number">1</span>][j];</span><br><span class="line">         <span class="keyword">if</span>(<span class="built_in">abs</span>(t-last)&lt;<span class="number">2</span>)<span class="keyword">break</span>;</span><br><span class="line">         last=t;</span><br><span class="line">         <span class="keyword">if</span>(!i)res++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i&lt;=len; i++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">1</span>; j&lt;=<span class="number">9</span>; j++)</span><br><span class="line">            res += f[i][j];</span><br><span class="line"><span class="keyword">return</span> res;    </span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">init</span>();</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;m;</span><br><span class="line">    cout&lt;&lt;<span class="built_in">dp</span>(m)-<span class="built_in">dp</span>(n<span class="number">-1</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">数位dp，模板</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/算法//" class="article-tag-list-link color3">算法</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/21/%E6%95%B0%E4%BD%8Ddp/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-第-285-场周赛" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/21/%E7%AC%AC-285-%E5%9C%BA%E5%91%A8%E8%B5%9B/">第 285 场周赛</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/21/%E7%AC%AC-285-%E5%9C%BA%E5%91%A8%E8%B5%9B/" class="archive-article-date">
+  	<time datetime="2022-03-20T17:42:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h2 id="第-285-场周赛"><a href="#第-285-场周赛" class="headerlink" title="第 285 场周赛"></a>第 285 场周赛</h2><ul>
+<li>（1&#x2F;4）</li>
+</ul>
+<h3 id="T1-统计数组中峰和谷的数量"><a href="#T1-统计数组中峰和谷的数量" class="headerlink" title="T1. 统计数组中峰和谷的数量"></a>T1. 统计数组中峰和谷的数量</h3><h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><p>给你一个下标从 <strong>0</strong> 开始的整数数组 <code>nums</code> 。如果两侧距 <code>i</code> 最近的不相等邻居的值均小于 <code>nums[i]</code> ，则下标 <code>i</code> 是 <code>nums</code> 中，某个峰的一部分。类似地，如果两侧距 <code>i</code> 最近的不相等邻居的值均大于 <code>nums[i]</code> ，则下标 <code>i</code> 是 <code>nums</code> 中某个谷的一部分。对于相邻下标 <code>i</code> 和 <code>j</code> ，如果 <code>nums[i] == nums[j]</code> ， 则认为这两下标属于 <strong>同一个</strong> 峰或谷。</p>
+<p>注意，要使某个下标所做峰或谷的一部分，那么它左右两侧必须 <strong>都</strong> 存在不相等邻居。</p>
+<p>返回 <code>nums</code> 中峰和谷的数量。</p>
+<p>示例 1：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">输入：nums = [2,4,1,1,6,5]</span><br><span class="line">输出：3</span><br><span class="line">解释：</span><br><span class="line">在下标 0 ：由于 2 的左侧不存在不相等邻居，所以下标 0 既不是峰也不是谷。</span><br><span class="line">在下标 1 ：4 的最近不相等邻居是 2 和 1 。由于 4 &gt; 2 且 4 &gt; 1 ，下标 1 是一个峰。</span><br><span class="line">在下标 2 ：1 的最近不相等邻居是 4 和 6 。由于 1 &lt; 4 且 1 &lt; 6 ，下标 2 是一个谷。</span><br><span class="line">在下标 3 ：1 的最近不相等邻居是 4 和 6 。由于 1 &lt; 4 且 1 &lt; 6 ，下标 3 符合谷的定义，但需要注意它和下标 2 是同一个谷的一部分。</span><br><span class="line">在下标 4 ：6 的最近不相等邻居是 1 和 5 。由于 6 &gt; 1 且 6 &gt; 5 ，下标 4 是一个峰。</span><br><span class="line">在下标 5 ：由于 5 的右侧不存在不相等邻居，所以下标 5 既不是峰也不是谷。</span><br><span class="line">共有 3 个峰和谷，所以返回 3 。</span><br></pre></td></tr></table></figure>
+
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><ul>
+<li>暴力枚举即可</li>
+</ul>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">countHillValley</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> res=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;nums.<span class="built_in">size</span>()<span class="number">-1</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[i]==nums[i<span class="number">-1</span>])<span class="keyword">continue</span>;</span><br><span class="line">            <span class="type">int</span> j=i<span class="number">-1</span>;</span><br><span class="line">            <span class="type">int</span> k=i+<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">while</span>(j&gt;=<span class="number">0</span>&amp;&amp;nums[j]==nums[i])j--;</span><br><span class="line">            <span class="keyword">while</span>(k&lt;nums.<span class="built_in">size</span>()&amp;&amp;nums[k]==nums[i])k++;</span><br><span class="line">            <span class="keyword">if</span>(k&gt;=nums.<span class="built_in">size</span>()||j&lt;<span class="number">0</span>) <span class="keyword">continue</span>;</span><br><span class="line">            <span class="type">int</span> t=(nums[i]-nums[j])*(nums[i]-nums[k]);</span><br><span class="line">            <span class="keyword">if</span>(t&gt;<span class="number">0</span>)res++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="T2-统计道路上的碰撞次数"><a href="#T2-统计道路上的碰撞次数" class="headerlink" title="T2.统计道路上的碰撞次数"></a>T2.统计道路上的碰撞次数</h3><h4 id="题目描述-1"><a href="#题目描述-1" class="headerlink" title="题目描述"></a>题目描述</h4><p>在一条无限长的公路上有 <code>n</code> 辆汽车正在行驶。汽车按从左到右的顺序按从 <code>0</code> 到 <code>n - 1</code> 编号，每辆车都在一个 <strong>独特的</strong> 位置。</p>
+<p>给你一个下标从 <strong>0</strong> 开始的字符串 <code>directions</code> ，长度为 <code>n</code> 。<code>directions[i]</code> 可以是 <code>&#39;L&#39;</code>、<code>&#39;R&#39;</code> 或 <code>&#39;S&#39;</code> 分别表示第 <code>i</code> 辆车是向 <strong>左</strong> 、向 <strong>右</strong> 或者 <strong>停留</strong> 在当前位置。每辆车移动时 <strong>速度相同</strong> 。</p>
+<p>碰撞次数可以按下述方式计算：</p>
+<ul>
+<li>当两辆移动方向 <strong>相反</strong> 的车相撞时，碰撞次数加 <code>2</code> 。</li>
+<li>当一辆移动的车和一辆静止的车相撞时，碰撞次数加 <code>1</code> 。</li>
+</ul>
+<p>碰撞发生后，涉及的车辆将无法继续移动并停留在碰撞位置。除此之外，汽车不能改变它们的状态或移动方向。</p>
+<p>返回在这条道路上发生的 <strong>碰撞总次数</strong> 。</p>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">输入：directions = &quot;RLRSLL&quot;</span><br><span class="line">输出：5</span><br><span class="line">解释：</span><br><span class="line">将会在道路上发生的碰撞列出如下：</span><br><span class="line">- 车 0 和车 1 会互相碰撞。由于它们按相反方向移动，碰撞数量变为 0 + 2 = 2 。</span><br><span class="line">- 车 2 和车 3 会互相碰撞。由于 3 是静止的，碰撞数量变为 2 + 1 = 3 。</span><br><span class="line">- 车 3 和车 4 会互相碰撞。由于 3 是静止的，碰撞数量变为 3 + 1 = 4 。</span><br><span class="line">- 车 4 和车 5 会互相碰撞。在车 4 和车 3 碰撞之后，车 4 会待在碰撞位置，接着和车 5 碰撞。碰撞数量变为 4 + 1 = 5 。</span><br><span class="line">因此，将会在道路上发生的碰撞总次数是 5 。</span><br></pre></td></tr></table></figure>
+
+<h4 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h4><ul>
+<li>类似力扣838题，左右两侧反方向对中间没有影响。然后其他的中间元素最终都会被撞，所以我们只需要统计中间初始状态不为’S’的个数即可。</li>
+</ul>
+<h4 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">countCollisions</span><span class="params">(string s)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> i=<span class="number">0</span>,j=s.<span class="built_in">size</span>()<span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">while</span>(i&gt;=<span class="number">0</span>&amp;&amp;s[i]==<span class="string">&#x27;L&#x27;</span>) i++;</span><br><span class="line">        <span class="keyword">while</span>(j&lt;s.<span class="built_in">size</span>()&amp;&amp;s[j]==<span class="string">&#x27;R&#x27;</span>) j--;</span><br><span class="line">        <span class="type">int</span> res=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k=i;k&lt;=j;k++)&#123;</span><br><span class="line">           <span class="keyword">if</span>(s[k]!=<span class="string">&#x27;S&#x27;</span>)</span><br><span class="line">            res++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="T3-射箭比赛中的最大得分"><a href="#T3-射箭比赛中的最大得分" class="headerlink" title="T3 射箭比赛中的最大得分"></a>T3 射箭比赛中的最大得分</h3><h4 id="题目描述-2"><a href="#题目描述-2" class="headerlink" title="题目描述"></a>题目描述</h4><p>Alice 和 Bob 是一场射箭比赛中的对手。比赛规则如下：</p>
+<ol>
+<li>Alice 先射 <code>numArrows</code> 支箭，然后 Bob 也射 <code>numArrows</code> 支箭。</li>
+<li>分数按下述规则计算：<ol>
+<li>箭靶有若干整数计分区域，范围从 <code>0</code> 到 <code>11</code> （含 <code>0</code> 和 <code>11</code>）。</li>
+<li>箭靶上每个区域都对应一个得分 <code>k</code>（范围是 <code>0</code> 到 <code>11</code>），Alice 和 Bob 分别在得分 <code>k</code> 区域射中 <code>ak</code> 和 <code>bk</code> 支箭。如果 <code>ak &gt;= bk</code> ，那么 Alice 得 <code>k</code> 分。如果 <code>ak &lt; bk</code> ，则 Bob 得 <code>k</code> 分</li>
+<li>如果 <code>ak == bk == 0</code> ，那么无人得到 <code>k</code> 分。</li>
+</ol>
+</li>
+</ol>
+<ul>
+<li>例如，Alice 和 Bob 都向计分为 <code>11</code> 的区域射 <code>2</code> 支箭，那么 Alice 得 <code>11</code> 分。如果 Alice 向计分为 <code>11</code> 的区域射 <code>0</code> 支箭，但 Bob 向同一个区域射 <code>2</code> 支箭，那么 Bob 得 <code>11</code> 分。</li>
+</ul>
+<p>给你整数 <code>numArrows</code> 和一个长度为 <code>12</code> 的整数数组 <code>aliceArrows</code> ，该数组表示 Alice 射中 <code>0</code> 到 <code>11</code> 每个计分区域的箭数量。现在，Bob 想要尽可能 <strong>最大化</strong> 他所能获得的总分。</p>
+<p>返回数组 <code>bobArrows</code> ，该数组表示 Bob 射中 <code>0</code> 到 <code>11</code> <strong>每个</strong> 计分区域的箭数量。且 <code>bobArrows</code> 的总和应当等于 <code>numArrows</code> 。</p>
+<p>如果存在多种方法都可以使 Bob 获得最大总分，返回其中 <strong>任意一种</strong> 即可。</p>
+<p><strong>示例 1：</strong></p>
+<p><img src="https://pic.leetcode-cn.com/1647744752-kQKrXw-image.png" alt="img"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入：numArrows = 9, aliceArrows = [1,1,0,1,0,0,2,1,0,1,2,0]</span><br><span class="line">输出：[0,0,0,0,1,1,0,0,1,2,3,1]</span><br><span class="line">解释：上表显示了比赛得分情况。</span><br><span class="line">Bob 获得总分 4 + 5 + 8 + 9 + 10 + 11 = 47 。</span><br><span class="line">可以证明 Bob 无法获得比 47 更高的分数。</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2：</strong></p>
+<p><img src="https://pic.leetcode-cn.com/1647744785-cMHzaC-image.png" alt="img"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入：numArrows = 3, aliceArrows = [0,0,1,0,0,0,0,0,0,0,0,2]</span><br><span class="line">输出：[0,0,0,0,0,0,0,0,1,1,1,0]</span><br><span class="line">解释：上表显示了比赛得分情况。</span><br><span class="line">Bob 获得总分 8 + 9 + 10 = 27 。</span><br><span class="line">可以证明 Bob 无法获得比 27 更高的分数。</span><br></pre></td></tr></table></figure>
+
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>1 &lt;= numArrows &lt;= 105</code></li>
+<li><code>aliceArrows.length == bobArrows.length == 12</code></li>
+<li><code>0 &lt;= aliceArrows[i], bobArrows[i] &lt;= numArrows</code></li>
+<li><code>sum(aliceArrows[i]) == numArrows</code></li>
+</ul>
+<h4 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h4><ol>
+<li>观察所有的得分项只有12个值，可以直接枚举所有状态（状态压缩）</li>
+<li>01背包，枚举所有的物品，把每个得分项当作物品，求一下01背包的具体方案即可。</li>
+</ol>
+<h4 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h4><h5 id="01背包"><a href="#01背包" class="headerlink" title="01背包"></a>01背包</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">int</span> f[<span class="number">12</span>][<span class="number">100010</span>]=&#123;<span class="number">0</span>&#125;;</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">maximumBobPoints</span><span class="params">(<span class="type">int</span> v, vector&lt;<span class="type">int</span>&gt;&amp; w)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n=w.<span class="built_in">size</span>();</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt;<span class="built_in">res</span>(n,<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;n;i++)&#123;<span class="comment">//枚举数量</span></span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;=v;j++)&#123;</span><br><span class="line">                f[i][j]=f[i<span class="number">-1</span>][j];</span><br><span class="line">                <span class="keyword">if</span>(j&gt;=w[i]+<span class="number">1</span>)</span><br><span class="line">                f[i][j]=<span class="built_in">max</span>(f[i][j],f[i<span class="number">-1</span>][j-w[i]<span class="number">-1</span>]+i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> j=v;</span><br><span class="line">       <span class="comment">// cout&lt;&lt;f[n-1][v];</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=n<span class="number">-1</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">            <span class="keyword">if</span>(i&gt;<span class="number">0</span>&amp;&amp;j&gt;=w[i]+<span class="number">1</span>&amp;&amp;f[i][j]==f[i<span class="number">-1</span>][j-w[i]<span class="number">-1</span>]+i)&#123;</span><br><span class="line">                res[i]=w[i]+<span class="number">1</span>;</span><br><span class="line">                j=j-w[i]<span class="number">-1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(j!=<span class="number">0</span>) res[<span class="number">0</span>]=j;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h5 id="状态压缩"><a href="#状态压缩" class="headerlink" title="状态压缩"></a>状态压缩</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">maximumBobPoints</span><span class="params">(<span class="type">int</span> n, vector&lt;<span class="type">int</span>&gt;&amp; a)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> maxn=<span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> res=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">1</span>&lt;&lt;<span class="number">12</span>;i++)&#123;</span><br><span class="line">            <span class="type">int</span> t=n;</span><br><span class="line">            <span class="type">int</span> sore=<span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;<span class="number">12</span>;j++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(i&gt;&gt;j&amp;<span class="number">1</span>)&#123;<span class="comment">//如果在当前位置得分</span></span><br><span class="line">                  sore+=j;</span><br><span class="line">                  t-=(a[j]+<span class="number">1</span>);</span><br><span class="line">                  <span class="keyword">if</span>(t&lt;<span class="number">0</span>)<span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(j==<span class="number">11</span>&amp;&amp;t&gt;=<span class="number">0</span>&amp;&amp;maxn&lt;sore)</span><br><span class="line">                &#123;</span><br><span class="line">                    maxn=sore;</span><br><span class="line">                    res=i;</span><br><span class="line">                &#125;      </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt;ans;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">12</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(res&gt;&gt;i&amp;<span class="number">1</span>)&#123;</span><br><span class="line">                ans.<span class="built_in">push_back</span>(a[i]+<span class="number">1</span>);</span><br><span class="line">                n-=(a[i]+<span class="number">1</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span> ans.<span class="built_in">push_back</span>(<span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(ans.<span class="built_in">size</span>()&gt;<span class="number">0</span>)ans[<span class="number">0</span>]+=n;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">dp</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">竞赛，贪心</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">二进制</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/竞赛//" class="article-tag-list-link color3">竞赛</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/21/%E7%AC%AC-285-%E5%9C%BA%E5%91%A8%E8%B5%9B/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-每日总结2022-3-20" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/21/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-20/">每日总结2022-3-20</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/21/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-20/" class="archive-article-date">
+  	<time datetime="2022-03-20T17:37:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="刷题"><a href="#刷题" class="headerlink" title="刷题"></a>刷题</h3><h4 id="ACWING"><a href="#ACWING" class="headerlink" title="ACWING"></a>ACWING</h4><ul>
+<li><p>windy数（数位dp）</p>
+</li>
+<li><p>滑动窗口（单调队列）</p>
+</li>
+<li><p>最大子序和（单调队列）</p>
+</li>
+<li><p>数圈圈（哈希周赛）</p>
+</li>
+<li><p>农田灌溉（贪心周赛）</p>
+</li>
+<li><p>选取数对（动态规划前缀和周赛）</p>
+</li>
+</ul>
+<h4 id="力扣"><a href="#力扣" class="headerlink" title="力扣"></a>力扣</h4><ul>
+<li>6027 统计数组中峰和谷的数量（周赛模拟）</li>
+<li>6029 射箭比赛中的最大得分（周赛二进制枚举）</li>
+<li>6028 统计道路上的碰撞次数（周赛智力题）</li>
+<li>LCP 28 采购方案（二分）</li>
+</ul>
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/21/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-20/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-每日总结2022-3-19" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -662,754 +1376,9 @@
 
 
   
-    <article id="post-每日总结2022-3-17" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/18/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-17/">每日总结2022-3-17</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/18/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-17/" class="archive-article-date">
-  	<time datetime="2022-03-17T18:26:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="刷题"><a href="#刷题" class="headerlink" title="刷题"></a>刷题</h3><h4 id="ACWING"><a href="#ACWING" class="headerlink" title="ACWING"></a>ACWING</h4><ul>
-<li>每日一题</li>
-</ul>
-<h4 id="力扣"><a href="#力扣" class="headerlink" title="力扣"></a>力扣</h4><ul>
-<li>最长回文子串</li>
-<li>每日一题</li>
-</ul>
-<h3 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h3><ul>
-<li>mapreduce实验</li>
-</ul>
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/18/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-17/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Lab1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/17/Lab1/">Lab1</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/17/Lab1/" class="archive-article-date">
-  	<time datetime="2022-03-17T09:06:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h2 id="Lab1"><a href="#Lab1" class="headerlink" title="Lab1"></a>Lab1</h2><h3 id="论文回顾"><a href="#论文回顾" class="headerlink" title="论文回顾"></a>论文回顾</h3><p><img src="https://gitee.com/bhb100/drawing-bed/raw/master/blog/20220309220846.png"></p>
-<ol>
-<li>The MapReduce library in the user program first splits the input files into M pieces of typically 16 megabytes to 64 megabytes (MB) per piece (controllable by the user via an optional parameter). It then starts up many copies of the program on a cluster of machines.</li>
-</ol>
-<ul>
-<li>启动MapReduce, 将输入文件切分成大小在16-64MB之间的文件。然后在一组多个机器上启动用户程序</li>
-</ul>
-<ol start="2">
-<li>One of the copies of the program is special – the master. The rest are workers that are assigned work by the master. There are M map tasks and R reduce tasks to assign. The master picks idle workers and assigns each one a map task or a reduce task.</li>
-</ol>
-<ul>
-<li>其中一个副本将成为master, 余下成为worker. master给worker指定任务（M个map任务，R个reduce任务）。master选择空闲的worker给予map或reduce任务</li>
-</ul>
-<ol start="3">
-<li>A worker who is assigned a map task reads the contents of the corresponding input split. It parses key&#x2F;value pairs out of the input data and passes each pair to the user-defined Map function. The intermediate key&#x2F;value pairs produced by the Map function are buffered in memory.</li>
-</ol>
-<ul>
-<li>Map worker 接收切分后的input，执行Map函数，将结果缓存到内存</li>
-</ul>
-<ol start="4">
-<li>Periodically, the buffered pairs are written to local disk, partitioned into R regions by the partitioning function. The locations of these buffered pairs on the local disk are passed back to the master, who is responsible for forwarding these locations to the reduce workers.</li>
-</ol>
-<ul>
-<li>缓存后的中间结果会周期性的写到本地磁盘，并切分成R份（reducer数量）。R个文件的位置会发送给master, master转发给reducer</li>
-</ul>
-<ol start="5">
-<li>When a reduce worker is notified by the master about these locations, it uses remote procedure calls to read the buffered data from the local disks of the map workers. When a reduce worker has read all intermediate data, it sorts it by the intermediate keys so that all occurrences of the same key are grouped together. The sorting is needed because typically many different keys map to the same reduce task. If the amount of intermediate data is too large to fit in memory, an external sort is used.</li>
-</ol>
-<ul>
-<li>Reduce worker 收到中间文件的位置信息，通过RPC读取。读取完先根据中间&lt;k, v&gt;排序，然后按照key分组、合并。</li>
-</ul>
-<ol start="6">
-<li>The reduce worker iterates over the sorted intermediate data and for each unique intermediate key encountered, it passes the key and the corresponding set of intermediate values to the user’s Reduce function. The output of the Reduce function is appended to a final output file for this reduce partition.</li>
-</ol>
-<ul>
-<li>Reduce worker在排序后的数据上迭代，将中间&lt;k, v&gt; 交给reduce 函数处理。最终结果写给对应的output文件（分片）</li>
-</ul>
-<ol start="7">
-<li>When all map tasks and reduce tasks have been completed, the master wakes up the user program. At this point, the MapReduce call in the user program returns back to the user code.</li>
-</ol>
-<ul>
-<li>所有map和reduce任务结束后，master唤醒用户程序</li>
-</ul>
-<h3 id="MapReduce实现"><a href="#MapReduce实现" class="headerlink" title="MapReduce实现"></a>MapReduce实现</h3><h4 id="数据结构设计"><a href="#数据结构设计" class="headerlink" title="数据结构设计"></a>数据结构设计</h4><ul>
-<li>Task数据结构实现</li>
-</ul>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Task <span class="keyword">struct</span> &#123;<span class="comment">//任务结构体</span></span><br><span class="line">	Input         <span class="type">string</span>  <span class="comment">//输入</span></span><br><span class="line">	TaskState     <span class="type">int</span>     <span class="comment">//任务状态</span></span><br><span class="line">	NReducer      <span class="type">int</span>     <span class="comment">//切分个数</span></span><br><span class="line">	TaskNumber    <span class="type">int</span>     <span class="comment">//任务数量</span></span><br><span class="line">	Intermediates []<span class="type">string</span> <span class="comment">//中间结果</span></span><br><span class="line">	Output        <span class="type">string</span>  <span class="comment">//输出</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>对于每个Task共有idle, in-progress, completed 三种状态</li>
-</ul>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> CoordinatorTaskStatus <span class="type">int</span> <span class="comment">//协调者状态</span></span><br><span class="line"><span class="keyword">const</span> (<span class="comment">//定义每个work所处的状态</span></span><br><span class="line">       Idle CoordinatorTaskStatus = <span class="literal">iota</span>   <span class="comment">//Idle 空闲状态    //iota常量方法，下边的依次递增</span></span><br><span class="line">       Progressing <span class="comment">//工作中</span></span><br><span class="line">       Completed <span class="comment">//完成工作</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>Master存储这些Task的信息。</li>
-</ul>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> CoordinatorTask <span class="keyword">struct</span> &#123; </span><br><span class="line">	TaskStatus    CoordinatorTaskStatus<span class="comment">//任务状态</span></span><br><span class="line">	StartTime     time.Time<span class="comment">//任务开始时间</span></span><br><span class="line">	TaskReference *Task</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>主体数据结构</li>
-</ul>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Coordinator <span class="keyword">struct</span> &#123;</span><br><span class="line">	<span class="comment">// 协调器结构体主结构</span></span><br><span class="line">	TaskQueue <span class="keyword">chan</span> *Task  <span class="comment">//所有接下来等待执行的task，存的是id，取出id后通过Taskmete找到状态信息</span></span><br><span class="line">    TaskMeta <span class="keyword">map</span>[<span class="type">int</span>]*CoordinatorTask <span class="comment">//保存所有任务的引用和状态</span></span><br><span class="line">    CoordinatorPhase <span class="type">int</span>  <span class="comment">//当前协调器所处的状态存放是map、reduce等阶段</span></span><br><span class="line">    NReduce   <span class="type">int</span>       <span class="comment">//输入数据</span></span><br><span class="line">    InputFiles []String  <span class="comment">//输入文件</span></span><br><span class="line">    Intermediates [][]String <span class="comment">//Map任务产生的R个中间结果</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>状态应该定义为全局的，task和master应该公用一个状态</li>
-</ul>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> (</span><br><span class="line">      Map = <span class="literal">iota</span></span><br><span class="line">      Reduce</span><br><span class="line">      Exit</span><br><span class="line">      Wait</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-
-<h4 id="执行流程"><a href="#执行流程" class="headerlink" title="执行流程"></a>执行流程</h4><ol>
-<li><strong>入口程序</strong></li>
-</ol>
-<ul>
-<li>master 的入口程序在mrmaster，启动之后拿到所有的inputfiles</li>
-</ul>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(os.Args) &lt; <span class="number">2</span> &#123;</span><br><span class="line">		fmt.Fprintf(os.Stderr, <span class="string">&quot;Usage: mrcoordinator inputfiles...\n&quot;</span>)</span><br><span class="line">		os.Exit(<span class="number">1</span>)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	m := mr.MakeCoordinator(os.Args[<span class="number">1</span>:], <span class="number">10</span>)</span><br><span class="line">	<span class="keyword">for</span> m.Done() == <span class="literal">false</span> &#123;</span><br><span class="line">		time.Sleep(time.Second)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	time.Sleep(time.Second)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li><strong>启动master</strong></li>
-</ol>
-<ul>
-<li>创建一个master。保存一些原始数据</li>
-</ul>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 传入文件名和 Reduce的数量</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">MakeCoordinator</span><span class="params">(files []<span class="type">string</span>, nReduce <span class="type">int</span>)</span></span> *Coordinator &#123;</span><br><span class="line">	c := Coordinator&#123;</span><br><span class="line">	    TaskQueue: <span class="built_in">make</span>(<span class="keyword">chan</span> *Task,max(nReduce,<span class="built_in">len</span>(files))), <span class="comment">//chan是消息通道，长度为文件长度和nReduce的最大值</span></span><br><span class="line">	    TaskMeta:  <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="type">int</span>]*CoordinatorTask),</span><br><span class="line">	    CoordinatorPhase:   Map,</span><br><span class="line">	    NReduce: nReduce,</span><br><span class="line">	    InputFiles: files,</span><br><span class="line">        Intermediates:  <span class="built_in">make</span>([][]<span class="type">string</span>,nReduce).</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="comment">//将文件切分成16—64mb的文件</span></span><br><span class="line">    <span class="comment">//创建map任务</span></span><br><span class="line">    c.createMapTask()</span><br><span class="line">	<span class="comment">// 一个程序成为master，其他成为worker</span></span><br><span class="line">	<span class="comment">//这里就是启动master 服务器就行了，</span></span><br><span class="line">	<span class="comment">//拥有master代码的就是master，别的发RPC过来的都是worker</span></span><br><span class="line">	c.server()</span><br><span class="line"></span><br><span class="line">    <span class="comment">//启动另外一个线程，检查是不是超时了</span></span><br><span class="line">    <span class="keyword">go</span> c.catchTimeOut()</span><br><span class="line">	<span class="keyword">return</span> &amp;c</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>createMapTask()函数：参考顺序执行的算法，每个文件都加入任务池中，并初始化状态信息</li>
-</ul>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Coordinator)</span></span> createMapTask() &#123;</span><br><span class="line">	<span class="comment">// 根据传入的filename，每个文件对应一个map task</span></span><br><span class="line">    <span class="keyword">for</span> idx,filename := <span class="keyword">range</span> c.InputFiles&#123;</span><br><span class="line">        taskMeta := Task&#123;</span><br><span class="line">            Input:  filename,</span><br><span class="line">            TaskState: <span class="keyword">map</span>,</span><br><span class="line">            NReducer:  c.NReduce,</span><br><span class="line">            TaskNumber: idx,</span><br><span class="line">        &#125;</span><br><span class="line">        c.TaskQueue &lt;- &amp;taskMeta<span class="comment">//把当前的任务加入任务队列</span></span><br><span class="line">        c.TaskMeta[idx] = &amp;MasterTask&#123;</span><br><span class="line">            TaskStatus: Idle,   <span class="comment">//当前状态设置为空闲</span></span><br><span class="line">            TaskReference:  &amp;taskMeta, <span class="comment">//传入当前状态信息</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li><strong>启动Master之后，worker会进入死循环，不断向master请求任务 getTask()</strong></li>
-</ol>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Worker</span><span class="params">(mapf <span class="keyword">func</span>(<span class="type">string</span>, <span class="type">string</span>)</span></span> []KeyValue,</span><br><span class="line">	reducef <span class="function"><span class="keyword">func</span><span class="params">(<span class="type">string</span>, []<span class="type">string</span>)</span></span> <span class="type">string</span>) &#123;</span><br><span class="line">	<span class="comment">//启动worker</span></span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">	    <span class="comment">//worker从master获取任务</span></span><br><span class="line">	    task :=getTask()</span><br><span class="line">	    <span class="comment">//拿到task之后，根据task的state,map task交给mapper，reduce task交给reducer</span></span><br><span class="line">	    <span class="comment">//额外加两个state，让worker等待或直接退出</span></span><br><span class="line">	    <span class="keyword">if</span> task.TaskState==Map&#123;</span><br><span class="line">	        mapper(&amp;task,mapf)</span><br><span class="line">	    &#125;<span class="keyword">else</span> <span class="keyword">if</span> task.TaskState==Reduce&#123;</span><br><span class="line">	        reducer(&amp;task,reducef)</span><br><span class="line">	    &#125;<span class="keyword">else</span> <span class="keyword">if</span> task.TaskState==Wait&#123;</span><br><span class="line">	        time.Sleep(<span class="number">5</span>*time.Second)</span><br><span class="line">	    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">	    <span class="keyword">return</span></span><br><span class="line">	    &#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><strong>getTask()</strong></li>
-</ul>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">getTask</span><span class="params">()</span></span> Task&#123;</span><br><span class="line">    <span class="comment">//worker从master获取任务</span></span><br><span class="line">    args := ExampleArgs&#123;&#125;</span><br><span class="line">    reply := Task&#123;&#125;</span><br><span class="line">    call(<span class="string">&quot;Master.AssignTask&quot;</span>,&amp;args,&amp;reply)</span><br><span class="line">    <span class="keyword">return</span> reply</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="4">
-<li><strong>Master监听worker的RPC请求，根据情况分配任务</strong></li>
-</ol>
-<ul>
-<li>先检查当前是否有空闲的任务，如果有就分发给work，将这个任务的状态设置为正在执行并记录启动时间</li>
-</ul>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 把任务分配给worker</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Coordinator)</span></span> AssignTask(args *ExampleArgs,reply *Task)<span class="type">error</span> &#123;</span><br><span class="line">    <span class="comment">//查看任务池中还有没有任务</span></span><br><span class="line">    mu.Lock()</span><br><span class="line">    <span class="keyword">defer</span> mu.Unlock()</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(m.TaskQueue)&gt;<span class="number">0</span>&#123;</span><br><span class="line">        <span class="comment">//如果任务队列里还有任务</span></span><br><span class="line">        *reply = *&lt;-c.TaskQueue</span><br><span class="line">        <span class="comment">//记录task的启动时间</span></span><br><span class="line">        c.TaskMeta[reply.TaskNumber].TaskStatus = Progressing <span class="comment">//将当前任务的状态设置为进行中</span></span><br><span class="line">        c.TaskMeta[reply.TaskNumber].StartTime = time.Now() <span class="comment">//记录开始时间</span></span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span> c.CoordinatorPhase == Exit&#123;<span class="comment">//如果处于退出状态</span></span><br><span class="line">        *reply = Task&#123;TaskStatus:Exit&#125;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;<span class="comment">//没有任务就原地等待</span></span><br><span class="line">        *reply = Task&#123;TaskStatus:Wait&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="5">
-<li><strong>worker获得MapTask，交给mapper处理</strong></li>
-</ol>
-<ul>
-<li>直接参考官方顺序执行的样例函数：先读取内容，然后将内容交给mapf函数，可以拿到中间结果，然后切分成多份后写到磁盘中（切割的份数就是NReducer的数量）。中间结果做下Hash，将中间文件写到不同的文件（接口已给出writeToLocalFile()），写完之后通过rpc告诉master已经完成。</li>
-</ul>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">mapper</span><span class="params">(task *Task,mapf <span class="keyword">func</span>(<span class="type">string</span>,<span class="type">string</span>)</span></span> []KeyValue)&#123;</span><br><span class="line">    content, err := ioutil.ReadFile(task.Input)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span>&#123;<span class="comment">//如果读取报错</span></span><br><span class="line">        log.Fatal(<span class="string">&quot;Failed to read file: &quot;</span>+task.Input, err)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//将content交给mapf，缓存结果</span></span><br><span class="line">    intermediates := mapf(task.Input,<span class="type">string</span>(content)</span><br><span class="line">    <span class="comment">//缓存后的结果会写到本地磁盘，并切成R分</span></span><br><span class="line">    buffer := <span class="built_in">make</span>([][]keyValue,task.NReducer)</span><br><span class="line">    <span class="keyword">for</span> _,intermediate := <span class="keyword">range</span> intermediates&#123;</span><br><span class="line">        slot := ihash(intermediate.Key) % task.NReducer</span><br><span class="line">        buffer[slot] = <span class="built_in">append</span>(buffer[slot,intermediate])</span><br><span class="line">    &#125;</span><br><span class="line">    mapOutput := <span class="built_in">make</span>([]<span class="type">string</span>,<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i&lt;task.NReducer; i++ &#123;</span><br><span class="line">        mapOutput = <span class="built_in">append</span>(mapOutput,writeToLocalFile(task.TaskNumber,i,&amp;buffer[i]))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//R个文件的位置发送给master</span></span><br><span class="line">    task.Intermediates = mapOutput</span><br><span class="line">    TaskCompleted(task)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="6">
-<li><strong>worker任务完成后通知master</strong></li>
-</ol>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">TaskCompleted</span><span class="params">(task *Task)</span></span> &#123;</span><br><span class="line">	<span class="comment">//通过RPC，把task信息发给master</span></span><br><span class="line">	reply := ExampleReply&#123;&#125;</span><br><span class="line">	call(<span class="string">&quot;Master.TaskCompleted&quot;</span>, task, &amp;reply)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="7">
-<li><strong>master收到完成后的Task</strong></li>
-</ol>
-<ul>
-<li>master收到信号后TaskCompleted：知道任务已经完成，master会将当前任务的状态修改为completed，然后再将中间结果保存在master本地。</li>
-</ul>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//如果任务完成了</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Coordinator)</span></span> TaskCompleted(task *Task,reply *ExampleReply) <span class="type">error</span>&#123;</span><br><span class="line">    mu.Lock()</span><br><span class="line">    <span class="keyword">defer</span> mu.Unlock()</span><br><span class="line">    <span class="keyword">if</span> task.TaskState != c.CoordinatorPhase || c.TaskMeta[task.TaskNumber].TaskStatus == Completed &#123;</span><br><span class="line">        <span class="comment">//如果有任何一个已经完成了</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">    &#125;</span><br><span class="line">    c.TaskMeta[task.TaskNumber].TaskStatus = Completed</span><br><span class="line">    <span class="keyword">go</span> c.processTaskResult(task)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>如果所有任务都完成了就需要进入Recuce阶段：createReduceTask()，大致内容和之前的map差不多。</li>
-</ul>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m *Master)</span></span> processTaskResult(task *Task)  &#123;</span><br><span class="line">	mu.Lock()</span><br><span class="line">	<span class="keyword">defer</span> mu.Unlock()</span><br><span class="line">	<span class="keyword">switch</span> task.TaskState &#123;</span><br><span class="line">	<span class="keyword">case</span> Map:</span><br><span class="line">		<span class="comment">//收集intermediate信息</span></span><br><span class="line">		<span class="keyword">for</span> reduceTaskId, filePath := <span class="keyword">range</span> task.Intermediates &#123;</span><br><span class="line">			m.Intermediates[reduceTaskId] = <span class="built_in">append</span>(m.Intermediates[reduceTaskId], filePath)</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> m.allTaskDone() &#123;</span><br><span class="line">			<span class="comment">//获得所以map task后，进入reduce阶段</span></span><br><span class="line">			m.createReduceTask()</span><br><span class="line">			m.MasterPhase = Reduce</span><br><span class="line">		&#125;</span><br><span class="line">	<span class="keyword">case</span> Reduce:</span><br><span class="line">		<span class="keyword">if</span> m.allTaskDone() &#123;</span><br><span class="line">			<span class="comment">//获得所以reduce task后，进入exit阶段</span></span><br><span class="line">			m.MasterPhase = Exit</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><strong>createReduceTask()</strong></li>
-</ul>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Coordinator)</span></span> createReduceTask()&#123;</span><br><span class="line">    c.TaskMeta = <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="type">int</span>]*CoordinatorTask)</span><br><span class="line">    <span class="keyword">for</span> idx,files := <span class="keyword">range</span> c.Intermediates&#123;</span><br><span class="line">        taskMeta :=Task&#123;</span><br><span class="line">            TaskState:  Reduce, <span class="comment">//初始化参数</span></span><br><span class="line">            NReducer: c.NReduce,</span><br><span class="line">            TaskNumber: idx,</span><br><span class="line">            Intermediates:  files,</span><br><span class="line">        &#125;</span><br><span class="line">        c.TaskQueue &lt;-taskMeta</span><br><span class="line">        c.TaskMeta[idx] = &amp;CoordinatorTask&#123;</span><br><span class="line">            TaskStatus: Idle,</span><br><span class="line">            TaskReference:  &amp;taskMeta,</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="8">
-<li><strong>转入Reduce阶段，worker获得ReduceTask，交给reducer处理</strong></li>
-</ol>
-<ul>
-<li>reducerr也是同上仿照接口编写：先排序，将排序后的放在一起，把相同的key合并，将每一组结果写到文件中去，处理完后会通知master已经完成。</li>
-</ul>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">reducer</span><span class="params">(task *Task,reducef <span class="keyword">func</span>(<span class="type">string</span>,[]<span class="type">string</span>)</span></span> <span class="type">string</span>)&#123;</span><br><span class="line">    <span class="comment">//先从filepath读取intermediate的keyValue</span></span><br><span class="line">    intermediate := *readFromLocalFile(task.Intermediates)</span><br><span class="line">    <span class="comment">//根据kv排序</span></span><br><span class="line">    sort.Sort(Bkey(intermediate))</span><br><span class="line">    dir,_:=os.Getwd()</span><br><span class="line">    tempFile, err := ioutil.TempFile(dir, <span class="string">&quot;mr-tmp-*&quot;</span>)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatal(<span class="string">&quot;Failed to create temp file&quot;</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line">    i:=<span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i&lt;<span class="built_in">len</span>(intermediate)&#123;</span><br><span class="line">        <span class="comment">//将相同的key放在一起分组合并</span></span><br><span class="line">        j := i+<span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> j&lt; <span class="built_in">len</span>(intermediate)&amp;&amp;intermediate[j].Key == intermediate[i].Key&#123;</span><br><span class="line">            j++</span><br><span class="line">        &#125;</span><br><span class="line">        values := []<span class="type">string</span>&#123;&#125;</span><br><span class="line">        <span class="keyword">for</span> k:= i;k&lt;j;k++&#123;</span><br><span class="line">            values = <span class="built_in">append</span>(values,intermediate[k].Value)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//交给reducef,拿到结果</span></span><br><span class="line">        output := reducef(intermediate[i].Key,values)</span><br><span class="line">        <span class="comment">//写到对应的output文件</span></span><br><span class="line">		fmt.Fprintf(tempFile, <span class="string">&quot;%v %v\n&quot;</span>, intermediate[i].Key, output)</span><br><span class="line">		i = j</span><br><span class="line">    &#125;</span><br><span class="line">    tempFile.Close()</span><br><span class="line">    oname := fmt.Sprintf(<span class="string">&quot;mr-out-%d&quot;</span>, task.TaskNumber)</span><br><span class="line">	os.Rename(tempFile.Name(), oname)</span><br><span class="line">	task.Output = oname</span><br><span class="line">	TaskCompleted(task)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="9">
-<li><strong>master确认所有ReduceTask都已经完成，转入Exit阶段，终止所有master和worker goroutine</strong></li>
-</ol>
-<ul>
-<li>master收到已经处理完成的消息后会将任务状态设置为completed。所有的reduce都结束之后会进入exit阶段。</li>
-</ul>
-<p><code>master</code></p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m *Master)</span></span> Done() <span class="type">bool</span> &#123;</span><br><span class="line">	mu.Lock()</span><br><span class="line">	<span class="keyword">defer</span> mu.Unlock()</span><br><span class="line">	ret := m.MasterPhase == Exit</span><br><span class="line">	<span class="keyword">return</span> ret</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>然后将当前任务状态设置为exit，worker请求到exit的任务后，会直接返回退出死循环。</li>
-</ul>
-<p><code>worker</code></p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//启动worker</span></span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">	    <span class="comment">//worker从master获取任务</span></span><br><span class="line">	    task :=getTask()</span><br><span class="line">	    <span class="comment">//拿到task之后，根据task的state,map task交给mapper，reduce task交给reducer</span></span><br><span class="line">	    <span class="comment">//额外加两个state，让worker等待或直接退出</span></span><br><span class="line">	    <span class="keyword">if</span> task.TaskState==Map&#123;</span><br><span class="line">	        mapper(&amp;task,mapf)</span><br><span class="line">	    &#125;<span class="keyword">else</span> <span class="keyword">if</span> task.TaskState==Reduce&#123;</span><br><span class="line">	        reducer(&amp;task,reducef)</span><br><span class="line">	    &#125;<span class="keyword">else</span> <span class="keyword">if</span> task.TaskState==Wait&#123;</span><br><span class="line">	        time.Sleep(<span class="number">5</span>*time.Second)</span><br><span class="line">	    &#125;<span class="keyword">else</span>&#123;<span class="comment">//当exit状态时直接退出循环</span></span><br><span class="line">	    <span class="keyword">return</span></span><br><span class="line">	    &#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="容错"><a href="#容错" class="headerlink" title="容错"></a>容错</h4><ul>
-<li>wait 等待状态，将当前任务设置为等待状态，woker收到需要等待的状态时会沉睡5秒</li>
-</ul>
-<p><code>master</code></p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="built_in">len</span>(m.TaskQueue)&gt;<span class="number">0</span>&#123;</span><br><span class="line">    <span class="comment">//如果任务队列里还有任务</span></span><br><span class="line">    *reply = *&lt;-c.TaskQueue</span><br><span class="line">    <span class="comment">//记录task的启动时间</span></span><br><span class="line">    c.TaskMeta[reply.TaskNumber].TaskStatus = Progressing <span class="comment">//将当前任务的状态设置为进行中</span></span><br><span class="line">    c.TaskMeta[reply.TaskNumber].StartTime = time.Now() <span class="comment">//记录开始时间</span></span><br><span class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span> c.CoordinatorPhase == Exit&#123;<span class="comment">//如果处于退出状态</span></span><br><span class="line">    *reply = Task&#123;TaskStatus:Exit&#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;<span class="comment">//没有任务就原地等待</span></span><br><span class="line">    *reply = Task&#123;TaskStatus:Wait&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><code>worker</code></p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> task.TaskState==Map&#123;</span><br><span class="line">    mapper(&amp;task,mapf)</span><br><span class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span> task.TaskState==Reduce&#123;</span><br><span class="line">    reducer(&amp;task,reducef)</span><br><span class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span> task.TaskState==Wait&#123;<span class="comment">//等待状态就睡眠</span></span><br><span class="line">    time.Sleep(<span class="number">5</span>*time.Second)</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line"><span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>上锁，这个任务简单，就直接暴力上锁，所有的多线程函数都上锁。</p>
-</li>
-<li><p>启动mster的时候单独启动一个协程去检查哪些任务超时了，c.catchTimeOut()</p>
-<ul>
-<li>如果当前任务正在执行中，并且已经超过约定时间就将当前任务情况，会将当前任务清空。重新加入任务池中。</li>
-<li>新的任务和旧的任务任何一个完成了都算成功。</li>
-</ul>
-</li>
-</ul>
- <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Coordinator)</span></span> catchTimeOut()&#123;</span><br><span class="line">    <span class="keyword">for</span>&#123;<span class="comment">//检测是不是超时了</span></span><br><span class="line">        time.Sleep(<span class="number">5</span>*time.Second)</span><br><span class="line">        mu.Lock()</span><br><span class="line">        <span class="keyword">if</span> c.CoordinatorPhase == Exit&#123;</span><br><span class="line">            <span class="comment">//如果所处的阶段是退出</span></span><br><span class="line">            mu.Unlock()</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> _,coorTask := <span class="keyword">range</span> c.TaskMeta&#123;</span><br><span class="line">            <span class="comment">//如果当前状态是进行中，并且时间超过10秒就退出</span></span><br><span class="line">            <span class="keyword">if</span> coorTask.TaskStatus == Progressing &amp;&amp; time.Now().Sub(coorTask.StartTime) &gt; <span class="number">10</span>*time.Second&#123;</span><br><span class="line">                c.TaskQueue &lt;- coorTask.TaskReference <span class="comment">//将当前任务重新加入队列，任务状态为空闲</span></span><br><span class="line">                coorTask.TaskStatus = Idle</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        mu.Unlock()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>​    </p>
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">6.824</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">分布式</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">RPC</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">go</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">mapreduce</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/6-824//" class="article-tag-list-link color1">6.824</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/17/Lab1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-数据库（二）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/16/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E4%BA%8C%EF%BC%89/">数据库（二）</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/16/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E4%BA%8C%EF%BC%89/" class="archive-article-date">
-  	<time datetime="2022-03-16T15:31:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h4 id="InnoDB引擎与MyISAM引擎的区别"><a href="#InnoDB引擎与MyISAM引擎的区别" class="headerlink" title="InnoDB引擎与MyISAM引擎的区别 ?"></a>InnoDB引擎与MyISAM引擎的区别 ?</h4><ul>
-<li>InnoDB支持事务，MyISAM不支持</li>
-<li>InnoDB支持行锁和表锁，MyISAM只支持表锁，不支持行锁</li>
-<li>InnoDB支持外键，MyISAM不支持外键</li>
-</ul>
-<h4 id="索引的优点和缺点"><a href="#索引的优点和缺点" class="headerlink" title="索引的优点和缺点"></a>索引的优点和缺点</h4><h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><ul>
-<li>提高数据检索的效率，降低数据库的IO成本</li>
-<li>通过索引列对数据进行排序，降低数据排序的成本，降低CPU的消耗。</li>
-</ul>
-<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ul>
-<li><p>索引列也是要占用空间的。</p>
-</li>
-<li><p>索引大大提高了查询效率，同时却也降低更新表的速度，如对表进行INSERT、UPDATE、DELETE时，效率降低。</p>
-</li>
-</ul>
-<h4 id="索引的结构"><a href="#索引的结构" class="headerlink" title="索引的结构"></a>索引的结构</h4><ul>
-<li><p>B+Tree：索引最常见的索引类型，大部分引擎都支持 B+ 树索引</p>
-</li>
-<li><p>Hash索引：底层数据结构是用哈希表实现的, 只有精确匹配索引列的查询才有效, 不<br>支持范围查询</p>
-</li>
-</ul>
-<h4 id="为什么不选用二叉树或者红黑树作为索引"><a href="#为什么不选用二叉树或者红黑树作为索引" class="headerlink" title="为什么不选用二叉树或者红黑树作为索引"></a>为什么不选用二叉树或者红黑树作为索引</h4><ul>
-<li>如果选择二叉树作为索引结构，会存在以下缺点：顺序插入时，会形成一个链表，查询性能大大降低。<br>大数据量情况下，层级较深，检索速度慢。</li>
-<li>红黑树是一颗自平衡二叉树，那这样即使是顺序插入数据，最终形成的数据结构也是一颗平衡的二叉树,大数据量情况下，层级较深，检索速度慢。</li>
-</ul>
-<h4 id="为什么不适用B树"><a href="#为什么不适用B树" class="headerlink" title="为什么不适用B树"></a>为什么不适用B树</h4><p>B-Tree，B树是一种多叉路衡查找树，相对于二叉树，B树每个节点可以有多个分支，即多叉。</p>
-<ul>
-<li>5阶的B树，每一个节点最多存储4个key，对应5个指针。</li>
-<li>一旦节点存储的key数量到达5，就会裂变，中间元素向上分裂。</li>
-<li>在B树中，非叶子节点和叶子节点都会存放数据。</li>
-</ul>
-<h4 id="B-树的优势"><a href="#B-树的优势" class="headerlink" title="B+树的优势"></a>B+树的优势</h4><ul>
-<li>所有的数据都会出现在叶子节点。</li>
-<li>叶子节点形成一个单向链表。</li>
-<li>非叶子节点仅仅起到索引数据作用，具体的数据都是在叶子节点存放的。</li>
-</ul>
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">必背</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">数据库</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/基础知识//" class="article-tag-list-link color5">基础知识</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/16/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E4%BA%8C%EF%BC%89/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-计算表达式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/16/%E8%AE%A1%E7%AE%97%E8%A1%A8%E8%BE%BE%E5%BC%8F/">计算表达式</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/16/%E8%AE%A1%E7%AE%97%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2022-03-16T15:24:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="计算表达式"><a href="#计算表达式" class="headerlink" title="计算表达式"></a>计算表达式</h3><h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><p>给你一个字符串表达式 s ，请你实现一个基本计算器来计算并返回它的值。</p>
-<p>注意:不允许使用任何将字符串作为数学表达式计算的内置函数，比如 eval() 。</p>
-<p><strong>示例 1：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：s = &quot;1 + 1&quot;</span><br><span class="line">输出：2</span><br></pre></td></tr></table></figure>
-
-<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>表达式求值是关于栈的经典应用，是一类经典的模板题，可以求三级表达式，$+-*&#x2F;$以及^的表达式结果。需要注意的地方很多：</p>
-<ul>
-<li>“数字”：遇到数字，由于数字的长度不确定我们需要利用双指针算法进行计算。</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> t=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span>(j&lt;n&amp;&amp;s[j]&gt;=<span class="string">&#x27;0&#x27;</span>&amp;&amp;s[j]&lt;=<span class="string">&#x27;9&#x27;</span>)</span><br><span class="line">&#123;</span><br><span class="line">    t=t*<span class="number">10</span>+s[j]-<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">    j++</span><br><span class="line">&#125;</span><br><span class="line">i=j<span class="number">-1</span>;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>“（”：对于左括号我们没有什么特别的操作直接入栈即可</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ops.<span class="built_in">push</span>(<span class="string">&quot;(&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>“）”：右括号必须和之前的左括号匹配，所以将不是左括号的运算符全部计算一次,计算之后还得将左括号弹出</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(s[i]!+<span class="string">&#x27;(&#x27;</span>)<span class="built_in">evel</span>();</span><br><span class="line">ops.<span class="built_in">pop</span>();</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>“-1，（-2等情况”：插入一个0</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!i||s[i<span class="number">-1</span>]==<span class="string">&#x27;(&#x27;</span>)nums.<span class="built_in">push</span>(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>“运算符”：对于运算符，我们可以按照不同的等级进行计算，等级低的要把高于它的等级全部算完。</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//&#x27;+,-&#x27;:</span></span><br><span class="line"><span class="keyword">while</span>(ops.<span class="built_in">size</span>())<span class="built_in">evel</span>()</span><br><span class="line"><span class="comment">//&#x27;*&#x27;</span></span><br><span class="line"><span class="keyword">while</span>(ops.<span class="built_in">size</span>()&amp;&amp;ops.<span class="built_in">top</span>()==<span class="string">&#x27;*&#x27;</span>||<span class="string">&#x27;/&#x27;</span>)<span class="built_in">evel</span>()</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>evel()</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a=nums.<span class="built_in">top</span>();nums.<span class="built_in">pop</span>();</span><br><span class="line"><span class="type">int</span> b=nums.<span class="built_in">top</span>();nums.<span class="built_in">pop</span>();</span><br><span class="line"><span class="type">char</span> c=ops.<span class="built_in">top</span>();ops.<span class="built_in">pop</span>();</span><br><span class="line"><span class="keyword">if</span>(c==<span class="string">&#x27;+&#x27;</span>) nums.<span class="built_in">push</span>(a+b);</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(c==<span class="string">&#x27;-&#x27;</span>) nums.<span class="built_in">push</span>(b-a);</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(c==<span class="string">&#x27;*&#x27;</span>) nums.<span class="built_in">push</span>(a*b);</span><br><span class="line"><span class="keyword">else</span> nums.<span class="built_in">push</span>(b/a);</span><br></pre></td></tr></table></figure>
-
-<h4 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    stack&lt;<span class="type">int</span>&gt;nums;</span><br><span class="line">    stack&lt;<span class="type">int</span>&gt;ops;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">eval</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">auto</span> a=nums.<span class="built_in">top</span>();nums.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="keyword">auto</span> b=nums.<span class="built_in">top</span>();nums.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="keyword">auto</span> c=ops.<span class="built_in">top</span>();ops.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="keyword">if</span>(c==<span class="string">&#x27;+&#x27;</span>)nums.<span class="built_in">push</span>(a+b);</span><br><span class="line">        <span class="keyword">else</span> nums.<span class="built_in">push</span>(b-a);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">calculate</span><span class="params">(string s)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n=s.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(s[i]==<span class="string">&#x27; &#x27;</span>)<span class="keyword">continue</span>;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(s[i]&gt;=<span class="string">&#x27;0&#x27;</span>&amp;&amp;s[i]&lt;=<span class="string">&#x27;9&#x27;</span>)&#123;</span><br><span class="line">                <span class="type">int</span> j=i;</span><br><span class="line">                <span class="type">int</span> t=<span class="number">0</span>;</span><br><span class="line">                <span class="keyword">while</span>(j&lt;n&amp;&amp;s[j]&gt;=<span class="string">&#x27;0&#x27;</span>&amp;&amp;s[j]&lt;=<span class="string">&#x27;9&#x27;</span>)&#123;</span><br><span class="line">                    t=t*<span class="number">10</span>+(s[j]-<span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">                    j++;</span><br><span class="line">                &#125;</span><br><span class="line">                nums.<span class="built_in">push</span>(t);</span><br><span class="line">                i=j<span class="number">-1</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(s[i]==<span class="string">&#x27;(&#x27;</span>)</span><br><span class="line">            ops.<span class="built_in">push</span>(s[i]);</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(s[i]==<span class="string">&#x27;)&#x27;</span>)&#123;</span><br><span class="line">                <span class="keyword">while</span>(ops.<span class="built_in">top</span>()!=<span class="string">&#x27;(&#x27;</span>) <span class="built_in">eval</span>();</span><br><span class="line">                ops.<span class="built_in">pop</span>();</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">if</span>(!i||s[i<span class="number">-1</span>]==<span class="string">&#x27;(&#x27;</span>)</span><br><span class="line">                    nums.<span class="built_in">push</span>(<span class="number">0</span>);</span><br><span class="line">                <span class="keyword">while</span>(ops.<span class="built_in">size</span>()&amp;&amp;ops.<span class="built_in">top</span>()!=<span class="string">&#x27;(&#x27;</span>) <span class="built_in">eval</span>();</span><br><span class="line">                ops.<span class="built_in">push</span>(s[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(ops.<span class="built_in">size</span>())<span class="built_in">eval</span>();</span><br><span class="line">        <span class="keyword">return</span> nums.<span class="built_in">top</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">栈</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">模板，必背</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/高频算法题//" class="article-tag-list-link color1">高频算法题</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/16/%E8%AE%A1%E7%AE%97%E8%A1%A8%E8%BE%BE%E5%BC%8F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-二叉树的序列化与反序列化" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/16/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">二叉树的序列化与反序列化</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/16/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" class="archive-article-date">
-  	<time datetime="2022-03-16T15:24:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="二叉树的序列化与反序列化"><a href="#二叉树的序列化与反序列化" class="headerlink" title="二叉树的序列化与反序列化"></a>二叉树的序列化与反序列化</h3><h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><p>序列化是将一个数据结构或者对象转换为连续的比特位的操作，进而可以将转换后的数据存储在一个文件或者内存中，同时也可以通过网络传输到另一个计算机环境，采取相反方式重构得到原数据。</p>
-<p>请设计一个算法来实现二叉树的序列化与反序列化。这里不限定你的序列 &#x2F; 反序列化算法执行逻辑，你只需要保证一个二叉树可以被序列化为一个字符串并且将这个字符串反序列化为原始的树结构。</p>
-<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>题意很明确就是将一棵树先存成字符串，然后再将字符串变回一棵树，这里给出dfs的写法：</p>
-<ul>
-<li>对于每个节点后边跟一个“，”：可以快速判断出一个数字。</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(s[j]!=<span class="string">&#x27;,&#x27;</span>)j++; s=data.<span class="built_in">substr</span>(u,j-u);</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>存树的时候，空节点用”#”代替。</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!root) s+=<span class="string">&quot;#,&quot;</span>;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>反序列化的时候如果，字符串的长度为0，则说明到结尾了，应该返回null</li>
-<li>反序列化的时候需要传入两个参数（引用的格式）<ul>
-<li>字符串：data</li>
-<li>当前节点的下标：u</li>
-</ul>
-</li>
-</ul>
-<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Codec</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    string str;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">s_dfs</span><span class="params">(TreeNode* root)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!root) str+=<span class="string">&quot;#,&quot;</span>;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">        str+=<span class="built_in">to_string</span>(root-&gt;val)+<span class="string">&#x27;,&#x27;</span>;</span><br><span class="line">        <span class="built_in">s_dfs</span>(root-&gt;left);</span><br><span class="line">        <span class="built_in">s_dfs</span>(root-&gt;right);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">TreeNode* <span class="title">de_dfs</span><span class="params">(string &amp;data,<span class="type">int</span> &amp;u)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(data[u]==<span class="string">&#x27;#&#x27;</span>)&#123;</span><br><span class="line">            u+=<span class="number">2</span>;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">NULL</span>;   </span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="type">int</span> k=u;</span><br><span class="line">            <span class="keyword">while</span>(data[k]!=<span class="string">&#x27;,&#x27;</span>)k++;</span><br><span class="line">            string s=data.<span class="built_in">substr</span>(u,k-u);</span><br><span class="line">            <span class="keyword">if</span>(!s.<span class="built_in">size</span>())<span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">            u=k+<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">auto</span> root=<span class="keyword">new</span> <span class="built_in">TreeNode</span>(<span class="built_in">stoi</span>(s));</span><br><span class="line">            root-&gt;left=<span class="built_in">de_dfs</span>(data,u);</span><br><span class="line">            root-&gt;right=<span class="built_in">de_dfs</span>(data,u);</span><br><span class="line">            <span class="keyword">return</span> root;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// Encodes a tree to a single string.</span></span><br><span class="line">    <span class="function">string <span class="title">serialize</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">s_dfs</span>(root);</span><br><span class="line">        <span class="keyword">return</span> str;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Decodes your encoded data to tree.</span></span><br><span class="line">    <span class="function">TreeNode* <span class="title">deserialize</span><span class="params">(string data)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> u=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">de_dfs</span>(data,u);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">树，dfs</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/高频算法题//" class="article-tag-list-link color1">高频算法题</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/16/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/3/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/5/">Next &amp;raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/3/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/5/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -1838,6 +1807,18 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">搜索</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">计算机网络</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">思维，逆向，数学，动态规划</a>
               </li>
             
             <div class="clearfix"></div>

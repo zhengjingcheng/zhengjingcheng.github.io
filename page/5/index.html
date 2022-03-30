@@ -164,6 +164,751 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-每日总结2022-3-17" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/18/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-17/">每日总结2022-3-17</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/18/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-17/" class="archive-article-date">
+  	<time datetime="2022-03-17T18:26:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="刷题"><a href="#刷题" class="headerlink" title="刷题"></a>刷题</h3><h4 id="ACWING"><a href="#ACWING" class="headerlink" title="ACWING"></a>ACWING</h4><ul>
+<li>每日一题</li>
+</ul>
+<h4 id="力扣"><a href="#力扣" class="headerlink" title="力扣"></a>力扣</h4><ul>
+<li>最长回文子串</li>
+<li>每日一题</li>
+</ul>
+<h3 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h3><ul>
+<li>mapreduce实验</li>
+</ul>
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/18/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-17/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Lab1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/17/Lab1/">Lab1</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/17/Lab1/" class="archive-article-date">
+  	<time datetime="2022-03-17T09:06:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h2 id="Lab1"><a href="#Lab1" class="headerlink" title="Lab1"></a>Lab1</h2><h3 id="论文回顾"><a href="#论文回顾" class="headerlink" title="论文回顾"></a>论文回顾</h3><p><img src="https://gitee.com/bhb100/drawing-bed/raw/master/blog/20220309220846.png"></p>
+<ol>
+<li>The MapReduce library in the user program first splits the input files into M pieces of typically 16 megabytes to 64 megabytes (MB) per piece (controllable by the user via an optional parameter). It then starts up many copies of the program on a cluster of machines.</li>
+</ol>
+<ul>
+<li>启动MapReduce, 将输入文件切分成大小在16-64MB之间的文件。然后在一组多个机器上启动用户程序</li>
+</ul>
+<ol start="2">
+<li>One of the copies of the program is special – the master. The rest are workers that are assigned work by the master. There are M map tasks and R reduce tasks to assign. The master picks idle workers and assigns each one a map task or a reduce task.</li>
+</ol>
+<ul>
+<li>其中一个副本将成为master, 余下成为worker. master给worker指定任务（M个map任务，R个reduce任务）。master选择空闲的worker给予map或reduce任务</li>
+</ul>
+<ol start="3">
+<li>A worker who is assigned a map task reads the contents of the corresponding input split. It parses key&#x2F;value pairs out of the input data and passes each pair to the user-defined Map function. The intermediate key&#x2F;value pairs produced by the Map function are buffered in memory.</li>
+</ol>
+<ul>
+<li>Map worker 接收切分后的input，执行Map函数，将结果缓存到内存</li>
+</ul>
+<ol start="4">
+<li>Periodically, the buffered pairs are written to local disk, partitioned into R regions by the partitioning function. The locations of these buffered pairs on the local disk are passed back to the master, who is responsible for forwarding these locations to the reduce workers.</li>
+</ol>
+<ul>
+<li>缓存后的中间结果会周期性的写到本地磁盘，并切分成R份（reducer数量）。R个文件的位置会发送给master, master转发给reducer</li>
+</ul>
+<ol start="5">
+<li>When a reduce worker is notified by the master about these locations, it uses remote procedure calls to read the buffered data from the local disks of the map workers. When a reduce worker has read all intermediate data, it sorts it by the intermediate keys so that all occurrences of the same key are grouped together. The sorting is needed because typically many different keys map to the same reduce task. If the amount of intermediate data is too large to fit in memory, an external sort is used.</li>
+</ol>
+<ul>
+<li>Reduce worker 收到中间文件的位置信息，通过RPC读取。读取完先根据中间&lt;k, v&gt;排序，然后按照key分组、合并。</li>
+</ul>
+<ol start="6">
+<li>The reduce worker iterates over the sorted intermediate data and for each unique intermediate key encountered, it passes the key and the corresponding set of intermediate values to the user’s Reduce function. The output of the Reduce function is appended to a final output file for this reduce partition.</li>
+</ol>
+<ul>
+<li>Reduce worker在排序后的数据上迭代，将中间&lt;k, v&gt; 交给reduce 函数处理。最终结果写给对应的output文件（分片）</li>
+</ul>
+<ol start="7">
+<li>When all map tasks and reduce tasks have been completed, the master wakes up the user program. At this point, the MapReduce call in the user program returns back to the user code.</li>
+</ol>
+<ul>
+<li>所有map和reduce任务结束后，master唤醒用户程序</li>
+</ul>
+<h3 id="MapReduce实现"><a href="#MapReduce实现" class="headerlink" title="MapReduce实现"></a>MapReduce实现</h3><h4 id="数据结构设计"><a href="#数据结构设计" class="headerlink" title="数据结构设计"></a>数据结构设计</h4><ul>
+<li>Task数据结构实现</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Task <span class="keyword">struct</span> &#123;<span class="comment">//任务结构体</span></span><br><span class="line">	Input         <span class="type">string</span>  <span class="comment">//输入</span></span><br><span class="line">	TaskState     <span class="type">int</span>     <span class="comment">//任务状态</span></span><br><span class="line">	NReducer      <span class="type">int</span>     <span class="comment">//切分个数</span></span><br><span class="line">	TaskNumber    <span class="type">int</span>     <span class="comment">//任务数量</span></span><br><span class="line">	Intermediates []<span class="type">string</span> <span class="comment">//中间结果</span></span><br><span class="line">	Output        <span class="type">string</span>  <span class="comment">//输出</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>对于每个Task共有idle, in-progress, completed 三种状态</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> CoordinatorTaskStatus <span class="type">int</span> <span class="comment">//协调者状态</span></span><br><span class="line"><span class="keyword">const</span> (<span class="comment">//定义每个work所处的状态</span></span><br><span class="line">       Idle CoordinatorTaskStatus = <span class="literal">iota</span>   <span class="comment">//Idle 空闲状态    //iota常量方法，下边的依次递增</span></span><br><span class="line">       Progressing <span class="comment">//工作中</span></span><br><span class="line">       Completed <span class="comment">//完成工作</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Master存储这些Task的信息。</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> CoordinatorTask <span class="keyword">struct</span> &#123; </span><br><span class="line">	TaskStatus    CoordinatorTaskStatus<span class="comment">//任务状态</span></span><br><span class="line">	StartTime     time.Time<span class="comment">//任务开始时间</span></span><br><span class="line">	TaskReference *Task</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>主体数据结构</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Coordinator <span class="keyword">struct</span> &#123;</span><br><span class="line">	<span class="comment">// 协调器结构体主结构</span></span><br><span class="line">	TaskQueue <span class="keyword">chan</span> *Task  <span class="comment">//所有接下来等待执行的task，存的是id，取出id后通过Taskmete找到状态信息</span></span><br><span class="line">    TaskMeta <span class="keyword">map</span>[<span class="type">int</span>]*CoordinatorTask <span class="comment">//保存所有任务的引用和状态</span></span><br><span class="line">    CoordinatorPhase <span class="type">int</span>  <span class="comment">//当前协调器所处的状态存放是map、reduce等阶段</span></span><br><span class="line">    NReduce   <span class="type">int</span>       <span class="comment">//输入数据</span></span><br><span class="line">    InputFiles []String  <span class="comment">//输入文件</span></span><br><span class="line">    Intermediates [][]String <span class="comment">//Map任务产生的R个中间结果</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>状态应该定义为全局的，task和master应该公用一个状态</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> (</span><br><span class="line">      Map = <span class="literal">iota</span></span><br><span class="line">      Reduce</span><br><span class="line">      Exit</span><br><span class="line">      Wait</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h4 id="执行流程"><a href="#执行流程" class="headerlink" title="执行流程"></a>执行流程</h4><ol>
+<li><strong>入口程序</strong></li>
+</ol>
+<ul>
+<li>master 的入口程序在mrmaster，启动之后拿到所有的inputfiles</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(os.Args) &lt; <span class="number">2</span> &#123;</span><br><span class="line">		fmt.Fprintf(os.Stderr, <span class="string">&quot;Usage: mrcoordinator inputfiles...\n&quot;</span>)</span><br><span class="line">		os.Exit(<span class="number">1</span>)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	m := mr.MakeCoordinator(os.Args[<span class="number">1</span>:], <span class="number">10</span>)</span><br><span class="line">	<span class="keyword">for</span> m.Done() == <span class="literal">false</span> &#123;</span><br><span class="line">		time.Sleep(time.Second)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	time.Sleep(time.Second)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><strong>启动master</strong></li>
+</ol>
+<ul>
+<li>创建一个master。保存一些原始数据</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 传入文件名和 Reduce的数量</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">MakeCoordinator</span><span class="params">(files []<span class="type">string</span>, nReduce <span class="type">int</span>)</span></span> *Coordinator &#123;</span><br><span class="line">	c := Coordinator&#123;</span><br><span class="line">	    TaskQueue: <span class="built_in">make</span>(<span class="keyword">chan</span> *Task,max(nReduce,<span class="built_in">len</span>(files))), <span class="comment">//chan是消息通道，长度为文件长度和nReduce的最大值</span></span><br><span class="line">	    TaskMeta:  <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="type">int</span>]*CoordinatorTask),</span><br><span class="line">	    CoordinatorPhase:   Map,</span><br><span class="line">	    NReduce: nReduce,</span><br><span class="line">	    InputFiles: files,</span><br><span class="line">        Intermediates:  <span class="built_in">make</span>([][]<span class="type">string</span>,nReduce).</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="comment">//将文件切分成16—64mb的文件</span></span><br><span class="line">    <span class="comment">//创建map任务</span></span><br><span class="line">    c.createMapTask()</span><br><span class="line">	<span class="comment">// 一个程序成为master，其他成为worker</span></span><br><span class="line">	<span class="comment">//这里就是启动master 服务器就行了，</span></span><br><span class="line">	<span class="comment">//拥有master代码的就是master，别的发RPC过来的都是worker</span></span><br><span class="line">	c.server()</span><br><span class="line"></span><br><span class="line">    <span class="comment">//启动另外一个线程，检查是不是超时了</span></span><br><span class="line">    <span class="keyword">go</span> c.catchTimeOut()</span><br><span class="line">	<span class="keyword">return</span> &amp;c</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>createMapTask()函数：参考顺序执行的算法，每个文件都加入任务池中，并初始化状态信息</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Coordinator)</span></span> createMapTask() &#123;</span><br><span class="line">	<span class="comment">// 根据传入的filename，每个文件对应一个map task</span></span><br><span class="line">    <span class="keyword">for</span> idx,filename := <span class="keyword">range</span> c.InputFiles&#123;</span><br><span class="line">        taskMeta := Task&#123;</span><br><span class="line">            Input:  filename,</span><br><span class="line">            TaskState: <span class="keyword">map</span>,</span><br><span class="line">            NReducer:  c.NReduce,</span><br><span class="line">            TaskNumber: idx,</span><br><span class="line">        &#125;</span><br><span class="line">        c.TaskQueue &lt;- &amp;taskMeta<span class="comment">//把当前的任务加入任务队列</span></span><br><span class="line">        c.TaskMeta[idx] = &amp;MasterTask&#123;</span><br><span class="line">            TaskStatus: Idle,   <span class="comment">//当前状态设置为空闲</span></span><br><span class="line">            TaskReference:  &amp;taskMeta, <span class="comment">//传入当前状态信息</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><strong>启动Master之后，worker会进入死循环，不断向master请求任务 getTask()</strong></li>
+</ol>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Worker</span><span class="params">(mapf <span class="keyword">func</span>(<span class="type">string</span>, <span class="type">string</span>)</span></span> []KeyValue,</span><br><span class="line">	reducef <span class="function"><span class="keyword">func</span><span class="params">(<span class="type">string</span>, []<span class="type">string</span>)</span></span> <span class="type">string</span>) &#123;</span><br><span class="line">	<span class="comment">//启动worker</span></span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">	    <span class="comment">//worker从master获取任务</span></span><br><span class="line">	    task :=getTask()</span><br><span class="line">	    <span class="comment">//拿到task之后，根据task的state,map task交给mapper，reduce task交给reducer</span></span><br><span class="line">	    <span class="comment">//额外加两个state，让worker等待或直接退出</span></span><br><span class="line">	    <span class="keyword">if</span> task.TaskState==Map&#123;</span><br><span class="line">	        mapper(&amp;task,mapf)</span><br><span class="line">	    &#125;<span class="keyword">else</span> <span class="keyword">if</span> task.TaskState==Reduce&#123;</span><br><span class="line">	        reducer(&amp;task,reducef)</span><br><span class="line">	    &#125;<span class="keyword">else</span> <span class="keyword">if</span> task.TaskState==Wait&#123;</span><br><span class="line">	        time.Sleep(<span class="number">5</span>*time.Second)</span><br><span class="line">	    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">	    <span class="keyword">return</span></span><br><span class="line">	    &#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>getTask()</strong></li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">getTask</span><span class="params">()</span></span> Task&#123;</span><br><span class="line">    <span class="comment">//worker从master获取任务</span></span><br><span class="line">    args := ExampleArgs&#123;&#125;</span><br><span class="line">    reply := Task&#123;&#125;</span><br><span class="line">    call(<span class="string">&quot;Master.AssignTask&quot;</span>,&amp;args,&amp;reply)</span><br><span class="line">    <span class="keyword">return</span> reply</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><strong>Master监听worker的RPC请求，根据情况分配任务</strong></li>
+</ol>
+<ul>
+<li>先检查当前是否有空闲的任务，如果有就分发给work，将这个任务的状态设置为正在执行并记录启动时间</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 把任务分配给worker</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Coordinator)</span></span> AssignTask(args *ExampleArgs,reply *Task)<span class="type">error</span> &#123;</span><br><span class="line">    <span class="comment">//查看任务池中还有没有任务</span></span><br><span class="line">    mu.Lock()</span><br><span class="line">    <span class="keyword">defer</span> mu.Unlock()</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(m.TaskQueue)&gt;<span class="number">0</span>&#123;</span><br><span class="line">        <span class="comment">//如果任务队列里还有任务</span></span><br><span class="line">        *reply = *&lt;-c.TaskQueue</span><br><span class="line">        <span class="comment">//记录task的启动时间</span></span><br><span class="line">        c.TaskMeta[reply.TaskNumber].TaskStatus = Progressing <span class="comment">//将当前任务的状态设置为进行中</span></span><br><span class="line">        c.TaskMeta[reply.TaskNumber].StartTime = time.Now() <span class="comment">//记录开始时间</span></span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span> c.CoordinatorPhase == Exit&#123;<span class="comment">//如果处于退出状态</span></span><br><span class="line">        *reply = Task&#123;TaskStatus:Exit&#125;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;<span class="comment">//没有任务就原地等待</span></span><br><span class="line">        *reply = Task&#123;TaskStatus:Wait&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li><strong>worker获得MapTask，交给mapper处理</strong></li>
+</ol>
+<ul>
+<li>直接参考官方顺序执行的样例函数：先读取内容，然后将内容交给mapf函数，可以拿到中间结果，然后切分成多份后写到磁盘中（切割的份数就是NReducer的数量）。中间结果做下Hash，将中间文件写到不同的文件（接口已给出writeToLocalFile()），写完之后通过rpc告诉master已经完成。</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">mapper</span><span class="params">(task *Task,mapf <span class="keyword">func</span>(<span class="type">string</span>,<span class="type">string</span>)</span></span> []KeyValue)&#123;</span><br><span class="line">    content, err := ioutil.ReadFile(task.Input)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span>&#123;<span class="comment">//如果读取报错</span></span><br><span class="line">        log.Fatal(<span class="string">&quot;Failed to read file: &quot;</span>+task.Input, err)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//将content交给mapf，缓存结果</span></span><br><span class="line">    intermediates := mapf(task.Input,<span class="type">string</span>(content)</span><br><span class="line">    <span class="comment">//缓存后的结果会写到本地磁盘，并切成R分</span></span><br><span class="line">    buffer := <span class="built_in">make</span>([][]keyValue,task.NReducer)</span><br><span class="line">    <span class="keyword">for</span> _,intermediate := <span class="keyword">range</span> intermediates&#123;</span><br><span class="line">        slot := ihash(intermediate.Key) % task.NReducer</span><br><span class="line">        buffer[slot] = <span class="built_in">append</span>(buffer[slot,intermediate])</span><br><span class="line">    &#125;</span><br><span class="line">    mapOutput := <span class="built_in">make</span>([]<span class="type">string</span>,<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i&lt;task.NReducer; i++ &#123;</span><br><span class="line">        mapOutput = <span class="built_in">append</span>(mapOutput,writeToLocalFile(task.TaskNumber,i,&amp;buffer[i]))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//R个文件的位置发送给master</span></span><br><span class="line">    task.Intermediates = mapOutput</span><br><span class="line">    TaskCompleted(task)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li><strong>worker任务完成后通知master</strong></li>
+</ol>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">TaskCompleted</span><span class="params">(task *Task)</span></span> &#123;</span><br><span class="line">	<span class="comment">//通过RPC，把task信息发给master</span></span><br><span class="line">	reply := ExampleReply&#123;&#125;</span><br><span class="line">	call(<span class="string">&quot;Master.TaskCompleted&quot;</span>, task, &amp;reply)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="7">
+<li><strong>master收到完成后的Task</strong></li>
+</ol>
+<ul>
+<li>master收到信号后TaskCompleted：知道任务已经完成，master会将当前任务的状态修改为completed，然后再将中间结果保存在master本地。</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//如果任务完成了</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Coordinator)</span></span> TaskCompleted(task *Task,reply *ExampleReply) <span class="type">error</span>&#123;</span><br><span class="line">    mu.Lock()</span><br><span class="line">    <span class="keyword">defer</span> mu.Unlock()</span><br><span class="line">    <span class="keyword">if</span> task.TaskState != c.CoordinatorPhase || c.TaskMeta[task.TaskNumber].TaskStatus == Completed &#123;</span><br><span class="line">        <span class="comment">//如果有任何一个已经完成了</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">    &#125;</span><br><span class="line">    c.TaskMeta[task.TaskNumber].TaskStatus = Completed</span><br><span class="line">    <span class="keyword">go</span> c.processTaskResult(task)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>如果所有任务都完成了就需要进入Recuce阶段：createReduceTask()，大致内容和之前的map差不多。</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m *Master)</span></span> processTaskResult(task *Task)  &#123;</span><br><span class="line">	mu.Lock()</span><br><span class="line">	<span class="keyword">defer</span> mu.Unlock()</span><br><span class="line">	<span class="keyword">switch</span> task.TaskState &#123;</span><br><span class="line">	<span class="keyword">case</span> Map:</span><br><span class="line">		<span class="comment">//收集intermediate信息</span></span><br><span class="line">		<span class="keyword">for</span> reduceTaskId, filePath := <span class="keyword">range</span> task.Intermediates &#123;</span><br><span class="line">			m.Intermediates[reduceTaskId] = <span class="built_in">append</span>(m.Intermediates[reduceTaskId], filePath)</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> m.allTaskDone() &#123;</span><br><span class="line">			<span class="comment">//获得所以map task后，进入reduce阶段</span></span><br><span class="line">			m.createReduceTask()</span><br><span class="line">			m.MasterPhase = Reduce</span><br><span class="line">		&#125;</span><br><span class="line">	<span class="keyword">case</span> Reduce:</span><br><span class="line">		<span class="keyword">if</span> m.allTaskDone() &#123;</span><br><span class="line">			<span class="comment">//获得所以reduce task后，进入exit阶段</span></span><br><span class="line">			m.MasterPhase = Exit</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>createReduceTask()</strong></li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Coordinator)</span></span> createReduceTask()&#123;</span><br><span class="line">    c.TaskMeta = <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="type">int</span>]*CoordinatorTask)</span><br><span class="line">    <span class="keyword">for</span> idx,files := <span class="keyword">range</span> c.Intermediates&#123;</span><br><span class="line">        taskMeta :=Task&#123;</span><br><span class="line">            TaskState:  Reduce, <span class="comment">//初始化参数</span></span><br><span class="line">            NReducer: c.NReduce,</span><br><span class="line">            TaskNumber: idx,</span><br><span class="line">            Intermediates:  files,</span><br><span class="line">        &#125;</span><br><span class="line">        c.TaskQueue &lt;-taskMeta</span><br><span class="line">        c.TaskMeta[idx] = &amp;CoordinatorTask&#123;</span><br><span class="line">            TaskStatus: Idle,</span><br><span class="line">            TaskReference:  &amp;taskMeta,</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="8">
+<li><strong>转入Reduce阶段，worker获得ReduceTask，交给reducer处理</strong></li>
+</ol>
+<ul>
+<li>reducerr也是同上仿照接口编写：先排序，将排序后的放在一起，把相同的key合并，将每一组结果写到文件中去，处理完后会通知master已经完成。</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">reducer</span><span class="params">(task *Task,reducef <span class="keyword">func</span>(<span class="type">string</span>,[]<span class="type">string</span>)</span></span> <span class="type">string</span>)&#123;</span><br><span class="line">    <span class="comment">//先从filepath读取intermediate的keyValue</span></span><br><span class="line">    intermediate := *readFromLocalFile(task.Intermediates)</span><br><span class="line">    <span class="comment">//根据kv排序</span></span><br><span class="line">    sort.Sort(Bkey(intermediate))</span><br><span class="line">    dir,_:=os.Getwd()</span><br><span class="line">    tempFile, err := ioutil.TempFile(dir, <span class="string">&quot;mr-tmp-*&quot;</span>)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatal(<span class="string">&quot;Failed to create temp file&quot;</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line">    i:=<span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i&lt;<span class="built_in">len</span>(intermediate)&#123;</span><br><span class="line">        <span class="comment">//将相同的key放在一起分组合并</span></span><br><span class="line">        j := i+<span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> j&lt; <span class="built_in">len</span>(intermediate)&amp;&amp;intermediate[j].Key == intermediate[i].Key&#123;</span><br><span class="line">            j++</span><br><span class="line">        &#125;</span><br><span class="line">        values := []<span class="type">string</span>&#123;&#125;</span><br><span class="line">        <span class="keyword">for</span> k:= i;k&lt;j;k++&#123;</span><br><span class="line">            values = <span class="built_in">append</span>(values,intermediate[k].Value)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//交给reducef,拿到结果</span></span><br><span class="line">        output := reducef(intermediate[i].Key,values)</span><br><span class="line">        <span class="comment">//写到对应的output文件</span></span><br><span class="line">		fmt.Fprintf(tempFile, <span class="string">&quot;%v %v\n&quot;</span>, intermediate[i].Key, output)</span><br><span class="line">		i = j</span><br><span class="line">    &#125;</span><br><span class="line">    tempFile.Close()</span><br><span class="line">    oname := fmt.Sprintf(<span class="string">&quot;mr-out-%d&quot;</span>, task.TaskNumber)</span><br><span class="line">	os.Rename(tempFile.Name(), oname)</span><br><span class="line">	task.Output = oname</span><br><span class="line">	TaskCompleted(task)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="9">
+<li><strong>master确认所有ReduceTask都已经完成，转入Exit阶段，终止所有master和worker goroutine</strong></li>
+</ol>
+<ul>
+<li>master收到已经处理完成的消息后会将任务状态设置为completed。所有的reduce都结束之后会进入exit阶段。</li>
+</ul>
+<p><code>master</code></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m *Master)</span></span> Done() <span class="type">bool</span> &#123;</span><br><span class="line">	mu.Lock()</span><br><span class="line">	<span class="keyword">defer</span> mu.Unlock()</span><br><span class="line">	ret := m.MasterPhase == Exit</span><br><span class="line">	<span class="keyword">return</span> ret</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>然后将当前任务状态设置为exit，worker请求到exit的任务后，会直接返回退出死循环。</li>
+</ul>
+<p><code>worker</code></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//启动worker</span></span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">	    <span class="comment">//worker从master获取任务</span></span><br><span class="line">	    task :=getTask()</span><br><span class="line">	    <span class="comment">//拿到task之后，根据task的state,map task交给mapper，reduce task交给reducer</span></span><br><span class="line">	    <span class="comment">//额外加两个state，让worker等待或直接退出</span></span><br><span class="line">	    <span class="keyword">if</span> task.TaskState==Map&#123;</span><br><span class="line">	        mapper(&amp;task,mapf)</span><br><span class="line">	    &#125;<span class="keyword">else</span> <span class="keyword">if</span> task.TaskState==Reduce&#123;</span><br><span class="line">	        reducer(&amp;task,reducef)</span><br><span class="line">	    &#125;<span class="keyword">else</span> <span class="keyword">if</span> task.TaskState==Wait&#123;</span><br><span class="line">	        time.Sleep(<span class="number">5</span>*time.Second)</span><br><span class="line">	    &#125;<span class="keyword">else</span>&#123;<span class="comment">//当exit状态时直接退出循环</span></span><br><span class="line">	    <span class="keyword">return</span></span><br><span class="line">	    &#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="容错"><a href="#容错" class="headerlink" title="容错"></a>容错</h4><ul>
+<li>wait 等待状态，将当前任务设置为等待状态，woker收到需要等待的状态时会沉睡5秒</li>
+</ul>
+<p><code>master</code></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="built_in">len</span>(m.TaskQueue)&gt;<span class="number">0</span>&#123;</span><br><span class="line">    <span class="comment">//如果任务队列里还有任务</span></span><br><span class="line">    *reply = *&lt;-c.TaskQueue</span><br><span class="line">    <span class="comment">//记录task的启动时间</span></span><br><span class="line">    c.TaskMeta[reply.TaskNumber].TaskStatus = Progressing <span class="comment">//将当前任务的状态设置为进行中</span></span><br><span class="line">    c.TaskMeta[reply.TaskNumber].StartTime = time.Now() <span class="comment">//记录开始时间</span></span><br><span class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span> c.CoordinatorPhase == Exit&#123;<span class="comment">//如果处于退出状态</span></span><br><span class="line">    *reply = Task&#123;TaskStatus:Exit&#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;<span class="comment">//没有任务就原地等待</span></span><br><span class="line">    *reply = Task&#123;TaskStatus:Wait&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>worker</code></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> task.TaskState==Map&#123;</span><br><span class="line">    mapper(&amp;task,mapf)</span><br><span class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span> task.TaskState==Reduce&#123;</span><br><span class="line">    reducer(&amp;task,reducef)</span><br><span class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span> task.TaskState==Wait&#123;<span class="comment">//等待状态就睡眠</span></span><br><span class="line">    time.Sleep(<span class="number">5</span>*time.Second)</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line"><span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>上锁，这个任务简单，就直接暴力上锁，所有的多线程函数都上锁。</p>
+</li>
+<li><p>启动mster的时候单独启动一个协程去检查哪些任务超时了，c.catchTimeOut()</p>
+<ul>
+<li>如果当前任务正在执行中，并且已经超过约定时间就将当前任务情况，会将当前任务清空。重新加入任务池中。</li>
+<li>新的任务和旧的任务任何一个完成了都算成功。</li>
+</ul>
+</li>
+</ul>
+ <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Coordinator)</span></span> catchTimeOut()&#123;</span><br><span class="line">    <span class="keyword">for</span>&#123;<span class="comment">//检测是不是超时了</span></span><br><span class="line">        time.Sleep(<span class="number">5</span>*time.Second)</span><br><span class="line">        mu.Lock()</span><br><span class="line">        <span class="keyword">if</span> c.CoordinatorPhase == Exit&#123;</span><br><span class="line">            <span class="comment">//如果所处的阶段是退出</span></span><br><span class="line">            mu.Unlock()</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> _,coorTask := <span class="keyword">range</span> c.TaskMeta&#123;</span><br><span class="line">            <span class="comment">//如果当前状态是进行中，并且时间超过10秒就退出</span></span><br><span class="line">            <span class="keyword">if</span> coorTask.TaskStatus == Progressing &amp;&amp; time.Now().Sub(coorTask.StartTime) &gt; <span class="number">10</span>*time.Second&#123;</span><br><span class="line">                c.TaskQueue &lt;- coorTask.TaskReference <span class="comment">//将当前任务重新加入队列，任务状态为空闲</span></span><br><span class="line">                coorTask.TaskStatus = Idle</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        mu.Unlock()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​    </p>
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">6.824</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">分布式</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">RPC</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">go</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">mapreduce</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/6-824//" class="article-tag-list-link color1">6.824</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/17/Lab1/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-数据库（二）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/16/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E4%BA%8C%EF%BC%89/">数据库（二）</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/16/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E4%BA%8C%EF%BC%89/" class="archive-article-date">
+  	<time datetime="2022-03-16T15:31:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h4 id="InnoDB引擎与MyISAM引擎的区别"><a href="#InnoDB引擎与MyISAM引擎的区别" class="headerlink" title="InnoDB引擎与MyISAM引擎的区别 ?"></a>InnoDB引擎与MyISAM引擎的区别 ?</h4><ul>
+<li>InnoDB支持事务，MyISAM不支持</li>
+<li>InnoDB支持行锁和表锁，MyISAM只支持表锁，不支持行锁</li>
+<li>InnoDB支持外键，MyISAM不支持外键</li>
+</ul>
+<h4 id="索引的优点和缺点"><a href="#索引的优点和缺点" class="headerlink" title="索引的优点和缺点"></a>索引的优点和缺点</h4><h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><ul>
+<li>提高数据检索的效率，降低数据库的IO成本</li>
+<li>通过索引列对数据进行排序，降低数据排序的成本，降低CPU的消耗。</li>
+</ul>
+<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ul>
+<li><p>索引列也是要占用空间的。</p>
+</li>
+<li><p>索引大大提高了查询效率，同时却也降低更新表的速度，如对表进行INSERT、UPDATE、DELETE时，效率降低。</p>
+</li>
+</ul>
+<h4 id="索引的结构"><a href="#索引的结构" class="headerlink" title="索引的结构"></a>索引的结构</h4><ul>
+<li><p>B+Tree：索引最常见的索引类型，大部分引擎都支持 B+ 树索引</p>
+</li>
+<li><p>Hash索引：底层数据结构是用哈希表实现的, 只有精确匹配索引列的查询才有效, 不<br>支持范围查询</p>
+</li>
+</ul>
+<h4 id="为什么不选用二叉树或者红黑树作为索引"><a href="#为什么不选用二叉树或者红黑树作为索引" class="headerlink" title="为什么不选用二叉树或者红黑树作为索引"></a>为什么不选用二叉树或者红黑树作为索引</h4><ul>
+<li>如果选择二叉树作为索引结构，会存在以下缺点：顺序插入时，会形成一个链表，查询性能大大降低。<br>大数据量情况下，层级较深，检索速度慢。</li>
+<li>红黑树是一颗自平衡二叉树，那这样即使是顺序插入数据，最终形成的数据结构也是一颗平衡的二叉树,大数据量情况下，层级较深，检索速度慢。</li>
+</ul>
+<h4 id="为什么不适用B树"><a href="#为什么不适用B树" class="headerlink" title="为什么不适用B树"></a>为什么不适用B树</h4><p>B-Tree，B树是一种多叉路衡查找树，相对于二叉树，B树每个节点可以有多个分支，即多叉。</p>
+<ul>
+<li>5阶的B树，每一个节点最多存储4个key，对应5个指针。</li>
+<li>一旦节点存储的key数量到达5，就会裂变，中间元素向上分裂。</li>
+<li>在B树中，非叶子节点和叶子节点都会存放数据。</li>
+</ul>
+<h4 id="B-树的优势"><a href="#B-树的优势" class="headerlink" title="B+树的优势"></a>B+树的优势</h4><ul>
+<li>所有的数据都会出现在叶子节点。</li>
+<li>叶子节点形成一个单向链表。</li>
+<li>非叶子节点仅仅起到索引数据作用，具体的数据都是在叶子节点存放的。</li>
+</ul>
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">必背</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">数据库</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/基础知识//" class="article-tag-list-link color5">基础知识</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/16/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E4%BA%8C%EF%BC%89/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-计算表达式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/16/%E8%AE%A1%E7%AE%97%E8%A1%A8%E8%BE%BE%E5%BC%8F/">计算表达式</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/16/%E8%AE%A1%E7%AE%97%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="archive-article-date">
+  	<time datetime="2022-03-16T15:24:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="计算表达式"><a href="#计算表达式" class="headerlink" title="计算表达式"></a>计算表达式</h3><h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><p>给你一个字符串表达式 s ，请你实现一个基本计算器来计算并返回它的值。</p>
+<p>注意:不允许使用任何将字符串作为数学表达式计算的内置函数，比如 eval() 。</p>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：s = &quot;1 + 1&quot;</span><br><span class="line">输出：2</span><br></pre></td></tr></table></figure>
+
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>表达式求值是关于栈的经典应用，是一类经典的模板题，可以求三级表达式，$+-*&#x2F;$以及^的表达式结果。需要注意的地方很多：</p>
+<ul>
+<li>“数字”：遇到数字，由于数字的长度不确定我们需要利用双指针算法进行计算。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> t=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span>(j&lt;n&amp;&amp;s[j]&gt;=<span class="string">&#x27;0&#x27;</span>&amp;&amp;s[j]&lt;=<span class="string">&#x27;9&#x27;</span>)</span><br><span class="line">&#123;</span><br><span class="line">    t=t*<span class="number">10</span>+s[j]-<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">    j++</span><br><span class="line">&#125;</span><br><span class="line">i=j<span class="number">-1</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>“（”：对于左括号我们没有什么特别的操作直接入栈即可</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ops.<span class="built_in">push</span>(<span class="string">&quot;(&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>“）”：右括号必须和之前的左括号匹配，所以将不是左括号的运算符全部计算一次,计算之后还得将左括号弹出</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(s[i]!+<span class="string">&#x27;(&#x27;</span>)<span class="built_in">evel</span>();</span><br><span class="line">ops.<span class="built_in">pop</span>();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>“-1，（-2等情况”：插入一个0</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!i||s[i<span class="number">-1</span>]==<span class="string">&#x27;(&#x27;</span>)nums.<span class="built_in">push</span>(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>“运算符”：对于运算符，我们可以按照不同的等级进行计算，等级低的要把高于它的等级全部算完。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//&#x27;+,-&#x27;:</span></span><br><span class="line"><span class="keyword">while</span>(ops.<span class="built_in">size</span>())<span class="built_in">evel</span>()</span><br><span class="line"><span class="comment">//&#x27;*&#x27;</span></span><br><span class="line"><span class="keyword">while</span>(ops.<span class="built_in">size</span>()&amp;&amp;ops.<span class="built_in">top</span>()==<span class="string">&#x27;*&#x27;</span>||<span class="string">&#x27;/&#x27;</span>)<span class="built_in">evel</span>()</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>evel()</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a=nums.<span class="built_in">top</span>();nums.<span class="built_in">pop</span>();</span><br><span class="line"><span class="type">int</span> b=nums.<span class="built_in">top</span>();nums.<span class="built_in">pop</span>();</span><br><span class="line"><span class="type">char</span> c=ops.<span class="built_in">top</span>();ops.<span class="built_in">pop</span>();</span><br><span class="line"><span class="keyword">if</span>(c==<span class="string">&#x27;+&#x27;</span>) nums.<span class="built_in">push</span>(a+b);</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(c==<span class="string">&#x27;-&#x27;</span>) nums.<span class="built_in">push</span>(b-a);</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(c==<span class="string">&#x27;*&#x27;</span>) nums.<span class="built_in">push</span>(a*b);</span><br><span class="line"><span class="keyword">else</span> nums.<span class="built_in">push</span>(b/a);</span><br></pre></td></tr></table></figure>
+
+<h4 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    stack&lt;<span class="type">int</span>&gt;nums;</span><br><span class="line">    stack&lt;<span class="type">int</span>&gt;ops;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">eval</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">auto</span> a=nums.<span class="built_in">top</span>();nums.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="keyword">auto</span> b=nums.<span class="built_in">top</span>();nums.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="keyword">auto</span> c=ops.<span class="built_in">top</span>();ops.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="keyword">if</span>(c==<span class="string">&#x27;+&#x27;</span>)nums.<span class="built_in">push</span>(a+b);</span><br><span class="line">        <span class="keyword">else</span> nums.<span class="built_in">push</span>(b-a);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">calculate</span><span class="params">(string s)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n=s.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(s[i]==<span class="string">&#x27; &#x27;</span>)<span class="keyword">continue</span>;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(s[i]&gt;=<span class="string">&#x27;0&#x27;</span>&amp;&amp;s[i]&lt;=<span class="string">&#x27;9&#x27;</span>)&#123;</span><br><span class="line">                <span class="type">int</span> j=i;</span><br><span class="line">                <span class="type">int</span> t=<span class="number">0</span>;</span><br><span class="line">                <span class="keyword">while</span>(j&lt;n&amp;&amp;s[j]&gt;=<span class="string">&#x27;0&#x27;</span>&amp;&amp;s[j]&lt;=<span class="string">&#x27;9&#x27;</span>)&#123;</span><br><span class="line">                    t=t*<span class="number">10</span>+(s[j]-<span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">                    j++;</span><br><span class="line">                &#125;</span><br><span class="line">                nums.<span class="built_in">push</span>(t);</span><br><span class="line">                i=j<span class="number">-1</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(s[i]==<span class="string">&#x27;(&#x27;</span>)</span><br><span class="line">            ops.<span class="built_in">push</span>(s[i]);</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(s[i]==<span class="string">&#x27;)&#x27;</span>)&#123;</span><br><span class="line">                <span class="keyword">while</span>(ops.<span class="built_in">top</span>()!=<span class="string">&#x27;(&#x27;</span>) <span class="built_in">eval</span>();</span><br><span class="line">                ops.<span class="built_in">pop</span>();</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">if</span>(!i||s[i<span class="number">-1</span>]==<span class="string">&#x27;(&#x27;</span>)</span><br><span class="line">                    nums.<span class="built_in">push</span>(<span class="number">0</span>);</span><br><span class="line">                <span class="keyword">while</span>(ops.<span class="built_in">size</span>()&amp;&amp;ops.<span class="built_in">top</span>()!=<span class="string">&#x27;(&#x27;</span>) <span class="built_in">eval</span>();</span><br><span class="line">                ops.<span class="built_in">push</span>(s[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(ops.<span class="built_in">size</span>())<span class="built_in">eval</span>();</span><br><span class="line">        <span class="keyword">return</span> nums.<span class="built_in">top</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">栈</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">模板，必背</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/高频算法题//" class="article-tag-list-link color1">高频算法题</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/16/%E8%AE%A1%E7%AE%97%E8%A1%A8%E8%BE%BE%E5%BC%8F/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-二叉树的序列化与反序列化" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/16/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">二叉树的序列化与反序列化</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/16/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" class="archive-article-date">
+  	<time datetime="2022-03-16T15:24:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="二叉树的序列化与反序列化"><a href="#二叉树的序列化与反序列化" class="headerlink" title="二叉树的序列化与反序列化"></a>二叉树的序列化与反序列化</h3><h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><p>序列化是将一个数据结构或者对象转换为连续的比特位的操作，进而可以将转换后的数据存储在一个文件或者内存中，同时也可以通过网络传输到另一个计算机环境，采取相反方式重构得到原数据。</p>
+<p>请设计一个算法来实现二叉树的序列化与反序列化。这里不限定你的序列 &#x2F; 反序列化算法执行逻辑，你只需要保证一个二叉树可以被序列化为一个字符串并且将这个字符串反序列化为原始的树结构。</p>
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>题意很明确就是将一棵树先存成字符串，然后再将字符串变回一棵树，这里给出dfs的写法：</p>
+<ul>
+<li>对于每个节点后边跟一个“，”：可以快速判断出一个数字。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(s[j]!=<span class="string">&#x27;,&#x27;</span>)j++; s=data.<span class="built_in">substr</span>(u,j-u);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>存树的时候，空节点用”#”代替。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!root) s+=<span class="string">&quot;#,&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>反序列化的时候如果，字符串的长度为0，则说明到结尾了，应该返回null</li>
+<li>反序列化的时候需要传入两个参数（引用的格式）<ul>
+<li>字符串：data</li>
+<li>当前节点的下标：u</li>
+</ul>
+</li>
+</ul>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Codec</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    string str;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">s_dfs</span><span class="params">(TreeNode* root)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!root) str+=<span class="string">&quot;#,&quot;</span>;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">        str+=<span class="built_in">to_string</span>(root-&gt;val)+<span class="string">&#x27;,&#x27;</span>;</span><br><span class="line">        <span class="built_in">s_dfs</span>(root-&gt;left);</span><br><span class="line">        <span class="built_in">s_dfs</span>(root-&gt;right);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">TreeNode* <span class="title">de_dfs</span><span class="params">(string &amp;data,<span class="type">int</span> &amp;u)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(data[u]==<span class="string">&#x27;#&#x27;</span>)&#123;</span><br><span class="line">            u+=<span class="number">2</span>;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">NULL</span>;   </span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="type">int</span> k=u;</span><br><span class="line">            <span class="keyword">while</span>(data[k]!=<span class="string">&#x27;,&#x27;</span>)k++;</span><br><span class="line">            string s=data.<span class="built_in">substr</span>(u,k-u);</span><br><span class="line">            <span class="keyword">if</span>(!s.<span class="built_in">size</span>())<span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">            u=k+<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">auto</span> root=<span class="keyword">new</span> <span class="built_in">TreeNode</span>(<span class="built_in">stoi</span>(s));</span><br><span class="line">            root-&gt;left=<span class="built_in">de_dfs</span>(data,u);</span><br><span class="line">            root-&gt;right=<span class="built_in">de_dfs</span>(data,u);</span><br><span class="line">            <span class="keyword">return</span> root;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// Encodes a tree to a single string.</span></span><br><span class="line">    <span class="function">string <span class="title">serialize</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">s_dfs</span>(root);</span><br><span class="line">        <span class="keyword">return</span> str;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Decodes your encoded data to tree.</span></span><br><span class="line">    <span class="function">TreeNode* <span class="title">deserialize</span><span class="params">(string data)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> u=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">de_dfs</span>(data,u);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">树，dfs</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/高频算法题//" class="article-tag-list-link color1">高频算法题</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/16/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-树形dp" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -829,613 +1574,9 @@
 
 
   
-    <article id="post-最小覆盖子串" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/15/%E6%9C%80%E5%B0%8F%E8%A6%86%E7%9B%96%E5%AD%90%E4%B8%B2/">最小覆盖子串</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/15/%E6%9C%80%E5%B0%8F%E8%A6%86%E7%9B%96%E5%AD%90%E4%B8%B2/" class="archive-article-date">
-  	<time datetime="2022-03-14T18:23:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="最小覆盖子串"><a href="#最小覆盖子串" class="headerlink" title="最小覆盖子串"></a>最小覆盖子串</h3><h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><p>给你一个字符串 <code>s</code> 、一个字符串 <code>t</code> 。返回 <code>s</code> 中涵盖 <code>t</code> 所有字符的最小子串。如果 <code>s</code> 中不存在涵盖 <code>t</code> 所有字符的子串，则返回空字符串 <code>&quot;&quot;</code> 。</p>
-<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><ul>
-<li>经典滑动窗口算法，我们通过移动右指针，看当前元素是不是属于匹配串的一部分（<code>s[j]</code>的个数少于匹配串的个数），如果是的话则将<code>cnt++</code>,然后滑动左指针，删除掉冗余的字符（<code>s[i]</code>的个数多于匹配串中的个数），在判断当前是不是已经实现了全覆盖（<code>cnt==t.size()</code>），如果是的话，按照最小值进行更新。</li>
-<li>由于是更新最小覆盖子串，所以我们可以将初始值设到一个不可能达到的值。<code>s=s+&#39;a&#39;</code></li>
-</ul>
-<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">string <span class="title">minWindow</span><span class="params">(string s, string t)</span> </span>&#123;</span><br><span class="line">        unordered_map&lt;<span class="type">char</span>,<span class="type">int</span>&gt;hs,ht;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> x:t) ht[x]++;</span><br><span class="line">        <span class="type">int</span> cnt=<span class="number">0</span>;</span><br><span class="line">        string res=s+<span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>,j=<span class="number">0</span>;i&lt;s.<span class="built_in">size</span>();i++)</span><br><span class="line">        &#123;</span><br><span class="line">               hs[s[i]]++;</span><br><span class="line">            <span class="keyword">if</span>(ht.<span class="built_in">count</span>(s[i])&amp;&amp;hs[s[i]]&lt;=ht[s[i]])<span class="comment">//统计有效字符个数</span></span><br><span class="line">              cnt++;</span><br><span class="line">            <span class="keyword">while</span>(hs[s[j]]&gt;ht[s[j]])<span class="comment">//冗余的字母</span></span><br><span class="line">               hs[s[j++]]--;</span><br><span class="line">            <span class="keyword">if</span>(cnt==t.<span class="built_in">size</span>())</span><br><span class="line">            &#123;<span class="comment">//更新答案</span></span><br><span class="line">               <span class="keyword">if</span>(res.<span class="built_in">size</span>()&gt;i-j+<span class="number">1</span>)</span><br><span class="line">               res=s.<span class="built_in">substr</span>(j,i-j+<span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(res==s+<span class="string">&#x27;a&#x27;</span>) <span class="keyword">return</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">双指针</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">枚举</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/高频算法题//" class="article-tag-list-link color1">高频算法题</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/15/%E6%9C%80%E5%B0%8F%E8%A6%86%E7%9B%96%E5%AD%90%E4%B8%B2/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-滑动窗口最大值" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/15/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E6%9C%80%E5%A4%A7%E5%80%BC/">滑动窗口最大值</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/15/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E6%9C%80%E5%A4%A7%E5%80%BC/" class="archive-article-date">
-  	<time datetime="2022-03-14T18:23:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="滑动窗口最大值"><a href="#滑动窗口最大值" class="headerlink" title="滑动窗口最大值"></a>滑动窗口最大值</h3><h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><ul>
-<li><p>给你一个整数数组 nums，有一个大小为 k 的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 k 个数字。滑动窗口每次只向右移动一位。</p>
-<p>返回 滑动窗口中的最大值 。</p>
-</li>
-</ul>
-<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><ul>
-<li>暴力做法自然就是维护一个长度为k的固定窗口，但是肯定会超时，所以我们这个时候应该想怎么优化，对于固定窗口的最值问题，我们一般都采用单调队列来优化。这里我们维护一个单调递减的队列，每次将队头插入答案集合即可。</li>
-<li>这里我们用到了deque</li>
-</ul>
-<p><img src="https://gitee.com/bhb100/drawing-bed/raw/master/blog/C++%E6%8F%90%E9%AB%98%E7%BC%96%E7%A8%8BPDF%E7%89%88.jpg"></p>
-<ul>
-<li>每次需要判断是不是当前值大于队列的最小值</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(q.<span class="built_in">back</span>()&lt;nums[i])q.<span class="built_in">pop_back</span>();</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>判断当前队头是不是已经年纪太大该退休了</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(q.<span class="built_in">front</span>()&lt;i-k+<span class="number">1</span>)q.<span class="built_in">pop_front</span>();</span><br></pre></td></tr></table></figure>
-
-<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">maxSlidingWindow</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> k)</span> </span>&#123;</span><br><span class="line">                deque&lt;<span class="type">int</span>&gt;q;</span><br><span class="line">                vector&lt;<span class="type">int</span>&gt;res;</span><br><span class="line">                <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;nums.<span class="built_in">size</span>();i++)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">if</span>(q.<span class="built_in">size</span>()&amp;&amp;q.<span class="built_in">front</span>()&lt;=i-k)<span class="comment">//如果人数已经超过滑动窗口的容量就将最先入队的那个人出队，也就是队头</span></span><br><span class="line">                        q.<span class="built_in">pop_front</span>();</span><br><span class="line">                    <span class="keyword">while</span>(q.<span class="built_in">size</span>()&amp;&amp;nums[q.<span class="built_in">back</span>()]&lt;=nums[i])<span class="comment">//由于单调队列是从大到小排序，所以从后往前比较如果比自己小就出队</span></span><br><span class="line">                        q.<span class="built_in">pop_back</span>();</span><br><span class="line">                    q.<span class="built_in">push_back</span>(i);<span class="comment">//插入当前值</span></span><br><span class="line">                    <span class="keyword">if</span>(i&gt;=k<span class="number">-1</span>)<span class="comment">//如果窗口已经超过K人</span></span><br><span class="line">                      res.<span class="built_in">push_back</span>(nums[q.<span class="built_in">front</span>()]);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">单调队列</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/高频算法题//" class="article-tag-list-link color1">高频算法题</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/15/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E6%9C%80%E5%A4%A7%E5%80%BC/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-区间dp" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/15/%E5%8C%BA%E9%97%B4dp/">区间dp</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/15/%E5%8C%BA%E9%97%B4dp/" class="archive-article-date">
-  	<time datetime="2022-03-14T18:21:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h2 id="区间DP"><a href="#区间DP" class="headerlink" title="区间DP"></a>区间DP</h2><h3 id="石子合并"><a href="#石子合并" class="headerlink" title="石子合并"></a>石子合并</h3><h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><p>例如有 $4$ 堆石子分别为 <code>1 3 5 2</code>， 我们可以先合并 $1、2 $堆，代价为 $4$，得到 <code>4 5 2</code>， 又合并 $1，2$堆，代价为 $9$，得到 <code>9 2</code> ，再合并得到 $11$，总代价为 $4+9+11&#x3D;24$；</p>
-<p>如果第二步是先合并$2，3$堆，则代价为$7$，得到 <code>4 7</code>，最后一次合并代价为 $11$，总代价为$ 4+7+11&#x3D;22$。</p>
-<p>问题是：找出一种合理的方法，使总的代价最小，输出最小代价。</p>
-<h4 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h4><p>第一行一个数 $N $表示石子的堆数$ N$。</p>
-<p>第二行$N$ 个数，表示每堆石子的质量(均不超过 $1000$)。</p>
-<h4 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h4><p>输出一个整数，表示最小代价。</p>
-<h4 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h4><p>$1≤N≤300$</p>
-<h4 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">4</span><br><span class="line">1 3 5 2</span><br></pre></td></tr></table></figure>
-
-<h4 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">22</span><br></pre></td></tr></table></figure>
-
-<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><ul>
-<li><p>dp问题首先都需要做好假设，假设我们区间（a,b）的最小代价，则对于整个区间（i,j）我们可以从中间任何一个位置做切割，然后进行比较求出最小代价。</p>
-</li>
-<li><p>转移方程：$f(i,j)&#x3D;min(f(i,j),f(i,k)+f(k,j)+sum(i,j))$</p>
-</li>
-<li><p>细节：</p>
-<ul>
-<li>由于题目还要求快速求出一段区间和，所以考虑用前缀和进行维护。</li>
-<li>区间dp枚举顺序：1、区间长度（2-n）。2、区间端点</li>
-</ul>
-</li>
-</ul>
-<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">310</span>;</span><br><span class="line"><span class="type">int</span> f[N][N];</span><br><span class="line"><span class="type">int</span> a[N],s[N];</span><br><span class="line"><span class="type">int</span> n;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i ++ )&#123;</span><br><span class="line">        cin&gt;&gt;a[i];</span><br><span class="line">        s[i+<span class="number">1</span>]=s[i]+a[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> l=<span class="number">2</span>;l&lt;=n;l++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i+l<span class="number">-1</span>&lt;n;i++)</span><br><span class="line">    &#123;<span class="comment">//左端点</span></span><br><span class="line">        <span class="type">int</span> j=i+l<span class="number">-1</span>;<span class="comment">//右端点</span></span><br><span class="line">        f[i][j]=<span class="number">0x3f3f3f3f</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k=i;k+<span class="number">1</span>&lt;=j;k++)</span><br><span class="line">        f[i][j]=<span class="built_in">min</span>(f[i][k]+f[k+<span class="number">1</span>][j]+s[j+<span class="number">1</span>]-s[i],f[i][j]);</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;f[<span class="number">0</span>][n<span class="number">-1</span>];</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="环形石子合并"><a href="#环形石子合并" class="headerlink" title="环形石子合并"></a>环形石子合并</h3><p>将 $n$ 堆石子绕圆形操场排放，现要将石子有序地合并成一堆。</p>
-<p>规定每次只能选相邻的两堆合并成新的一堆，并将新的一堆的石子数记做该次合并的得分。</p>
-<p>请编写一个程序，读入堆数 $n$及每堆的石子数，并进行如下计算：</p>
-<ul>
-<li>选择一种合并石子的方案，使得做 $n−1$ 次合并得分总和最大。</li>
-<li>选择一种合并石子的方案，使得做 $n−1$ 次合并得分总和最小。</li>
-</ul>
-<h4 id="输入格式-1"><a href="#输入格式-1" class="headerlink" title="输入格式"></a>输入格式</h4><p>第一行包含整数 $n$，表示共有 $n$堆石子。</p>
-<p>第二行包含 $n$ 个整数，分别表示每堆石子的数量。</p>
-<h4 id="输出格式-1"><a href="#输出格式-1" class="headerlink" title="输出格式"></a>输出格式</h4><p>输出共两行：</p>
-<p>第一行为合并得分总和最小值，</p>
-<p>第二行为合并得分总和最大值。</p>
-<h4 id="数据范围-1"><a href="#数据范围-1" class="headerlink" title="数据范围"></a>数据范围</h4><p>$1≤n≤200$</p>
-<h4 id="输入样例：-1"><a href="#输入样例：-1" class="headerlink" title="输入样例："></a>输入样例：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">4</span><br><span class="line">4 5 9 4</span><br></pre></td></tr></table></figure>
-
-<h4 id="输出样例：-1"><a href="#输出样例：-1" class="headerlink" title="输出样例："></a>输出样例：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">43</span><br><span class="line">54</span><br></pre></td></tr></table></figure>
-
-<h4 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h4><ul>
-<li>跟上边的石子思路一样，只不过扩充为二倍长度（将第一倍的数组复制一遍），然后枚举长度为n的区间最大值和最小值。</li>
-<li>范围$(0,2n-2)$</li>
-</ul>
-<h4 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h4><ul>
-<li>求最小值时需要将当前区间设为无穷大<code>g[i][j]=0x3f3f3f3f;</code></li>
-<li>枚举分割点的时候为了防止越界，k+1&lt;&#x3D;j</li>
-<li>前缀和求区间$(i,j)&#x3D;f(i+1)-f(j)$</li>
-</ul>
-<h4 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">420</span>;</span><br><span class="line"><span class="type">int</span> a[N],s[N];</span><br><span class="line"><span class="type">int</span> f[N][N],g[N][N];</span><br><span class="line"><span class="type">int</span> n;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">    cin&gt;&gt;a[i],a[i+n]=a[i];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">2</span>*n<span class="number">-1</span>;i++)</span><br><span class="line">    s[i+<span class="number">1</span>]=s[i]+a[i];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> l=<span class="number">2</span>;l&lt;=n;l++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i+l<span class="number">-1</span>&lt;<span class="number">2</span>*n<span class="number">-1</span>;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> j=i+l<span class="number">-1</span>;</span><br><span class="line">            f[i][j]=<span class="number">0</span>;</span><br><span class="line">            g[i][j]=<span class="number">0x3f3f3f3f</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> k=i;k+<span class="number">1</span>&lt;=j;k++)</span><br><span class="line">            &#123;</span><br><span class="line">                f[i][j]=<span class="built_in">max</span>(f[i][k]+f[k+<span class="number">1</span>][j]+s[j+<span class="number">1</span>]-s[i],f[i][j]);</span><br><span class="line">                g[i][j]=<span class="built_in">min</span>(g[i][k]+g[k+<span class="number">1</span>][j]+s[j+<span class="number">1</span>]-s[i],g[i][j]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> minn=<span class="number">1e8</span>;</span><br><span class="line">    <span class="type">int</span> maxn=<span class="number">-1e8</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        minn=<span class="built_in">min</span>(minn,g[i][i+n<span class="number">-1</span>]);</span><br><span class="line">        maxn=<span class="built_in">max</span>(maxn,f[i][i+n<span class="number">-1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;minn&lt;&lt;endl;</span><br><span class="line">    cout&lt;&lt;maxn&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="凸多边形的划分"><a href="#凸多边形的划分" class="headerlink" title="凸多边形的划分"></a>凸多边形的划分</h3><p>给定一个具有$ N $个顶点的凸多边形，将顶点从$ 1$ 至 $N$ 标号，每个顶点的权值都是一个正整数。</p>
-<p>将这个凸多边形划分成$N−2 $个互不相交的三角形，对于每个三角形，其三个顶点的权值相乘都可得到一个权值乘积，试求所有三角形的顶点权值乘积之和至少为多少。</p>
-<h4 id="输入格式-2"><a href="#输入格式-2" class="headerlink" title="输入格式"></a>输入格式</h4><p>第一行包含整数 $N$，表示顶点数量。</p>
-<p>第二行包含 $N$ 个整数，依次为顶点 $1$至顶点 $N$ 的权值。</p>
-<h4 id="输出格式-2"><a href="#输出格式-2" class="headerlink" title="输出格式"></a>输出格式</h4><p>输出仅一行，为所有三角形的顶点权值乘积之和的最小值。</p>
-<h4 id="数据范围-2"><a href="#数据范围-2" class="headerlink" title="数据范围"></a>数据范围</h4><p>$N≤50$,<br>数据保证所有顶点的权值都小于$109$</p>
-<h4 id="输入样例：-2"><a href="#输入样例：-2" class="headerlink" title="输入样例："></a>输入样例：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">5</span><br><span class="line">121 122 123 245 231</span><br></pre></td></tr></table></figure>
-
-<h4 id="输出样例：-2"><a href="#输出样例：-2" class="headerlink" title="输出样例："></a>输出样例：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">12214884</span><br></pre></td></tr></table></figure>
-
-<h4 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h4><ul>
-<li>这也是个很经典的区间dp问题，我们每次枚举中间点即可。</li>
-</ul>
-<h4 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">minScoreTriangulation</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; values)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n=values.<span class="built_in">size</span>();</span><br><span class="line">        <span class="type">int</span> INF=<span class="number">0x3f3f3f3f</span>;</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;<span class="built_in">dp</span>(n+<span class="number">1</span>,<span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(n+<span class="number">1</span>,INF));</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> len=<span class="number">2</span>;len&lt;=n;len++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i+len<span class="number">-1</span>&lt;n;i++)&#123;</span><br><span class="line">                <span class="type">int</span> j=i+len<span class="number">-1</span>;</span><br><span class="line">                <span class="keyword">if</span>(len==<span class="number">2</span>)dp[i][j]=<span class="number">0</span>;</span><br><span class="line">                <span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="keyword">for</span>(<span class="type">int</span> k=i;k&lt;=j;k++)&#123;</span><br><span class="line">                    dp[i][j]=<span class="built_in">min</span>(dp[i][j],dp[i][k]+dp[k][j]+values[i]*values[j]*values[k]);</span><br><span class="line">                &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">0</span>][n<span class="number">-1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="能量项链"><a href="#能量项链" class="headerlink" title="能量项链"></a>能量项链</h3><h4 id="题目描述：略"><a href="#题目描述：略" class="headerlink" title="题目描述：略"></a>题目描述：略</h4><h4 id="思路-3"><a href="#思路-3" class="headerlink" title="思路"></a>思路</h4><ul>
-<li><p>读完题我们可以很容易发现这是一个标准环形石子合并和矩阵乘法的问题，但是分析时却发现有好几个坑：</p>
-<ul>
-<li><p>首尾相连则一个标准的合并需要在结尾补充一个数:$(2,3,5,10)&#x3D;((2,3),(3,5),(5,10),(10,2))$也就是说区间起点可能没什么区别，但是区间终点应该往后移一位：$st&#x3D;i,ed&#x3D;i+len$</p>
-</li>
-<li><p>划分点不可取到区间的起点和终点：很容易理解，对于$(2,3),(3,5)$这两个区间合并，我们只能取$3$这个点作为划分点。$res&#x3D;f(2,3)+f(3,5)+2<em>3</em>5&#x3D;0+2+2<em>3</em>5$。所以枚举划分点时枚举方法：</p>
-</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> k=i+<span class="number">1</span>;k&lt;j;k++)</span><br></pre></td></tr></table></figure>
-
-<h4 id="代码-3"><a href="#代码-3" class="headerlink" title="代码"></a>代码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">220</span>;</span><br><span class="line"><span class="type">int</span> f[N][N];</span><br><span class="line"><span class="type">int</span> n;</span><br><span class="line"><span class="type">int</span> a[N];</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)cin&gt;&gt;a[i],a[n+i]=a[i];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> l=<span class="number">2</span>;l&lt;=n;l++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i+l&lt;=<span class="number">2</span>*n<span class="number">-1</span>;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> j=i+l;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k=i+<span class="number">1</span>;k&lt;j;k++)</span><br><span class="line">        f[i][j]=<span class="built_in">max</span>(f[i][j],f[i][k]+f[k][j]+a[i]*a[k]*a[j]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> maxn=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">        maxn=<span class="built_in">max</span>(maxn,f[i][i+n]);</span><br><span class="line">    cout&lt;&lt;maxn;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="加分二叉树"><a href="#加分二叉树" class="headerlink" title="加分二叉树"></a>加分二叉树</h3><h4 id="题目描述：略-1"><a href="#题目描述：略-1" class="headerlink" title="题目描述：略"></a>题目描述：略</h4><h4 id="思路-4"><a href="#思路-4" class="headerlink" title="思路"></a>思路</h4><ul>
-<li>二叉树的中序遍历是（1—n）,也就是这个树映射到数组上就是一个从1-n的数组，我们只需要确定出根节点的位置即可。</li>
-</ul>
-<p><img src="https://gitee.com/bhb100/drawing-bed/raw/master/blog/QQ%E5%9B%BE%E7%89%8720220314112010.png"></p>
-<ul>
-<li>枚举根节点进行状态划分。</li>
-<li>需要特判边界<ul>
-<li>左边为空</li>
-<li>右边为空</li>
-<li>左右都为空</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(k==l)<span class="comment">//左边为空</span></span><br><span class="line">    left=<span class="number">1</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(k==r)<span class="comment">//右边为空</span></span><br><span class="line">    right=<span class="number">1</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(k==l&amp;&amp;k==r)<span class="comment">//左右都为空</span></span><br><span class="line">    tmp=<span class="number">1</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>输出方案：dfs每个点，前序遍历输出即可。新开一个数组把决策点记录下来。</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(tmp&gt;f[i][j])</span><br><span class="line">    g[i][j]=k;</span><br></pre></td></tr></table></figure>
-
-<h4 id="代码-4"><a href="#代码-4" class="headerlink" title="代码"></a>代码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="comment">//中序遍历已经确定，我们只需要找到根节点的位置即可</span></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">32</span>;</span><br><span class="line"><span class="type">int</span> f[N][N];</span><br><span class="line"><span class="type">int</span> root[N][N];<span class="comment">//根节点</span></span><br><span class="line"><span class="type">int</span> n;</span><br><span class="line"><span class="type">int</span> a[N];</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> l,<span class="type">int</span> r)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;r) <span class="keyword">return</span>;</span><br><span class="line">    <span class="type">int</span> k=root[l][r];</span><br><span class="line">    cout&lt;&lt;k+<span class="number">1</span>&lt;&lt;<span class="string">&quot; &quot;</span>;</span><br><span class="line">    <span class="built_in">dfs</span>(l,k<span class="number">-1</span>);</span><br><span class="line">    <span class="built_in">dfs</span>(k+<span class="number">1</span>,r);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)cin&gt;&gt;a[i];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        f[i][i]=a[i];</span><br><span class="line">        root[i][i]=i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> len=<span class="number">2</span>;len&lt;=n;len++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i+len<span class="number">-1</span>&lt;n;i++)&#123;</span><br><span class="line">            <span class="type">int</span> j=i+len<span class="number">-1</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> k=i;k&lt;=j;k++)&#123;</span><br><span class="line">                <span class="type">int</span> left=k==i?<span class="number">1</span>:f[i][k<span class="number">-1</span>];</span><br><span class="line">                <span class="type">int</span> right=k==j?<span class="number">1</span>:f[k+<span class="number">1</span>][j];</span><br><span class="line">                <span class="type">int</span> tmp=left*right+a[k];</span><br><span class="line">                <span class="keyword">if</span>(tmp&gt;f[i][j])&#123;</span><br><span class="line">                    f[i][j]=tmp;</span><br><span class="line">                    root[i][j]=k;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, f[<span class="number">0</span>][n<span class="number">-1</span>]);</span><br><span class="line">    <span class="built_in">dfs</span>(<span class="number">0</span>, n<span class="number">-1</span>);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">题解</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">知识点</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">动态规划</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">区间dp</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/算法//" class="article-tag-list-link color3">算法</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/15/%E5%8C%BA%E9%97%B4dp/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-每日总结2022-3-14" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/15/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-14/">每日总结2022-3-14</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/15/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-14/" class="archive-article-date">
-  	<time datetime="2022-03-14T18:15:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="刷题"><a href="#刷题" class="headerlink" title="刷题"></a>刷题</h3><h4 id="力扣"><a href="#力扣" class="headerlink" title="力扣"></a>力扣</h4><ul>
-<li>数组中的逆序对    （归并排序）</li>
-<li>2044 统计按位或能得到最大值的子集数目（位运算枚举）</li>
-<li>239 滑动窗口最大值（单调队列）</li>
-<li>76 最小覆盖子串        （双指针，记录合法个数）</li>
-<li>599 两个列表的最小索引总和    (签到题)</li>
-</ul>
-<h4 id="ACWING"><a href="#ACWING" class="headerlink" title="ACWING"></a>ACWING</h4><ul>
-<li>放养但没有完全放养 贪心加双指针</li>
-<li>你知道你的ABC吗 贪心</li>
-</ul>
-<h4 id="技术"><a href="#技术" class="headerlink" title="技术"></a>技术</h4><ul>
-<li>分布式实验lab1</li>
-</ul>
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/15/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-14/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-每日总结2022-3-13" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/14/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-13/">每日总结2022-3-13</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/14/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-13/" class="archive-article-date">
-  	<time datetime="2022-03-13T16:41:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="刷题"><a href="#刷题" class="headerlink" title="刷题"></a>刷题</h3><h4 id="力扣"><a href="#力扣" class="headerlink" title="力扣"></a>力扣</h4><ul>
-<li><p>每日一题：后序遍历树</p>
-</li>
-<li><p>284场周赛四道题</p>
-</li>
-</ul>
-<h4 id="技术"><a href="#技术" class="headerlink" title="技术"></a>技术</h4><ul>
-<li>qt5.9基础</li>
-<li>thrift</li>
-</ul>
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/14/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-13/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/4/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/6/">Next &amp;raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/4/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/6/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -1864,6 +2005,18 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">搜索</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">计算机网络</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">思维，逆向，数学，动态规划</a>
               </li>
             
             <div class="clearfix"></div>
