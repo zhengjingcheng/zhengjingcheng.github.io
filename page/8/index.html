@@ -164,6 +164,127 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-力扣798得分最高的最小轮调" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/09/%E5%8A%9B%E6%89%A3798%E5%BE%97%E5%88%86%E6%9C%80%E9%AB%98%E7%9A%84%E6%9C%80%E5%B0%8F%E8%BD%AE%E8%B0%83/">力扣798得分最高的最小轮调</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/09/%E5%8A%9B%E6%89%A3798%E5%BE%97%E5%88%86%E6%9C%80%E9%AB%98%E7%9A%84%E6%9C%80%E5%B0%8F%E8%BD%AE%E8%B0%83/" class="archive-article-date">
+  	<time datetime="2022-03-08T20:11:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h4 id="力扣798得分最高的最小轮调"><a href="#力扣798得分最高的最小轮调" class="headerlink" title="力扣798得分最高的最小轮调"></a>力扣798得分最高的最小轮调</h4><p><strong>题目描述</strong><br>给定一个数组 A，我们可以将它按一个非负整数 K 进行轮调，这样可以使数组变为 A[K], A[K+1], A[K+2], … A[A.length - 1], A[0], A[1], …, A[K-1] 的形式。此后，任何值小于或等于其索引的项都可以记作 1 分。</p>
+<p>例如，如果数组为 [2, 4, 1, 3, 0]，我们按 K &#x3D; 2 进行轮调后，它将变成 [1, 3, 0, 2, 4]。这将记作 3 分，因为 1 &gt; 0 [没有得分], 3 &gt; 1 [没有得分], 0 &lt;&#x3D; 2 [1 分], 2 &lt;&#x3D; 3 [1 分], 4 &lt;&#x3D; 4 [1 分]。</p>
+<p>在所有可能的轮调中，返回我们所能得到的最高分数对应的轮调索引 K。如果有多个答案，返回满足条件的最小的索引 K。</p>
+<p>样例<br>输入：[2, 3, 1, 4, 0]<br>输出：3<br>解释：<br>下面列出了每个 K 的得分：<br>K &#x3D; 0,  A &#x3D; [2,3,1,4,0],    score 2<br>K &#x3D; 1,  A &#x3D; [3,1,4,0,2],    score 3<br>K &#x3D; 2,  A &#x3D; [1,4,0,2,3],    score 3<br>K &#x3D; 3,  A &#x3D; [4,0,2,3,1],    score 4<br>K &#x3D; 4,  A &#x3D; [0,2,3,1,4],    score 3<br>所以我们应当选择 K &#x3D; 3，得分最高。</p>
+<p><strong>思路</strong>：</p>
+<p>这道题是思维题，有一定难度，我们不妨换一个角度去考虑问题，即：对于每个$A[i]$轮换不同的步数可以满足的加分区间。我们可以先处理出，每个位置的加分区间，然后统计加分区间最大的轮换。</p>
+<ul>
+<li>由于只有当前值小于等于索引值时我们才可以加分，所以分情况讨论：</li>
+</ul>
+<p><img src="https://gitee.com/bhb100/drawing-bed/raw/master/blog/20220309040522.png"></p>
+<ul>
+<li>1、$A[i]&gt;i$ 说明只有一个加分区间$(A[i],n)$也就是必须要轮换到后边：$i-k&#x3D;(-1,-(n-A[i]))$也就是</li>
+</ul>
+<p>$(i+1,i+n-A[i])$</p>
+<p><img src="https://gitee.com/bhb100/drawing-bed/raw/master/blog/20220309040449.png"></p>
+<ul>
+<li>2、$A[i]&lt;i$说明有两个加分区间，一个在前边，一个和上边情况差不多，在后边<ul>
+<li>前边：$(0,i-A[i])$</li>
+<li>后边：$(i+1,i+n-i)&#x3D;(i+1,n)$</li>
+</ul>
+</li>
+</ul>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">bestRotation</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n=nums.<span class="built_in">size</span>();</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt;<span class="built_in">s</span>(n+<span class="number">1</span>,<span class="number">0</span>);</span><br><span class="line">        <span class="type">int</span> res=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[i]&gt;i)s[i+<span class="number">1</span>]++,s[i+n-nums[i]+<span class="number">1</span>]--;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                s[<span class="number">0</span>]++,s[i-nums[i]+<span class="number">1</span>]--;</span><br><span class="line">                s[i+<span class="number">1</span>]++,s[n]--;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> sum=<span class="number">0</span>,ans=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">0</span>;k&lt;n;k++)&#123;</span><br><span class="line">            sum+=s[k];</span><br><span class="line">            <span class="keyword">if</span>(sum&gt;ans)&#123;</span><br><span class="line">                ans=sum,res=k;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">数学</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">差分</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">前缀和</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hard</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/题解//" class="article-tag-list-link color3">题解</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/09/%E5%8A%9B%E6%89%A3798%E5%BE%97%E5%88%86%E6%9C%80%E9%AB%98%E7%9A%84%E6%9C%80%E5%B0%8F%E8%BD%AE%E8%B0%83/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-数据库（一）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1452,109 +1573,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2022/03/06/%E9%83%A8%E7%BD%B2nginx%E4%B8%8E%E5%AF%B9%E6%8E%A5acapp/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-每日总结2022-3-5" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/06/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-5/">每日总结2022-3-5</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/06/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-5/" class="archive-article-date">
-  	<time datetime="2022-03-05T17:23:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="刷题"><a href="#刷题" class="headerlink" title="刷题"></a>刷题</h3><h4 id="Acwing"><a href="#Acwing" class="headerlink" title="Acwing"></a>Acwing</h4><ul>
-<li>打家劫舍</li>
-<li>打家劫舍Ⅱ</li>
-<li>买卖股票Ⅳ</li>
-<li>买卖股票Ⅴ</li>
-</ul>
-<h4 id="力扣"><a href="#力扣" class="headerlink" title="力扣"></a>力扣</h4><ul>
-<li>周赛1：哈希表</li>
-<li>周赛2：排序</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sort</span>(a.<span class="built_in">begin</span>(),b.<span class="built_in">begin</span>()[&amp;](<span class="type">int</span> x,<span class="type">int</span> y)&#123;</span><br><span class="line">    <span class="keyword">return</span> x&gt;y;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>周赛3：bfs</li>
-</ul>
-<h4 id="技术"><a href="#技术" class="headerlink" title="技术"></a>技术</h4><ul>
-<li>django笔记</li>
-</ul>
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/06/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-5/">展开全文 >></a>
         </p>
       
 
