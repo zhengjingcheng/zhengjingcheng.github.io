@@ -164,6 +164,223 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-C++多线程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/31/C++%E5%A4%9A%E7%BA%BF%E7%A8%8B/">C++多线程</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/31/C++%E5%A4%9A%E7%BA%BF%E7%A8%8B/" class="archive-article-date">
+  	<time datetime="2022-03-30T17:30:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-31</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="C-多线程"><a href="#C-多线程" class="headerlink" title="C++多线程"></a>C++多线程</h3><h4 id="条件变量"><a href="#条件变量" class="headerlink" title="条件变量"></a>条件变量</h4><ul>
+<li>必须先声明一个<strong>mutex</strong>和<strong>condition_variable</strong>变量</li>
+<li>上锁：unique_lock<mutex>lck(mtx)</li>
+<li>当当前线程条件满足后，应该调用**notify_one()<strong>或</strong>notify_all()**唤醒沉睡中的线程</li>
+<li>在等待中的线程需要调用**wait()**在当前线程未满足时阻塞。<ul>
+<li><code>wait(a,b)</code></li>
+<li>第一个参数a：lock</li>
+<li>第二个参数b：匿名函数，如果返回的是true，就会唤醒，否则会继续沉睡。</li>
+</ul>
+</li>
+</ul>
+<h4 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h4><ul>
+<li><p><code>#include &lt;semaphore.h&gt;</code></p>
+</li>
+<li><p>sem_t是信号量</p>
+</li>
+<li><p>初始化：<strong>sem_init(a,b,c)</strong></p>
+<ul>
+<li>第一个参数a：是信号量，传入的是指针类型</li>
+<li>第二个参数b：是类型，0代表进程内线程共享，1代表进程共享。</li>
+<li>第三个参数c：信号量的初始值。</li>
+</ul>
+</li>
+<li><p>**sem_post(a)**是给信号量加一。</p>
+</li>
+<li><p>**sem_wait(a)**它的作用是从信号量的值减去一个“1”，但它永远会先等待该信号量为一个非零值才开始做减法。</p>
+</li>
+</ul>
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">c++</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">必背</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">多线程</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/基础知识//" class="article-tag-list-link color5">基础知识</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/31/C++%E5%A4%9A%E7%BA%BF%E7%A8%8B/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-每日总结2022-3-30" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/31/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-30/">每日总结2022-3-30</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/31/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-30/" class="archive-article-date">
+  	<time datetime="2022-03-30T17:27:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-31</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="刷题"><a href="#刷题" class="headerlink" title="刷题"></a>刷题</h3><h4 id="ACWING"><a href="#ACWING" class="headerlink" title="ACWING"></a>ACWING</h4><ul>
+<li>遮挡广告牌（一）</li>
+<li>遮挡广告牌（二）</li>
+</ul>
+<h4 id="力扣"><a href="#力扣" class="headerlink" title="力扣"></a>力扣</h4><ul>
+<li>每日一题（模拟）</li>
+<li>多线程（1-3）</li>
+</ul>
+<h4 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h4><ul>
+<li>南大操作系统课</li>
+</ul>
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/31/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-30/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-面试常问知识点（一）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1197,203 +1414,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2022/03/28/%E4%BE%AF%E6%8D%B7%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%EF%BC%88%E4%BA%8C%EF%BC%89/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-数组模拟队列" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/28/%E6%95%B0%E7%BB%84%E6%A8%A1%E6%8B%9F%E9%98%9F%E5%88%97/">数组模拟队列</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/28/%E6%95%B0%E7%BB%84%E6%A8%A1%E6%8B%9F%E9%98%9F%E5%88%97/" class="archive-article-date">
-  	<time datetime="2022-03-27T17:30:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="数组模拟队列"><a href="#数组模拟队列" class="headerlink" title="数组模拟队列"></a>数组模拟队列</h3><ul>
-<li><p>队头：<code>hh=0</code></p>
-</li>
-<li><p>队尾：<code>tt=-1</code></p>
-</li>
-<li><p>入队：<code>q[++tt]=a</code></p>
-</li>
-<li><p>出队：<code>hh++</code></p>
-</li>
-<li><p>判队空：<code>tt&gt;=hh</code></p>
-</li>
-</ul>
-<h4 id="练习题（滑动数组）"><a href="#练习题（滑动数组）" class="headerlink" title="练习题（滑动数组）"></a>练习题（滑动数组）</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">maxSlidingWindow</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> q[<span class="number">100010</span>]=&#123;<span class="number">0</span>&#125;;</span><br><span class="line">        <span class="type">int</span> tt=<span class="number">-1</span>,hh=<span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> n=nums.<span class="built_in">size</span>();</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt;res;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="keyword">while</span>(tt&gt;=hh&amp;&amp;nums[q[tt]]&lt;nums[i])tt--;</span><br><span class="line">            <span class="keyword">while</span>(tt&gt;=hh&amp;&amp;q[hh]+k&lt;=i)hh++;</span><br><span class="line">            q[++tt]=i;</span><br><span class="line">            <span class="keyword">if</span>(i-k+<span class="number">1</span>&gt;=<span class="number">0</span>)</span><br><span class="line">            res.<span class="built_in">push_back</span>(nums[q[hh]]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">数据结构，队列</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">模板</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/模板//" class="article-tag-list-link color3">模板</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/28/%E6%95%B0%E7%BB%84%E6%A8%A1%E6%8B%9F%E9%98%9F%E5%88%97/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-每日总结2022-3-27" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/28/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-27/">每日总结2022-3-27</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/28/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-27/" class="archive-article-date">
-  	<time datetime="2022-03-27T17:30:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="刷题"><a href="#刷题" class="headerlink" title="刷题"></a>刷题</h3><h4 id="ACWING"><a href="#ACWING" class="headerlink" title="ACWING"></a>ACWING</h4><ul>
-<li>矩阵距离</li>
-</ul>
-<h4 id="力扣"><a href="#力扣" class="headerlink" title="力扣"></a>力扣</h4><ul>
-<li>周赛（四题）</li>
-</ul>
-<h4 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h4><ul>
-<li>C++基础（三）</li>
-</ul>
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/28/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-27/">展开全文 >></a>
         </p>
       
 
