@@ -6,14 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Category: 周赛 | Hexo</title>
+  <title>实现登录功能 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/categories/%E5%91%A8%E8%B5%9B/index.html">
+  <meta name="description" content="实现登录功能创建用户数据库将数据表存放在models文件夹内。 首先在models里创建一个player文件夹，用于存储所有的player相关的表 然后初始化文件夹，扩充成需要的数据表 12345$ cd models$ mkdir player$ cd player$ touch __init__.py$ vim player.py  123456789101112131415from djan">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实现登录功能">
+<meta property="og:url" content="http://example.com/2022/04/06/%E5%AE%9E%E7%8E%B0%E7%99%BB%E5%BD%95%E5%8A%9F%E8%83%BD/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="实现登录功能创建用户数据库将数据表存放在models文件夹内。 首先在models里创建一个player文件夹，用于存储所有的player相关的表 然后初始化文件夹，扩充成需要的数据表 12345$ cd models$ mkdir player$ cd player$ touch __init__.py$ vim player.py  123456789101112131415from djan">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-04-05T17:39:43.000Z">
+<meta property="article:modified_time" content="2022-04-05T17:40:50.935Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="项目">
+<meta property="article:tag" content="后端">
+<meta property="article:tag" content="django">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -162,75 +169,220 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-实现登录功能" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2022" class="archive-year">2022</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/03/06/%E5%8A%9B%E6%89%A3283%E5%9C%BA%E5%91%A8%E8%B5%9B/" class="archive-article-date">
-  	<time datetime="2022-03-06T08:48:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-06</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/03/06/%E5%8A%9B%E6%89%A3283%E5%9C%BA%E5%91%A8%E8%B5%9B/">力扣283场周赛</a>
+    <h1 class="article-title" itemprop="name">
+      实现登录功能
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2022/04/06/%E5%AE%9E%E7%8E%B0%E7%99%BB%E5%BD%95%E5%8A%9F%E8%83%BD/" class="archive-article-date">
+  	<time datetime="2022-04-05T17:39:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-04-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="实现登录功能"><a href="#实现登录功能" class="headerlink" title="实现登录功能"></a>实现登录功能</h3><h4 id="创建用户数据库"><a href="#创建用户数据库" class="headerlink" title="创建用户数据库"></a>创建用户数据库</h4><p>将数据表存放在<code>models</code>文件夹内。</p>
+<p>首先在<code>models</code>里创建一个<code>player</code>文件夹，用于存储所有的<code>player</code>相关的表</p>
+<p>然后初始化文件夹，扩充成需要的数据表</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> models</span><br><span class="line">$ <span class="built_in">mkdir</span> player</span><br><span class="line">$ <span class="built_in">cd</span> player</span><br><span class="line">$ <span class="built_in">touch</span> __init__.py</span><br><span class="line">$ vim player.py</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"><span class="keyword">from</span> django.contrib.auth.models <span class="keyword">import</span> User</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Player</span>(models.Model): <span class="comment"># Player 类继承自 Model 类</span></span><br><span class="line">    user = models.OneToOneField(User, on_delete=models.CASCADE)</span><br><span class="line">    <span class="comment"># 说明Player是从User表扩充过来的，每一个player都与一个user是一一对应关联关系</span></span><br><span class="line">    <span class="comment"># 后一个参数是指，当user被删除后，对应的player也要被删除</span></span><br><span class="line">    <span class="comment"># （感觉就是外键的意思）</span></span><br><span class="line">    photo = models.URLField(max_length=<span class="number">256</span>, blank=<span class="literal">True</span>)</span><br><span class="line">    <span class="comment"># 用于存储用户的头像的url</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 指定每个player数据展示在前台的数据</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__str__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">str</span>(self.user)    <span class="comment"># 展示用户的用户名</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>将定义的表，注册到后台<code>admin</code>页面</p>
+<p><code>game/admin.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="keyword">from</span> game.models.player.player <span class="keyword">import</span> Player</span><br><span class="line"></span><br><span class="line">admin.site.register(Player)</span><br></pre></td></tr></table></figure>
+
+<p>将创建的数据表更新到<code>django</code>数据库中</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ python3 manage.py makemigrations</span><br><span class="line">&gt; Migrations <span class="keyword">for</span> <span class="string">&#x27;game&#x27;</span>:</span><br><span class="line">&gt;   game/migrations/0001_initial.py</span><br><span class="line">&gt;     - Create model Player</span><br><span class="line">$ </span><br><span class="line">$ python3 manage.py migrate</span><br><span class="line">&gt; Operations to perform:</span><br><span class="line">&gt;   Apply all migrations: admin, auth, contenttypes, game, sessions</span><br><span class="line">&gt; Running migrations:</span><br><span class="line">&gt;   Applying game.0001_initial... OK</span><br></pre></td></tr></table></figure>
+
+<h4 id="登录功能主要框架"><a href="#登录功能主要框架" class="headerlink" title="登录功能主要框架"></a>登录功能主要框架</h4><p>基本逻辑：用户访问页面-&gt;进入登录页面-&gt;提交登录信息-&gt;核对登录信息-&gt;返回登录结果和其他信息</p>
+<p>每个部分都同时需要实现三个部分：</p>
+<ol>
+<li><code>views</code>:实现具体的调用数据库的逻辑</li>
+<li><code>urls</code>：实现一个路由</li>
+<li><code>js</code>:前端实现GET上述接口的过程</li>
+</ol>
+<p>实现流程：</p>
+<ol>
+<li>用户访问网站，通过先前完成的路由，访问到<code>web.html</code></li>
+<li><code>web.html</code>中的<code>js</code>部分创建了一个<code>AcGame</code>对象</li>
+<li><code>AcGame</code>对象创建的过程中，生成了<code>Settings</code>对象</li>
+<li><code>Settings</code>对象完成后，调用<code>Settings.start()</code>函数</li>
+<li><code>Settings.start()</code> 函数调用了 <code>Settings.getinfo()</code> 函数</li>
+<li><code>Settings.getinfo()</code> 函数中执行了 <code>ajax </code>向<code>getinfo</code>接口发起一个含参数 <code>platform </code>的 <code>GET </code>请求</li>
+<li>通过 <code>urls</code> 路由的实现，最终定位到 <code>views/settings/getinfo.py </code>文件的 <code>getinfo(request) </code>函数</li>
+<li>根据传递过来的 <code>platform</code> 函数，实现不同的<code>JsonResponse</code>返回</li>
+<li><code>Settings.getinfo()</code> 接受到了<code>response</code>完成上述基本逻辑</li>
+</ol>
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">题解</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">项目</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">周赛</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">后端</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">django</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/周赛//" class="article-tag-list-link color3">周赛</a>
+        			<a href="/categories/新版球球大作战项目//" class="article-tag-list-link color5">新版球球大作战项目</a>
         		</li>
       		
 		</ul>
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2022/04/06/%E5%AE%9E%E7%8E%B0%E7%99%BB%E5%BD%95%E5%8A%9F%E8%83%BD/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2022/04/06/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          多线程
+        
+      </div>
+    </a>
   
   
-    </div></section>
+    <a href="/2022/04/06/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-4-5/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">每日总结2022-4-5</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E7%99%BB%E5%BD%95%E5%8A%9F%E8%83%BD"><span class="toc-number">1.</span> <span class="toc-text">实现登录功能</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">1.1.</span> <span class="toc-text">创建用户数据库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%99%BB%E5%BD%95%E5%8A%9F%E8%83%BD%E4%B8%BB%E8%A6%81%E6%A1%86%E6%9E%B6"><span class="toc-number">1.2.</span> <span class="toc-text">登录功能主要框架</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -253,10 +405,10 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
-		isCategory: true,
+		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
 		root: "/",

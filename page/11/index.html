@@ -164,6 +164,409 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Acwing487金明的预算方案" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/04/Acwing487%E9%87%91%E6%98%8E%E7%9A%84%E9%A2%84%E7%AE%97%E6%96%B9%E6%A1%88/">Acwing487金明的预算方案</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/04/Acwing487%E9%87%91%E6%98%8E%E7%9A%84%E9%A2%84%E7%AE%97%E6%96%B9%E6%A1%88/" class="archive-article-date">
+  	<time datetime="2022-03-03T17:57:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h4 id="Acwing487金明的预算方案"><a href="#Acwing487金明的预算方案" class="headerlink" title="Acwing487金明的预算方案"></a>Acwing487金明的预算方案</h4><h5 id="题目大意（略）"><a href="#题目大意（略）" class="headerlink" title="题目大意（略）"></a>题目大意（略）</h5><h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><ul>
+<li>这个题需要考虑主附件之间的购买关系，最多有两个附件，购买情况有四种<ul>
+<li>只买主件（00）</li>
+<li>买一个主件和附件一（10）</li>
+<li>买一个主件和附件二（01）</li>
+<li>买两个附件（11）</li>
+</ul>
+</li>
+<li>所以可以使用二进制进行枚举，用vector存储附件，数组存储主件</li>
+<li>由于主件是有编号的，即每个物品有三个属性：编号、价格、重要度。所以可以考虑用pair存储性质。</li>
+<li>考虑清楚这些就可以套用分组背包的模板了。</li>
+</ul>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">32010</span>;</span><br><span class="line"><span class="type">int</span> f[N];</span><br><span class="line"><span class="type">int</span> n,m;</span><br><span class="line"><span class="keyword">typedef</span> pair&lt;<span class="type">int</span>,<span class="type">int</span>&gt;pii;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> x first</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> y second</span></span><br><span class="line">pii q[<span class="number">65</span>];<span class="comment">//存储主件</span></span><br><span class="line">vector&lt;pii&gt;v[<span class="number">65</span>];<span class="comment">//存储复件</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin&gt;&gt;m&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> a,b,c;</span><br><span class="line">        cin&gt;&gt;a&gt;&gt;b&gt;&gt;c;</span><br><span class="line">        b=a*b;</span><br><span class="line">        <span class="keyword">if</span>(!c)<span class="comment">//如果是主件</span></span><br><span class="line">        q[i]=&#123;a,b&#125;;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        v[c].<span class="built_in">push_back</span>(&#123;a,b&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=m;j&gt;=<span class="number">0</span>;j--)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">0</span>;k&lt;<span class="number">1</span>&lt;&lt;v[i].<span class="built_in">size</span>();k++)<span class="comment">//遍历编号为i的物品的附件</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="type">int</span> vt=q[i].x,va=q[i].y;</span><br><span class="line">                <span class="keyword">for</span>(<span class="type">int</span> u=<span class="number">0</span>;u&lt;v[i].<span class="built_in">size</span>();u++)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">if</span>(k&gt;&gt;u&amp;<span class="number">1</span>)<span class="comment">//如果有第u个附件</span></span><br><span class="line">                    &#123;</span><br><span class="line">                    vt+=v[i][u].x;</span><br><span class="line">                    va+=v[i][u].y;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(j&gt;=vt)</span><br><span class="line">                f[j]=<span class="built_in">max</span>(f[j-vt]+va,f[j]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;f[m];</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">算法题解</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">背包</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">金明的预算方案</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">dp，分组背包，位运算</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/题解//" class="article-tag-list-link color3">题解</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/04/Acwing487%E9%87%91%E6%98%8E%E7%9A%84%E9%A2%84%E7%AE%97%E6%96%B9%E6%A1%88/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-计算机网络" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" class="archive-article-date">
+  	<time datetime="2022-03-02T19:12:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="计算机网络"><a href="#计算机网络" class="headerlink" title="计算机网络"></a>计算机网络</h3><ul>
+<li><p>五层网络结构</p>
+<ul>
+<li>应用层<ul>
+<li>HTTP：超文本传输协议</li>
+<li>DNS：域名系统</li>
+<li>FTP：系统文件上传协议</li>
+<li>SSH：安全外壳协议（登录、传输）</li>
+</ul>
+</li>
+<li>传输层<ul>
+<li>TCP：传输控制协议</li>
+<li>UDP：用户数据报协议</li>
+</ul>
+</li>
+<li>网络层<ul>
+<li>IP（IPv4、IPv6）</li>
+</ul>
+</li>
+<li>数据链路层<ul>
+<li>以太网</li>
+<li>WIFI</li>
+</ul>
+</li>
+<li>物理层<ul>
+<li>光纤</li>
+<li>电缆</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>七层网络结构</p>
+<ul>
+<li>表示层<ul>
+<li>数据压缩、加密、描述</li>
+</ul>
+</li>
+<li>会话层<ul>
+<li>数据交换定界、同步</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>http报文组成格式</p>
+<ul>
+<li>请求头<ul>
+<li>起始行：描述请求或响应的基本信息<ul>
+<li>GET 获取资源</li>
+<li>POST 传输实体</li>
+</ul>
+</li>
+<li>头部字段：使用key-value形式更详细地说明报文</li>
+</ul>
+</li>
+<li>消息正文：实际传输的数据<ul>
+<li>文本</li>
+<li>图片</li>
+<li>视频</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>URL解析</p>
+<ul>
+<li>http:&#x2F;&#x2F;        方案或协议</li>
+<li><a target="_blank" rel="noopener" href="http://www.example.com/">www.example.com</a>:  主机，指示了向网络上哪一台主机发起请求。</li>
+<li>80&#x2F;  端口号</li>
+<li>path&#x2F;to&#x2F;myfile.html  路径，html页面</li>
+<li>？key1&#x3D;value1&amp;key2&#x3D;value2 查询参数，如果是GET请求一般带有请求URL参数，如果是POST请求不会再路径后面直接加参数。</li>
+</ul>
+</li>
+<li><p>HTTP请求响应的过程</p>
+<ul>
+<li>DNS服务器先对输入的urls进行域名解析找到ip地址，然后通过80端口建立一个TCP连接。</li>
+<li>HTTP客户端向服务器端发送一个请求报文。该报文包含了ulr地址的资源。</li>
+<li>HTTP服务器接收到该报文后，进行请求的解析工作，然后将检索出来的对象进行封装，封装到响应报文中，然后通过套接字向客户端发送。</li>
+<li>HTTP客户端接收到响应报文后,TCP连接就会关闭。HTTP客户端接收的响应报文是一个HTML响应文件。</li>
+<li>HTTP客户端检查完该HTML文件后会把相应的资源通过显示器呈现给用户。</li>
+</ul>
+</li>
+<li><p>TCP三次握手、四次挥手</p>
+<ul>
+<li>三次握手：三次握手的机制是为了保证能建立一个安全可靠的连接。第一次握手是由客户端发起，客户端会向服务器端发送一个报文。报文里：SYN标志位置1，表示发起新的连接。当服务端收到这个报文后就知道客户端要和我建立一个新的连接，于是服务端就向客户端发送一个确认消息包，在这个消息包里：ack标志位置1，序列号加一，表示确认客户端发起的第一次连接请求。此时对于客户端而言已经明确了我能给服务端发消息，服务端也知道自己可以接收到客户端的消息，但是服务端不知道客户端能不能接收到自己发出的消息。所以此时就需要第三次握手，客户端需要给服务端进行回应，ack位置1，序列号加1。</li>
+<li>四次挥手：类似于三次挥手，客户端先向服务器端发出断开连接的请求（FIN），但是这里不同的是服务器端此时可能还有任务没有完成，所以不可以立马断开连接，只能先发送一个收到断开连接请求的ack响应，在处理完任务之后再向客户端发送断开连接的请求，客户端收到后向服务器端发送一个ack响应，到此时连接断开。</li>
+</ul>
+</li>
+<li><p>TCP和UDP的区别。</p>
+<ul>
+<li>TCP是面向连接的，通过三次握手建立客户端和服务器端之间的可靠连接。UDP是面向消息的，可以直接给多台机器发送数据。</li>
+<li>TCP保证可靠传输、超时重传、按序重传、在传输过程中数据不会消失、传输的数据不存在数据边界。UDP强调快速传输而不是顺序传输、传输数据可能会丢失也可能会损毁、传输数据有边界、限制每次传输数据的大小。</li>
+<li>TDP适合：直播，实时游戏。UDP适合：文本文件传输、网上银行用户与银行之间的数据传递。</li>
+</ul>
+</li>
+<li><p>Http和Https的区别</p>
+<ul>
+<li>https协议需要到CA申请证书，一般免费证书较少，需要一定的费用。</li>
+<li>http是超文本传输协议，信息是明文传输，https则是具有安全性的<strong>ssl&#x2F;tls</strong>加密传输协议。</li>
+<li>http和https传输的端口不同，http是80端口，https是443端口。</li>
+<li>http的连接简单，是<strong>无状态</strong>的；https协议是由ssl&#x2F;tls+http协议构建的可进行加密传输、身份认证的网络协议，更加安全。</li>
+<li>https的速度没有http快。</li>
+</ul>
+</li>
+<li><p>什么是SSL&#x2F;TLS</p>
+<ul>
+<li>SSL是一种用于加密和验证应用程序和Web服务器之间发送的数据的应用层协议（密钥对）。TLS是较新版本，SSL是较旧版本。</li>
+</ul>
+</li>
+<li><p>什么是无状态协议</p>
+<ul>
+<li>就是指浏览器对事务的处理没有记忆能。http就是无状态协议，通过cookie机制增加记忆性。</li>
+</ul>
+</li>
+<li><p>讲一下websocket和http的异同</p>
+<ul>
+<li>都是基于TCP的可靠性传输协议</li>
+<li>都是应用层协议</li>
+<li>WebSocket是双向通信协议、http是单向协议</li>
+<li>websocket支持持久化，可以建立长连接</li>
+</ul>
+</li>
+<li><p>http中GET和Post的区别</p>
+<ul>
+<li>get一般用于请求，请求服务器返回资源。post一般是将表单提交给服务器，等待服务器做出响应。</li>
+<li>get请求的url有长度限制，post会把参数和值放在消息体内，对数据长度没有要求。</li>
+<li>get请求会被浏览器主动cache，而post不会，除非手动设置。</li>
+<li>get请求在浏览器反复的回退和前进操作是无害的，而post操作会再次提交表单请求。</li>
+<li>get请求会产生一个TCP数据包；post请求会产生连个TCP数据包</li>
+</ul>
+</li>
+</ul>
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">必背</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">计网</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">http</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/基础知识//" class="article-tag-list-link color5">基础知识</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-每日总结2022-3-2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<hr>
+<p>title: 每日总结2022-3-2<br>date: 2022-03-03 03:08:39<br>tags: 每日总结<br>categories: 日志<br>​—</p>
+<h2 id="2022-x2F-3-x2F-2"><a href="#2022-x2F-3-x2F-2" class="headerlink" title="2022&#x2F;3&#x2F;2"></a>2022&#x2F;3&#x2F;2</h2><h3 id="刷题"><a href="#刷题" class="headerlink" title="刷题"></a>刷题</h3><h4 id="力扣"><a href="#力扣" class="headerlink" title="力扣"></a>力扣</h4><ul>
+<li>二叉树的最近公共祖先</li>
+</ul>
+<h4 id="Acwing"><a href="#Acwing" class="headerlink" title="Acwing"></a>Acwing</h4><ul>
+<li>算法提高课背包问题第三节课<ul>
+<li>开心的金明</li>
+</ul>
+</li>
+</ul>
+<h3 id="技术"><a href="#技术" class="headerlink" title="技术"></a>技术</h3><h5 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h5><ul>
+<li>计算机网络必背知识点 总结</li>
+</ul>
+<h4 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h4><ul>
+<li>今天状态太差了QT完全没整明白，浪费了很多的时间。</li>
+</ul>
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/03/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-2/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-力扣169多数元素" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1161,406 +1564,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2022/03/01/%E5%88%9B%E5%BB%BA%E8%8F%9C%E5%8D%95%E7%95%8C%E9%9D%A2/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-项目创建" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/01/%E9%A1%B9%E7%9B%AE%E5%88%9B%E5%BB%BA/">项目创建</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/01/%E9%A1%B9%E7%9B%AE%E5%88%9B%E5%BB%BA/" class="archive-article-date">
-  	<time datetime="2022-02-28T20:18:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h4 id="Django优势"><a href="#Django优势" class="headerlink" title="Django优势"></a>Django优势</h4><ul>
-<li>开发效率高，有官方社区长期支持</li>
-<li>计算密集型的模块可以用C&#x2F;C++实现，然后编译成动态链接库再<code>import</code>进来。</li>
-<li>计算密集型的微服务可以用<code>thrift</code>等工具对接，微服务的<code>Server</code>端可以用C&#x2F;C++语言实现。</li>
-</ul>
-<h4 id="项目简介"><a href="#项目简介" class="headerlink" title="项目简介"></a>项目简介</h4><ul>
-<li><p>django做前后端分离（一个后端多个前端），后端用django框架。</p>
-<ul>
-<li>后端：sqlite3（自带的可以后期换成mysql）、redis（不能存太多）、thrift服务</li>
-<li>前端：web浏览器</li>
-</ul>
-</li>
-<li><p>游戏菜单、游戏设置：熟悉http协议</p>
-</li>
-<li><p>存储对局信息、账户信息：熟悉数据库操作</p>
-</li>
-<li><p>在Redis中存储每局的对战状态：熟悉内存数据库操作</p>
-</li>
-<li><p>实时移动、放技能：熟悉websocket协议（两端都可以发送消息、http只能单端发消息）</p>
-</li>
-<li><p>在线匹配系统：熟悉thrift和微服务</p>
-</li>
-<li><p>配置nginx：熟悉nginx部署云服务</p>
-</li>
-<li><p>云端开发（tmux、vim），在django上进行搭建，便于后期迁移</p>
-</li>
-<li><p>用git维护，增加项目的整洁性</p>
-</li>
-</ul>
-<h3 id="开发流程"><a href="#开发流程" class="headerlink" title="开发流程"></a>开发流程</h3><h4 id="项目创建"><a href="#项目创建" class="headerlink" title="项目创建"></a>项目创建</h4><ul>
-<li><code>django-admin startproject acapp</code>acapp是项目名称</li>
-<li>为了便于维护，我们需要配置git将本项目上传到云端。</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init #将当前目录初始化为一个仓库</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>为了更加专业我们需要编写忽略文档（云端只存储代码）</p>
-<p><code>acapp/.gitgnore</code></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">**/__pycache__<span class="comment">##缓存文件，可执行文件，编译文件</span></span><br><span class="line">*/*.swp<span class="comment">##中间文件</span></span><br></pre></td></tr></table></figure></li>
-</ul>
-<h4 id="开始项目"><a href="#开始项目" class="headerlink" title="开始项目"></a>开始项目</h4><p><code>acapp/</code></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 manage.py startapp game <span class="comment">##game是存放项目主逻辑的地方</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="game的文件结构（自动生成）"><a href="#game的文件结构（自动生成）" class="headerlink" title="game的文件结构（自动生成）"></a>game的文件结构（自动生成）</h5><ul>
-<li><code>__init__.py</code> ,任何一个py文件都要有init文件</li>
-<li><code>admin.py</code>，存储管理员页面</li>
-<li><code>apps.py</code></li>
-<li><code>migrations</code>，存数据库的<ul>
-<li><code>__init__.py</code></li>
-</ul>
-</li>
-<li><code>models.py</code>，定义数据，管理数据<ul>
-<li>class User</li>
-<li>….</li>
-</ul>
-</li>
-<li><code>test.py</code></li>
-<li><code>views.py</code>，主要实现项目逻辑</li>
-<li><code>urls</code>，路由，用于解析访问网站</li>
-<li><code>templates</code>，存放html文件</li>
-</ul>
-<h5 id="链接数据库（不然无法运行服务器）"><a href="#链接数据库（不然无法运行服务器）" class="headerlink" title="链接数据库（不然无法运行服务器）"></a>链接数据库（不然无法运行服务器）</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ python3 manage.py migrate</span><br></pre></td></tr></table></figure>
-
-<h5 id="创建超级用户"><a href="#创建超级用户" class="headerlink" title="创建超级用户"></a>创建超级用户</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ python3 manage.py createsurperuser</span><br><span class="line">&gt; Username (leave blank to use <span class="string">&#x27;bhb&#x27;</span>): bhb<span class="comment">##这里是超级用户的用户名，如果忘记了再重新创建一个即可</span></span><br><span class="line">&gt; Email address: </span><br><span class="line">&gt; Password: ******</span><br><span class="line">&gt; Password (again): ******</span><br><span class="line">&gt; Superuser created successfully.</span><br></pre></td></tr></table></figure>
-
-<h5 id="打开网页的流程"><a href="#打开网页的流程" class="headerlink" title="打开网页的流程"></a>打开网页的流程</h5><ol>
-<li>输入网址</li>
-<li>acapp.urils</li>
-<li>game.urls</li>
-<li>game.views.index</li>
-<li>打开网页</li>
-</ol>
-<h5 id="各个部分代码实现"><a href="#各个部分代码实现" class="headerlink" title="各个部分代码实现"></a>各个部分代码实现</h5><p><code>game.views</code></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.http <span class="keyword">import</span> HttpResponse</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">index</span>(<span class="params">request</span>):</span><br><span class="line">    line1 = <span class="string">&#x27;&lt;h1 style=&quot;text-align: center&quot;&gt; 第一个网页 &lt;/h1&gt;&#x27;</span></span><br><span class="line"><span class="keyword">return</span> HttpResponse(line1)</span><br></pre></td></tr></table></figure>
-
-<p><code>game.urls</code></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">game.urls</span><br><span class="line"><span class="keyword">from</span> django.urls <span class="keyword">import</span> path</span><br><span class="line"><span class="keyword">from</span> game.views <span class="keyword">import</span> index</span><br><span class="line"></span><br><span class="line">urlpatterns = [ </span><br><span class="line">    path(<span class="string">&quot;&quot;</span>, index, name=<span class="string">&quot;index&quot;</span>),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-
-<p><code>acapp.urls</code></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">acapp.urls</span><br><span class="line"><span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin</span><br><span class="line"><span class="keyword">from</span> django.urls <span class="keyword">import</span> path, include</span><br><span class="line"></span><br><span class="line">urlpatterns = [ </span><br><span class="line">    path(<span class="string">&#x27;&#x27;</span>, include(<span class="string">&#x27;game.urls&#x27;</span>)),</span><br><span class="line">    path(<span class="string">&#x27;admin/&#x27;</span>, admin.site.urls),</span><br><span class="line">] </span><br></pre></td></tr></table></figure>
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">项目</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">后端</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">django</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/新版球球大作战项目//" class="article-tag-list-link color5">新版球球大作战项目</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/01/%E9%A1%B9%E7%9B%AE%E5%88%9B%E5%BB%BA/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-二月总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/01/%E4%BA%8C%E6%9C%88%E6%80%BB%E7%BB%93/">二月总结</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/01/%E4%BA%8C%E6%9C%88%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2022-02-28T18:21:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h4 id="刷题数："><a href="#刷题数：" class="headerlink" title="刷题数："></a>刷题数：</h4><ul>
-<li>总计刷了211道题，平均每天7.5题，较上月有所提升。对于困难题和代码熟练度还有待提高。（周赛成绩上升较慢）</li>
-</ul>
-<h4 id="项目："><a href="#项目：" class="headerlink" title="项目："></a>项目：</h4><ul>
-<li><p>django目前进度较慢，实现了游戏的基本界面和登录注册功能。基础知识不是很牢固。</p>
-</li>
-<li><p>数据库学完前四章，比较简单，平均一天一章。</p>
-</li>
-<li><p>QT学到第4.5章节，跟着书一点一点敲。</p>
-</li>
-</ul>
-<h4 id="基础知识："><a href="#基础知识：" class="headerlink" title="基础知识："></a>基础知识：</h4><ul>
-<li>总结完c++必背部分</li>
-<li>计算机网络开始一部分</li>
-</ul>
-<h4 id="三月目标"><a href="#三月目标" class="headerlink" title="三月目标"></a>三月目标</h4><ul>
-<li><strong>算法</strong><ul>
-<li>刷完算法提高课搜索部分（17节课）</li>
-<li>刷题数200道</li>
-<li>周赛积分1650</li>
-</ul>
-</li>
-<li><strong>项目</strong><ul>
-<li>django课学完</li>
-<li>数据库学完</li>
-<li>QT做出交叉点项目主界面</li>
-</ul>
-</li>
-<li>基础知识<ul>
-<li>背熟c++</li>
-<li>整理408相关知识，坚持每天写博客</li>
-</ul>
-</li>
-</ul>
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每月总结</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/二月总结//" class="article-tag-list-link color5">二月总结</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/01/%E4%BA%8C%E6%9C%88%E6%80%BB%E7%BB%93/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-每日总结2022-2-28" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/01/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-2-28/">每日总结2022-2-28</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/01/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-2-28/" class="archive-article-date">
-  	<time datetime="2022-02-28T18:21:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="刷题"><a href="#刷题" class="headerlink" title="刷题"></a>刷题</h3><h4 id="力扣"><a href="#力扣" class="headerlink" title="力扣"></a>力扣</h4><ul>
-<li>145 二叉树的后序遍历    简单    </li>
-<li>99 恢复二叉搜索树    中等    </li>
-<li>100 相同的树    简单    </li>
-<li>169 多数元素    简单    </li>
-<li>144 二叉树的前序遍历    简单    </li>
-<li>6 Z 字形变换    中等    </li>
-<li>494 目标和    中等</li>
-</ul>
-<h4 id="Acwing"><a href="#Acwing" class="headerlink" title="Acwing"></a>Acwing</h4><ul>
-<li>算法提高课背包问题第二节课<ul>
-<li>278数字组合</li>
-<li>1023买书</li>
-<li>1019庆功会</li>
-</ul>
-</li>
-</ul>
-<h3 id="技术"><a href="#技术" class="headerlink" title="技术"></a>技术</h3><h5 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h5><ul>
-<li>第三章函数</li>
-<li>第四章约束</li>
-</ul>
-<h5 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h5><ul>
-<li>RPC原理介绍</li>
-</ul>
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/01/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-2-28/">展开全文 >></a>
         </p>
       
 
