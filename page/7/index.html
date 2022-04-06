@@ -164,6 +164,243 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-计算表达式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/16/%E8%AE%A1%E7%AE%97%E8%A1%A8%E8%BE%BE%E5%BC%8F/">计算表达式</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/16/%E8%AE%A1%E7%AE%97%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="archive-article-date">
+  	<time datetime="2022-03-16T15:24:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="计算表达式"><a href="#计算表达式" class="headerlink" title="计算表达式"></a>计算表达式</h3><h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><p>给你一个字符串表达式 s ，请你实现一个基本计算器来计算并返回它的值。</p>
+<p>注意:不允许使用任何将字符串作为数学表达式计算的内置函数，比如 eval() 。</p>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：s = &quot;1 + 1&quot;</span><br><span class="line">输出：2</span><br></pre></td></tr></table></figure>
+
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>表达式求值是关于栈的经典应用，是一类经典的模板题，可以求三级表达式，$+-*&#x2F;$以及^的表达式结果。需要注意的地方很多：</p>
+<ul>
+<li>“数字”：遇到数字，由于数字的长度不确定我们需要利用双指针算法进行计算。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> t=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span>(j&lt;n&amp;&amp;s[j]&gt;=<span class="string">&#x27;0&#x27;</span>&amp;&amp;s[j]&lt;=<span class="string">&#x27;9&#x27;</span>)</span><br><span class="line">&#123;</span><br><span class="line">    t=t*<span class="number">10</span>+s[j]-<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">    j++</span><br><span class="line">&#125;</span><br><span class="line">i=j<span class="number">-1</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>“（”：对于左括号我们没有什么特别的操作直接入栈即可</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ops.<span class="built_in">push</span>(<span class="string">&quot;(&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>“）”：右括号必须和之前的左括号匹配，所以将不是左括号的运算符全部计算一次,计算之后还得将左括号弹出</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(s[i]!+<span class="string">&#x27;(&#x27;</span>)<span class="built_in">evel</span>();</span><br><span class="line">ops.<span class="built_in">pop</span>();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>“-1，（-2等情况”：插入一个0</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!i||s[i<span class="number">-1</span>]==<span class="string">&#x27;(&#x27;</span>)nums.<span class="built_in">push</span>(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>“运算符”：对于运算符，我们可以按照不同的等级进行计算，等级低的要把高于它的等级全部算完。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//&#x27;+,-&#x27;:</span></span><br><span class="line"><span class="keyword">while</span>(ops.<span class="built_in">size</span>())<span class="built_in">evel</span>()</span><br><span class="line"><span class="comment">//&#x27;*&#x27;</span></span><br><span class="line"><span class="keyword">while</span>(ops.<span class="built_in">size</span>()&amp;&amp;ops.<span class="built_in">top</span>()==<span class="string">&#x27;*&#x27;</span>||<span class="string">&#x27;/&#x27;</span>)<span class="built_in">evel</span>()</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>evel()</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a=nums.<span class="built_in">top</span>();nums.<span class="built_in">pop</span>();</span><br><span class="line"><span class="type">int</span> b=nums.<span class="built_in">top</span>();nums.<span class="built_in">pop</span>();</span><br><span class="line"><span class="type">char</span> c=ops.<span class="built_in">top</span>();ops.<span class="built_in">pop</span>();</span><br><span class="line"><span class="keyword">if</span>(c==<span class="string">&#x27;+&#x27;</span>) nums.<span class="built_in">push</span>(a+b);</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(c==<span class="string">&#x27;-&#x27;</span>) nums.<span class="built_in">push</span>(b-a);</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(c==<span class="string">&#x27;*&#x27;</span>) nums.<span class="built_in">push</span>(a*b);</span><br><span class="line"><span class="keyword">else</span> nums.<span class="built_in">push</span>(b/a);</span><br></pre></td></tr></table></figure>
+
+<h4 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    stack&lt;<span class="type">int</span>&gt;nums;</span><br><span class="line">    stack&lt;<span class="type">int</span>&gt;ops;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">eval</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">auto</span> a=nums.<span class="built_in">top</span>();nums.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="keyword">auto</span> b=nums.<span class="built_in">top</span>();nums.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="keyword">auto</span> c=ops.<span class="built_in">top</span>();ops.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="keyword">if</span>(c==<span class="string">&#x27;+&#x27;</span>)nums.<span class="built_in">push</span>(a+b);</span><br><span class="line">        <span class="keyword">else</span> nums.<span class="built_in">push</span>(b-a);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">calculate</span><span class="params">(string s)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n=s.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(s[i]==<span class="string">&#x27; &#x27;</span>)<span class="keyword">continue</span>;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(s[i]&gt;=<span class="string">&#x27;0&#x27;</span>&amp;&amp;s[i]&lt;=<span class="string">&#x27;9&#x27;</span>)&#123;</span><br><span class="line">                <span class="type">int</span> j=i;</span><br><span class="line">                <span class="type">int</span> t=<span class="number">0</span>;</span><br><span class="line">                <span class="keyword">while</span>(j&lt;n&amp;&amp;s[j]&gt;=<span class="string">&#x27;0&#x27;</span>&amp;&amp;s[j]&lt;=<span class="string">&#x27;9&#x27;</span>)&#123;</span><br><span class="line">                    t=t*<span class="number">10</span>+(s[j]-<span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">                    j++;</span><br><span class="line">                &#125;</span><br><span class="line">                nums.<span class="built_in">push</span>(t);</span><br><span class="line">                i=j<span class="number">-1</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(s[i]==<span class="string">&#x27;(&#x27;</span>)</span><br><span class="line">            ops.<span class="built_in">push</span>(s[i]);</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(s[i]==<span class="string">&#x27;)&#x27;</span>)&#123;</span><br><span class="line">                <span class="keyword">while</span>(ops.<span class="built_in">top</span>()!=<span class="string">&#x27;(&#x27;</span>) <span class="built_in">eval</span>();</span><br><span class="line">                ops.<span class="built_in">pop</span>();</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">if</span>(!i||s[i<span class="number">-1</span>]==<span class="string">&#x27;(&#x27;</span>)</span><br><span class="line">                    nums.<span class="built_in">push</span>(<span class="number">0</span>);</span><br><span class="line">                <span class="keyword">while</span>(ops.<span class="built_in">size</span>()&amp;&amp;ops.<span class="built_in">top</span>()!=<span class="string">&#x27;(&#x27;</span>) <span class="built_in">eval</span>();</span><br><span class="line">                ops.<span class="built_in">push</span>(s[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(ops.<span class="built_in">size</span>())<span class="built_in">eval</span>();</span><br><span class="line">        <span class="keyword">return</span> nums.<span class="built_in">top</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">栈</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">模板，必背</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/高频算法题//" class="article-tag-list-link color1">高频算法题</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/16/%E8%AE%A1%E7%AE%97%E8%A1%A8%E8%BE%BE%E5%BC%8F/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-二叉树的序列化与反序列化" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/16/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">二叉树的序列化与反序列化</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/16/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" class="archive-article-date">
+  	<time datetime="2022-03-16T15:24:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="二叉树的序列化与反序列化"><a href="#二叉树的序列化与反序列化" class="headerlink" title="二叉树的序列化与反序列化"></a>二叉树的序列化与反序列化</h3><h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><p>序列化是将一个数据结构或者对象转换为连续的比特位的操作，进而可以将转换后的数据存储在一个文件或者内存中，同时也可以通过网络传输到另一个计算机环境，采取相反方式重构得到原数据。</p>
+<p>请设计一个算法来实现二叉树的序列化与反序列化。这里不限定你的序列 &#x2F; 反序列化算法执行逻辑，你只需要保证一个二叉树可以被序列化为一个字符串并且将这个字符串反序列化为原始的树结构。</p>
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>题意很明确就是将一棵树先存成字符串，然后再将字符串变回一棵树，这里给出dfs的写法：</p>
+<ul>
+<li>对于每个节点后边跟一个“，”：可以快速判断出一个数字。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(s[j]!=<span class="string">&#x27;,&#x27;</span>)j++; s=data.<span class="built_in">substr</span>(u,j-u);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>存树的时候，空节点用”#”代替。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!root) s+=<span class="string">&quot;#,&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>反序列化的时候如果，字符串的长度为0，则说明到结尾了，应该返回null</li>
+<li>反序列化的时候需要传入两个参数（引用的格式）<ul>
+<li>字符串：data</li>
+<li>当前节点的下标：u</li>
+</ul>
+</li>
+</ul>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Codec</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    string str;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">s_dfs</span><span class="params">(TreeNode* root)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!root) str+=<span class="string">&quot;#,&quot;</span>;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">        str+=<span class="built_in">to_string</span>(root-&gt;val)+<span class="string">&#x27;,&#x27;</span>;</span><br><span class="line">        <span class="built_in">s_dfs</span>(root-&gt;left);</span><br><span class="line">        <span class="built_in">s_dfs</span>(root-&gt;right);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">TreeNode* <span class="title">de_dfs</span><span class="params">(string &amp;data,<span class="type">int</span> &amp;u)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(data[u]==<span class="string">&#x27;#&#x27;</span>)&#123;</span><br><span class="line">            u+=<span class="number">2</span>;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">NULL</span>;   </span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="type">int</span> k=u;</span><br><span class="line">            <span class="keyword">while</span>(data[k]!=<span class="string">&#x27;,&#x27;</span>)k++;</span><br><span class="line">            string s=data.<span class="built_in">substr</span>(u,k-u);</span><br><span class="line">            <span class="keyword">if</span>(!s.<span class="built_in">size</span>())<span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">            u=k+<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">auto</span> root=<span class="keyword">new</span> <span class="built_in">TreeNode</span>(<span class="built_in">stoi</span>(s));</span><br><span class="line">            root-&gt;left=<span class="built_in">de_dfs</span>(data,u);</span><br><span class="line">            root-&gt;right=<span class="built_in">de_dfs</span>(data,u);</span><br><span class="line">            <span class="keyword">return</span> root;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// Encodes a tree to a single string.</span></span><br><span class="line">    <span class="function">string <span class="title">serialize</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">s_dfs</span>(root);</span><br><span class="line">        <span class="keyword">return</span> str;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Decodes your encoded data to tree.</span></span><br><span class="line">    <span class="function">TreeNode* <span class="title">deserialize</span><span class="params">(string data)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> u=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">de_dfs</span>(data,u);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">树，dfs</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/高频算法题//" class="article-tag-list-link color1">高频算法题</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/16/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-树形dp" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1239,203 +1476,9 @@
 
 
   
-    <article id="post-每日总结2022-3-14" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/15/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-14/">每日总结2022-3-14</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/15/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-14/" class="archive-article-date">
-  	<time datetime="2022-03-14T18:15:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="刷题"><a href="#刷题" class="headerlink" title="刷题"></a>刷题</h3><h4 id="力扣"><a href="#力扣" class="headerlink" title="力扣"></a>力扣</h4><ul>
-<li>数组中的逆序对    （归并排序）</li>
-<li>2044 统计按位或能得到最大值的子集数目（位运算枚举）</li>
-<li>239 滑动窗口最大值（单调队列）</li>
-<li>76 最小覆盖子串        （双指针，记录合法个数）</li>
-<li>599 两个列表的最小索引总和    (签到题)</li>
-</ul>
-<h4 id="ACWING"><a href="#ACWING" class="headerlink" title="ACWING"></a>ACWING</h4><ul>
-<li>放养但没有完全放养 贪心加双指针</li>
-<li>你知道你的ABC吗 贪心</li>
-</ul>
-<h4 id="技术"><a href="#技术" class="headerlink" title="技术"></a>技术</h4><ul>
-<li>分布式实验lab1</li>
-</ul>
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/15/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-14/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-每日总结2022-3-13" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/14/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-13/">每日总结2022-3-13</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/14/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-13/" class="archive-article-date">
-  	<time datetime="2022-03-13T16:41:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="刷题"><a href="#刷题" class="headerlink" title="刷题"></a>刷题</h3><h4 id="力扣"><a href="#力扣" class="headerlink" title="力扣"></a>力扣</h4><ul>
-<li><p>每日一题：后序遍历树</p>
-</li>
-<li><p>284场周赛四道题</p>
-</li>
-</ul>
-<h4 id="技术"><a href="#技术" class="headerlink" title="技术"></a>技术</h4><ul>
-<li>qt5.9基础</li>
-<li>thrift</li>
-</ul>
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/14/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-13/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/6/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/8/">Next &amp;raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/6/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/8/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -1888,6 +1931,14 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">图论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">单源最短路</a>
               </li>
             
             <div class="clearfix"></div>
