@@ -164,6 +164,214 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-三月总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/31/%E4%B8%89%E6%9C%88%E6%80%BB%E7%BB%93/">三月总结</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/31/%E4%B8%89%E6%9C%88%E6%80%BB%E7%BB%93/" class="archive-article-date">
+  	<time datetime="2022-03-31T07:56:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-31</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="三月总结"><a href="#三月总结" class="headerlink" title="三月总结"></a>三月总结</h3><ul>
+<li>共写博客105篇</li>
+<li>算法题138题<ul>
+<li>上个月的目标是达到200题未完成</li>
+</ul>
+</li>
+<li>周赛积分1633<ul>
+<li>目标是1650未完成</li>
+</ul>
+</li>
+<li>数据库基础知识学完</li>
+<li>操作系统基础学完并发与多线程</li>
+<li>6.824做完第一个实验mapreduce</li>
+</ul>
+<h4 id="四月目标"><a href="#四月目标" class="headerlink" title="四月目标"></a>四月目标</h4><ul>
+<li>算法题150题</li>
+<li>周赛积分1700</li>
+<li>学完操作系统</li>
+<li>学完c++stl库</li>
+<li>做完6.824第二个实验</li>
+</ul>
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每月总结</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/月度总结//" class="article-tag-list-link color5">月度总结</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/31/%E4%B8%89%E6%9C%88%E6%80%BB%E7%BB%93/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-鸡蛋掉落" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/31/%E9%B8%A1%E8%9B%8B%E6%8E%89%E8%90%BD/">鸡蛋掉落</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/31/%E9%B8%A1%E8%9B%8B%E6%8E%89%E8%90%BD/" class="archive-article-date">
+  	<time datetime="2022-03-30T17:30:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-31</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="鸡蛋掉落"><a href="#鸡蛋掉落" class="headerlink" title="鸡蛋掉落"></a>鸡蛋掉落</h3><h4 id="题目描述（略）"><a href="#题目描述（略）" class="headerlink" title="题目描述（略）"></a>题目描述（略）</h4><ul>
+<li>谷歌经典面试题</li>
+</ul>
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><ul>
+<li><p>很难想的思路，逆向考虑，对于有n次操作，k个鸡蛋最多可以查找到的楼层高度是多少。</p>
+<ul>
+<li><p>如果鸡蛋没破裂，说明还可以继续网上查找$f(n-1,k)$</p>
+</li>
+<li><p>如果鸡蛋破裂了，需要往下查找$f(n-1,k-1)$</p>
+</li>
+<li><p>加上当前楼层：$f(i,j)&#x3D;f(i-1,j)+f(i-1,j-1)$</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">superEggDrop</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;<span class="built_in">f</span>(n+<span class="number">1</span>,<span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(k+<span class="number">1</span>,<span class="number">0</span>));</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>;j&lt;=k;j++)&#123;</span><br><span class="line">            f[i][j]=f[i<span class="number">-1</span>][j<span class="number">-1</span>]+f[i<span class="number">-1</span>][j]+<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span>(f[i][j]&gt;=n) <span class="keyword">return</span> i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">思维，逆向，数学，动态规划</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/高频算法题//" class="article-tag-list-link color1">高频算法题</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/31/%E9%B8%A1%E8%9B%8B%E6%8E%89%E8%90%BD/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-C++多线程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -433,7 +641,7 @@
 </li>
 </ul>
 <h4 id="介绍一下TCP流量控制算法"><a href="#介绍一下TCP流量控制算法" class="headerlink" title="介绍一下TCP流量控制算法"></a>介绍一下TCP流量控制算法</h4><ul>
-<li>通常来讲，都希望数据发送的越快越好，但是实际情况是，如果数据发送过快，接收端来不及接收，就会造成数据的丢失浪费。因此流量控制就是要让发送方不要发送太快，让接收方来得及接收。<strong>TCP使用滑动窗口机制对发送方实现流量控制</strong>。<br>发送方有发送缓冲区，接收方有接收缓冲区。滑动窗口会移动将发送缓冲区中的数据发送出去。接收方会将数据暂存到接收缓冲区并返回确认。发送方先将滑动窗口内的数据按照字节序号发送，再接收到数据确认之后，删除窗口中的数据，然后平移滑动窗口准备发送后边数据。数据丢失会有超时重传机制。<strong>接收方返回确认的时候会根据自己缓冲区中的容量返回给窗口的大小值，接收方在接收到确认的时候根据这个值调整自己的发送窗口大小</strong>。</li>
+<li>通常来讲，都希望数据发送的越快越好，但是实际情况是，如果数据发送过快，接收端来不及接收，就会造成数据的丢失浪费。因此流量控制就是要让发送方不要发送太快，让接收方来得及接收。<strong>TCP使用滑动窗口机制对发送方实现流量控制</strong>。<br>发送方有发送缓冲区，接收方有接收缓冲区。滑动窗口会移动将发送缓冲区中的数据发送出去。接收方会将数据暂存到接收缓冲区并返回确认。发送方先将滑动窗口内的数据按照字节序号发送，再接收到数据确认之后，删除窗口中的数据，然后平移滑动窗口准备发送后边数据。数据丢失会有超时重传机制。<strong>接收方返回确认的时候会根据自己缓冲区中的容量返回给窗口的大小值，发送方在接收到确认的时候根据这个值调整自己的发送窗口大小</strong>。</li>
 <li>如果窗口调整为0之后，会有什么情况？<ul>
 <li>如果窗口调整为0，说明接收方的接收缓存满了，过一段时间，当缓冲区有容量的时候，会发送给发送方调整窗口大小值的通告。</li>
 </ul>
@@ -450,7 +658,7 @@
 <h4 id="介绍一下Tcp的拥塞控制算法"><a href="#介绍一下Tcp的拥塞控制算法" class="headerlink" title="介绍一下Tcp的拥塞控制算法"></a>介绍一下Tcp的拥塞控制算法</h4><ul>
 <li>即使接收方的接收速度很快，我们也需要控制滑动窗口的大小，以防达到网络带宽的上限。就是控制发送但未确认的包可以理论上达到网络带宽的上限。</li>
 <li>拥塞控制是为了避免包丢失和超时重传两种情况，一旦出现这两种情况，说明发送的太快了，那么我们一开始应该如何设置拥塞窗口的大小呢？<ul>
-<li>拥塞窗口的慢启动，刚开始只接收一个包，然后每次扩大二倍，指数增长，达到拥塞窗口的阈值后（一般是65535），改为线性增长，每个包增加$1&#x2F;n$,只有$n$个都接收到了才会增加1。但是这个线性增长速度还是太快了。还是会出现堵塞情况，这个时候应该启动快速重传机制（出现丢包状况，就每次返回重复的ack响应），将滑动窗口的大小减为原来</li>
+<li>拥塞窗口的慢启动，刚开始只接收一个包，然后每次扩大二倍，指数增长，达到拥塞窗口的阈值后（一般是65535），改为线性增长，每个包增加$1&#x2F;n$,只有$n$个都接收到了才会增加1。但是这个线性增长速度还是太快了。还是会出现堵塞情况，这个时候应该启动快速重传机制（出现丢包状况，就每次返回重复的ack响应），将滑动窗口的大小减为原来的一半。</li>
 </ul>
 </li>
 </ul>
@@ -1221,220 +1429,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2022/03/28/%E7%AC%AC-286-%E5%9C%BA%E5%91%A8%E8%B5%9B/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-C-基础知识（三）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/28/C-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%88%E4%B8%89%EF%BC%89/">侯捷面向对象（二）</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/28/C-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%88%E4%B8%89%EF%BC%89/" class="archive-article-date">
-  	<time datetime="2022-03-27T17:31:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="C-基础知识（三）"><a href="#C-基础知识（三）" class="headerlink" title="C++基础知识（三）"></a>C++基础知识（三）</h3><h4 id="转换函数"><a href="#转换函数" class="headerlink" title="转换函数"></a>转换函数</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Fraction</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"><span class="built_in">Fraction</span>(<span class="type">int</span> num,<span class="type">int</span> den=<span class="number">1</span>)</span><br><span class="line">    :<span class="built_in">m_numerator</span>(num),<span class="built_in">m_denominator</span>(den)</span><br><span class="line">&#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">operator</span> <span class="title">double</span><span class="params">()</span> <span class="type">const</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="type">double</span>)(m_numerator/m_denominator);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="type">int</span> m_numerator;<span class="comment">//分子</span></span><br><span class="line">    <span class="type">int</span> m_denominator;<span class="comment">//分母</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function">Fraction <span class="title">f</span><span class="params">(<span class="number">3</span>,<span class="number">5</span>)</span></span>;</span><br><span class="line"><span class="type">double</span> d=<span class="number">4</span>+f; <span class="comment">//调用operator double()将f转换为double</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>函数名为：<code>operator double</code></li>
-<li>没有参数</li>
-<li>没有返回值</li>
-</ul>
-<h4 id="智能指针"><a href="#智能指针" class="headerlink" title="智能指针"></a>智能指针</h4><ul>
-<li>用类重载星号和箭头符号，模拟指针。</li>
-</ul>
-<h4 id="仿函数"><a href="#仿函数" class="headerlink" title="仿函数"></a>仿函数</h4><ul>
-<li>都是用类来重载小括号，从而模拟函数</li>
-</ul>
-<h4 id="类模板"><a href="#类模板" class="headerlink" title="类模板"></a>类模板</h4><p><code>template&lt;typename T&gt;</code></p>
-<h4 id="模板特化"><a href="#模板特化" class="headerlink" title="模板特化"></a>模板特化</h4><ul>
-<li>针对某些独特的类型做特殊的设计</li>
-</ul>
-<h4 id="模板偏特化（局部特化）"><a href="#模板偏特化（局部特化）" class="headerlink" title="模板偏特化（局部特化）"></a>模板偏特化（局部特化）</h4><h4 id="C-11新特性"><a href="#C-11新特性" class="headerlink" title="C++11新特性"></a>C++11新特性</h4><ul>
-<li><p>数量不定的模板参数</p>
-<ul>
-<li>可以传递数量不固定的参数</li>
-</ul>
-</li>
-<li><p>auto</p>
-<ul>
-<li>可以自动推导返回类型</li>
-</ul>
-</li>
-<li><p>for </p>
-<ul>
-<li>遍历容器 ：for(decl:coll)</li>
-</ul>
-</li>
-</ul>
-<h4 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h4><ul>
-<li>引用就是一种代表关系，相当于给原来的变量取了一个别名</li>
-</ul>
-<h4 id="虚指针、虚函数表"><a href="#虚指针、虚函数表" class="headerlink" title="虚指针、虚函数表"></a>虚指针、虚函数表</h4><ul>
-<li><p>一个类占用的内存由类中的数据和虚指针决定，子类的对象有父类的数据。</p>
-</li>
-<li><p>只要有虚函数，无论是一个还是一万个，都会有一个虚函数指针（4字节）</p>
-</li>
-<li><p>在写代码的时候虚函数是第几个，这个函数在虚函数表中就是第几个。</p>
-</li>
-</ul>
-<h4 id="this（指针）"><a href="#this（指针）" class="headerlink" title="this（指针）"></a>this（指针）</h4><ul>
-<li>this指的是调 用的对象自己</li>
-</ul>
-<h4 id="const"><a href="#const" class="headerlink" title="const"></a>const</h4><ul>
-<li><p>const 放在函数后边：修饰成员函数，成员函数不改变数据</p>
-</li>
-<li><p>const object必须调用const 成员函数</p>
-</li>
-</ul>
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">c++</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">面向对象</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">必背</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/基础知识//" class="article-tag-list-link color5">基础知识</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/28/C-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%88%E4%B8%89%EF%BC%89/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-侯捷面向对象（二）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/28/%E4%BE%AF%E6%8D%B7%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%EF%BC%88%E4%BA%8C%EF%BC%89/">C++基础知识（三）</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/28/%E4%BE%AF%E6%8D%B7%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%EF%BC%88%E4%BA%8C%EF%BC%89/" class="archive-article-date">
-  	<time datetime="2022-03-27T17:31:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/28/%E4%BE%AF%E6%8D%B7%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%EF%BC%88%E4%BA%8C%EF%BC%89/">展开全文 >></a>
         </p>
       
 
