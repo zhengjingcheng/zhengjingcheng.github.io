@@ -164,6 +164,340 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-每日总结2022-3-8" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/09/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-8/">每日总结2022-3-8</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/09/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-8/" class="archive-article-date">
+  	<time datetime="2022-03-08T18:22:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="刷题"><a href="#刷题" class="headerlink" title="刷题"></a>刷题</h3><h4 id="力扣"><a href="#力扣" class="headerlink" title="力扣"></a>力扣</h4><ul>
+<li>每日一题：得分最高的最小轮换（推公式+差分）</li>
+<li>k个一组翻转链表（模板）</li>
+<li>合并k个有序链表（小根堆）</li>
+<li>LRU缓存（双端链表+哈希表）</li>
+</ul>
+<h4 id="技术"><a href="#技术" class="headerlink" title="技术"></a>技术</h4><ul>
+<li>6.824 mapreduce论文详读</li>
+<li>数据库基础课完结</li>
+</ul>
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/09/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-8/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-K个一组翻转链表" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/08/K%E4%B8%AA%E4%B8%80%E7%BB%84%E7%BF%BB%E8%BD%AC%E9%93%BE%E8%A1%A8/">K个一组翻转链表</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/08/K%E4%B8%AA%E4%B8%80%E7%BB%84%E7%BF%BB%E8%BD%AC%E9%93%BE%E8%A1%A8/" class="archive-article-date">
+  	<time datetime="2022-03-08T14:27:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-08</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h4 id="K个一组翻转链表"><a href="#K个一组翻转链表" class="headerlink" title="K个一组翻转链表"></a>K个一组翻转链表</h4><ul>
+<li>链表类的题都是把示意图画出来就容易理解多了。这个题有几个要注意的地方<ul>
+<li>要注意判断是不是够k个翻转的点</li>
+<li>要注意保存头节点和尾节点</li>
+<li>完成反转后要插回原链表</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/bhb100/drawing-bed/raw/master/blog/20220308105851.png"></p>
+<p><code>代码</code></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ListNode* <span class="title">reverseKGroup</span><span class="params">(ListNode* head, <span class="type">int</span> k)</span> </span>&#123;</span><br><span class="line">          <span class="keyword">auto</span> dummy=<span class="keyword">new</span> <span class="built_in">ListNode</span>(<span class="number">-1</span>);</span><br><span class="line">          dummy-&gt;next=head;</span><br><span class="line">          <span class="keyword">for</span>(<span class="keyword">auto</span> p=dummy;;)</span><br><span class="line">          &#123;</span><br><span class="line">              <span class="keyword">auto</span> q=p;</span><br><span class="line">              <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;k&amp;&amp;q;i++)q=q-&gt;next;<span class="comment">//判断是不是够k个点</span></span><br><span class="line">              <span class="keyword">if</span>(!q)<span class="keyword">break</span>;</span><br><span class="line">              <span class="keyword">auto</span> a=p-&gt;next,b=a-&gt;next;<span class="comment">//待翻转的两个点</span></span><br><span class="line">              <span class="keyword">auto</span> hd=p,tail=p-&gt;next;</span><br><span class="line">              <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;k<span class="number">-1</span>;i++)</span><br><span class="line">              &#123;</span><br><span class="line">                  <span class="keyword">auto</span> c=b-&gt;next;</span><br><span class="line">                  b-&gt;next=a;</span><br><span class="line">                  a=b;<span class="comment">//平移一位</span></span><br><span class="line">                  b=c;</span><br><span class="line">              &#125;</span><br><span class="line">              <span class="keyword">auto</span> c = p-&gt;next;</span><br><span class="line">              hd-&gt;next=a;</span><br><span class="line">              tail-&gt;next=b;</span><br><span class="line">              p=c;</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">return</span> dummy-&gt;next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">题解</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">面试</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">设计</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">链表</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hard</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/高频算法题//" class="article-tag-list-link color1">高频算法题</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/08/K%E4%B8%AA%E4%B8%80%E7%BB%84%E7%BF%BB%E8%BD%AC%E9%93%BE%E8%A1%A8/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-LRU缓存" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/08/LRU%E7%BC%93%E5%AD%98/">LRU缓存</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/08/LRU%E7%BC%93%E5%AD%98/" class="archive-article-date">
+  	<time datetime="2022-03-08T14:23:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-08</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h4 id="LRU缓存"><a href="#LRU缓存" class="headerlink" title="LRU缓存"></a>LRU缓存</h4><p>请你设计并实现一个满足 <strong>LRU</strong> (最近最少使用) 缓存 约束的数据结构。<br>实现 <code>LRUCache </code>类：</p>
+<ul>
+<li><code>LRUCache(int capacity)</code> 以 正整数 作为容量 <code>capacity</code> 初始化 <code>LRU </code>缓存</li>
+<li><code>int get(int key)</code> 如果关键字 key 存在于缓存中，则返回关键字的值，否则返回 -1 。</li>
+<li><code>void put(int key, int value)</code> 如果关键字 <code>key</code> 已经存在，则变更其数据值 <code>value</code> ；如果不存在，则向缓存中插入该组<code> key-value</code> 。如果插入操作导致关键字数量超过<code> capacity</code> ，则应该 逐出 最久未使用的关键字。</li>
+</ul>
+<p>函数 <code>get</code> 和 <code>put</code> 必须以 <code>O(1)</code> 的平均时间复杂度运行。</p>
+<ul>
+<li><p><strong>思路</strong>：由于要实现线性复杂度，所以需要实现快速插入和删除，所以链表就是最好的数据结构，但是还要要求每次操作的关键字超过容量后，删除最久没有使用的元素，这样我们就得实现在头部插入，尾部删除，也就是双链表，为了达到线性复杂度的查找操作，还需要哈希表存储键值对。</p>
+</li>
+<li><p><strong>数据结构</strong>：哈希表、双链表</p>
+<p> <code>双链表实现</code></p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Node</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> k,v;<span class="comment">//键、值</span></span><br><span class="line">    Node *head,tail;</span><br><span class="line">    <span class="built_in">Node</span>(<span class="type">int</span> _k,<span class="type">int</span> _v):<span class="built_in">k</span>(_k),<span class="built_in">v</span>(_v),<span class="built_in">head</span>(<span class="literal">NULL</span>),<span class="built_in">tail</span>(<span class="literal">NULL</span>)&#123;&#125;</span><br><span class="line">&#125;*H,*T;</span><br></pre></td></tr></table></figure>
+
+<p><code>哈希表</code></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unordered_map&lt;<span class="type">int</span>,Node*&gt;mp;</span><br></pre></td></tr></table></figure>
+
+<p><code>删除操作</code></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">remove</span><span class="params">(Node *p)</span></span>&#123;</span><br><span class="line">    p-&gt;tail-&gt;head=p-&gt;head;</span><br><span class="line">    p-&gt;head-&gt;tail=p-&gt;tail;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>插入操作</code></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">add</span><span class="params">(Node *p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    p-&gt;tail=L-&gt;tail;</span><br><span class="line">    L-&gt;tail-&gt;head=p;</span><br><span class="line">    L-&gt;tail=p;</span><br><span class="line">    p-&gt;head=L;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>初始化操作</code></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">LRUCache</span>(<span class="type">int</span> capacity) &#123;</span><br><span class="line">    H=<span class="keyword">new</span> <span class="built_in">Node</span>(<span class="number">-1</span>,<span class="number">-1</span>);</span><br><span class="line">    T=<span class="keyword">new</span> <span class="built_in">Node</span>(<span class="number">-1</span>,<span class="number">-1</span>);</span><br><span class="line">    n=capacity;</span><br><span class="line">    H-&gt;tail=T;</span><br><span class="line">    T-&gt;head=H;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>get操作</code></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">get</span><span class="params">(<span class="type">int</span> key)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(mp.<span class="built_in">count</span>(key))&#123;</span><br><span class="line">        <span class="keyword">auto</span> p=mp[key];<span class="comment">//找到该值在链表的位置</span></span><br><span class="line">        <span class="built_in">remove</span>(p);</span><br><span class="line">        <span class="built_in">add</span>(p);<span class="comment">//提高优先级</span></span><br><span class="line">        <span class="keyword">return</span> p-&gt;v;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>put操作</code></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">put</span><span class="params">(<span class="type">int</span> key, <span class="type">int</span> value)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(mp.<span class="built_in">count</span>(key))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">auto</span> p=mp[key];</span><br><span class="line">        p-&gt;v=value;</span><br><span class="line">        <span class="built_in">remove</span>(p);</span><br><span class="line">        <span class="built_in">add</span>(q);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">       <span class="keyword">if</span>(mp.<span class="built_in">size</span>()==n)<span class="comment">//容量足够了</span></span><br><span class="line">    &#123;   <span class="keyword">auto</span> p=R-&gt;head;<span class="comment">//找到位置</span></span><br><span class="line">        <span class="built_in">remove</span>(p);</span><br><span class="line">        mp.<span class="built_in">erase</span>(p-&gt;k);<span class="comment">//删除</span></span><br><span class="line">        <span class="built_in">delete</span>(p);</span><br><span class="line">    &#125;</span><br><span class="line">        <span class="keyword">auto</span> p=<span class="keyword">new</span> <span class="built_in">Node</span>(key,value);</span><br><span class="line">        mp[key]=p;</span><br><span class="line">        <span class="built_in">add</span>(p);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">题解</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">面试</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">设计</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/高频算法题//" class="article-tag-list-link color1">高频算法题</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/08/LRU%E7%BC%93%E5%AD%98/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-状态压缩dp" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1068,305 +1402,6 @@
 
 
   
-    <article id="post-背包问题总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/05/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/">背包问题总结</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/05/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2022-03-04T19:03:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-			<h3 id="背包问题总结"><a href="#背包问题总结" class="headerlink" title="背包问题总结"></a>背包问题总结</h3><h4 id="01背包（只能取1次）"><a href="#01背包（只能取1次）" class="headerlink" title="01背包（只能取1次）"></a>01背包（只能取1次）</h4><ul>
-<li>2.01背包</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//核心：从后往前遍历</span></span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)<span class="comment">//遍历物品</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j=m;j&gt;=<span class="number">0</span>;j--)<span class="comment">//遍历体积</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>423.采药</p>
-<ul>
-<li>一个很裸的背包问题 ：把时间当作体积直接套用01背包模板即可</li>
-</ul>
-</li>
-</ul>
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">背包</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">题解</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">知识点</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/算法//" class="article-tag-list-link color3">算法</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/05/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-每日总结2022-3-4" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/05/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-4/">每日总结2022-3-4.md</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/05/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-4/" class="archive-article-date">
-  	<time datetime="2022-03-04T19:00:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h2 id="2022-x2F-3-x2F-2"><a href="#2022-x2F-3-x2F-2" class="headerlink" title="2022&#x2F;3&#x2F;2"></a>2022&#x2F;3&#x2F;2</h2><h3 id="刷题"><a href="#刷题" class="headerlink" title="刷题"></a>刷题</h3><h4 id="Acwing"><a href="#Acwing" class="headerlink" title="Acwing"></a>Acwing</h4><ul>
-<li>滑雪</li>
-<li>没有上司的舞会</li>
-<li>总结背包问题</li>
-</ul>
-<h3 id="技术"><a href="#技术" class="headerlink" title="技术"></a>技术</h3><ul>
-<li>django项目：创建游戏界面</li>
-</ul>
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/05/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-4/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-创建游戏界面" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/04/%E5%88%9B%E5%BB%BA%E6%B8%B8%E6%88%8F%E7%95%8C%E9%9D%A2/">创建游戏界面</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/04/%E5%88%9B%E5%BB%BA%E6%B8%B8%E6%88%8F%E7%95%8C%E9%9D%A2/" class="archive-article-date">
-  	<time datetime="2022-03-04T08:17:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-			<h3 id="创建游戏界面"><a href="#创建游戏界面" class="headerlink" title="创建游戏界面"></a>创建游戏界面</h3><h4 id="修改为模块化引入"><a href="#修改为模块化引入" class="headerlink" title="修改为模块化引入"></a>修改为模块化引入</h4><p>由于上节课引入<code>game.js</code>会导致其中的变量，会变成全局变量，所以我们考虑使用模块引入的功能，让网页只引入在html中需要的部分。</p>
-<p>修改<code>web.html</code></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 首先，先删掉上面整个引入 game.js 的部分 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 然后，下方创建对象的部分，先使用模块化引入 --&gt;</span></span><br><span class="line">......</span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;module&quot;</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">import</span> &#123;<span class="title class_">AcGame</span>&#125; <span class="keyword">from</span> <span class="string">&quot;&#123;% static &#x27;js/dist/game.js&#x27; %&#125;&quot;</span></span></span><br><span class="line"><span class="language-javascript">        $(<span class="variable language_">document</span>).<span class="title function_">ready</span>(<span class="keyword">function</span>(<span class="params"></span>)&#123;</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">let</span> ac_game = <span class="keyword">new</span> <span class="title class_">AcGame</span>(<span class="string">&quot;ac_game_12345678&quot;</span>)</span></span><br><span class="line"><span class="language-javascript">        &#125;)</span></span><br><span class="line"><span class="language-javascript">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">......</span><br></pre></td></tr></table></figure>
-
-<p>此外，还有修改引入的类，在前面加上 <code>export</code>，如下修改 <code>js/src/zbase.js</code></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export class AcGame &#123;</span><br><span class="line">    ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这样，在全局中，只会出现引入的模块，其他的<code>.js</code>代码不会出现在全局变量中。</p>
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">项目</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">后端</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">django</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">前端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/新版球球大作战项目//" class="article-tag-list-link color5">新版球球大作战项目</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/04/%E5%88%9B%E5%BB%BA%E6%B8%B8%E6%88%8F%E7%95%8C%E9%9D%A2/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/10/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/12/">Next &amp;raquo;</a>
@@ -1846,6 +1881,10 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">epoll</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">树状数组，离散化</a>
               </li>
             
             <div class="clearfix"></div>
