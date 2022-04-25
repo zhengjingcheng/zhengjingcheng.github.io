@@ -164,6 +164,161 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-多线程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/04/06/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a>
+    </h1>
+  
+
+        
+        <a href="/2022/04/06/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" class="archive-article-date">
+  	<time datetime="2022-04-05T17:41:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-04-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h3><h4 id="进程和线程的不同"><a href="#进程和线程的不同" class="headerlink" title="进程和线程的不同"></a>进程和线程的不同</h4><ul>
+<li>起源不同：进程比线程出现的早</li>
+<li>概念不同：进程是有独立功能的程序，是系统资源调度的独立单位。线程是CPU的基本单位。</li>
+<li>线程是进程的一部分，线程之间大多数是合作关系，进程大部分都是竞争关系。</li>
+<li>内存共享方式不同：不同进程之间的内存不是共享的，线程之间的内存是共享的。</li>
+</ul>
+<h4 id="什么是多线程"><a href="#什么是多线程" class="headerlink" title="什么是多线程"></a>什么是多线程</h4><ul>
+<li>多线程指的是在单个进程中运行多个线程，现在的程序大部分是多线程程序。</li>
+<li>每个线程共享内存和堆空间。拥有独立的堆栈。</li>
+</ul>
+<h4 id="为什么需要多线程"><a href="#为什么需要多线程" class="headerlink" title="为什么需要多线程"></a>为什么需要多线程</h4><ul>
+<li>为了提高CPU的利用率。</li>
+<li>避免无效等待（IO的时候可以做别的事）</li>
+<li>提高用户体验：避免卡顿、缩短等待时间</li>
+<li>便于建模编程：可以将一个大问题拆解为多个子问题</li>
+</ul>
+<h4 id="串行和并行"><a href="#串行和并行" class="headerlink" title="串行和并行"></a>串行和并行</h4><ul>
+<li>串行是一个个排队来，并行是所有的一起来</li>
+</ul>
+<h4 id="并行和并发"><a href="#并行和并发" class="headerlink" title="并行和并发"></a>并行和并发</h4><ul>
+<li><p>并行</p>
+<ul>
+<li><p>在同一时刻有多个任务同时执行</p>
+</li>
+<li><p>必须要多核处理器</p>
+</li>
+</ul>
+</li>
+<li><p>并发</p>
+<ul>
+<li>两个或者多个任务可以在重叠的时间段内启动，运行和完成。</li>
+<li>并行一定是并发</li>
+<li>单核处理器也可以做到并发，只是cpu切换速度很快，看上去是并行</li>
+</ul>
+</li>
+<li><p>并发性</p>
+<ul>
+<li>不同的部分可以无序或者同时执行，且不影响最终的执行结果。（例如将一堆的东西复制到另一堆、mapreduce）</li>
+</ul>
+</li>
+</ul>
+<h4 id="什么是高并发"><a href="#什么是高并发" class="headerlink" title="什么是高并发"></a>什么是高并发</h4><ul>
+<li>高并发是指有很多的请求需要同时处理</li>
+</ul>
+<h4 id="多线程和高并发"><a href="#多线程和高并发" class="headerlink" title="多线程和高并发"></a>多线程和高并发</h4><ul>
+<li><p>多线程是为了解决高并发情况的一种重要解决方案</p>
+</li>
+<li><p>为了解决高并发的问题还有多个方案：例如Redis</p>
+</li>
+<li><p>高并发并不是一定意味着多线程3</p>
+</li>
+</ul>
+<h4 id="同步和异步"><a href="#同步和异步" class="headerlink" title="同步和异步"></a>同步和异步</h4><ul>
+<li>同步同一时间线上只能有一个任务处理，没得到消息之前会等待。<ul>
+<li>异步指的是同一时间线可以有多个任务处理，没得到消息之前还能发送第二个任务。</li>
+</ul>
+</li>
+</ul>
+<h4 id="多线程弊端"><a href="#多线程弊端" class="headerlink" title="多线程弊端"></a>多线程弊端</h4><ul>
+<li>线程安全</li>
+<li>有些异构问题也需要单线程解决</li>
+</ul>
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">必背</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">面试</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">多线程</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/基础知识//" class="article-tag-list-link color5">基础知识</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/04/06/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-实现登录功能" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1316,101 +1471,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2022/04/02/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%94/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-柱状图中最大的矩形" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/04/01/%E6%9F%B1%E7%8A%B6%E5%9B%BE%E4%B8%AD%E6%9C%80%E5%A4%A7%E7%9A%84%E7%9F%A9%E5%BD%A2/">柱状图中最大的矩形</a>
-    </h1>
-  
-
-        
-        <a href="/2022/04/01/%E6%9F%B1%E7%8A%B6%E5%9B%BE%E4%B8%AD%E6%9C%80%E5%A4%A7%E7%9A%84%E7%9F%A9%E5%BD%A2/" class="archive-article-date">
-  	<time datetime="2022-04-01T06:00:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-04-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="柱状图中最大的矩形"><a href="#柱状图中最大的矩形" class="headerlink" title="柱状图中最大的矩形"></a>柱状图中最大的矩形</h3><h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><p>给定 <em>n</em> 个非负整数，用来表示柱状图中各个柱子的高度。每个柱子彼此相邻，且宽度为 1 。</p>
-<p>求在该柱状图中，能够勾勒出来的矩形的最大面积。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：heights = [2,1,5,6,2,3]</span><br><span class="line">输出：10</span><br><span class="line">解释：最大的矩形为图中红色区域，面积为 10</span><br></pre></td></tr></table></figure>
-
-<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><ul>
-<li>先想暴力解法：对于每个点的高度，我们都可以求出以这个点的高度为矩形高度的面积（分别找到左边小于当前点的第一个点和右边小于当前点的第一个点）。复杂度为$O(N^2)$</li>
-<li>由于我们需要找到左边的第一个小于当前点的位置，和右边小于当前点的位置，所以可以采用两个单调栈进行维护。复杂度$O(N)$</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">int</span> s1[<span class="number">100010</span>];</span><br><span class="line">    <span class="type">int</span> s2[<span class="number">100010</span>];</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">largestRectangleArea</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; h)</span> </span>&#123;</span><br><span class="line">        h.<span class="built_in">insert</span>(h.<span class="built_in">begin</span>(),<span class="number">-1</span>);</span><br><span class="line">        h.<span class="built_in">push_back</span>(<span class="number">-1</span>);</span><br><span class="line">        <span class="type">int</span> n=h.<span class="built_in">size</span>();</span><br><span class="line">        <span class="type">int</span> tt=<span class="number">-1</span>;</span><br><span class="line">        s1[++tt]=<span class="number">0</span>;</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt;<span class="built_in">v1</span>(n,<span class="number">0</span>);</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt;<span class="built_in">v2</span>(n,<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;n<span class="number">-1</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">while</span>(tt&gt;<span class="number">0</span>&amp;&amp;h[s1[tt]]&gt;=h[i])tt--;</span><br><span class="line">            v1[i]=s1[tt];</span><br><span class="line">            s1[++tt]=i;</span><br><span class="line">        &#125;</span><br><span class="line">        tt=<span class="number">-1</span>;</span><br><span class="line">        s2[++tt]=n<span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=n<span class="number">-2</span>;i&gt;<span class="number">0</span>;i--)&#123;</span><br><span class="line">            <span class="keyword">while</span>(tt&gt;<span class="number">0</span>&amp;&amp;h[s2[tt]]&gt;=h[i])tt--;</span><br><span class="line">            v2[i]=s2[tt];</span><br><span class="line">            s2[++tt]=i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> maxn=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;n<span class="number">-1</span>;i++)&#123;</span><br><span class="line">            maxn=<span class="built_in">max</span>(maxn,h[i]*(v2[i]-v1[i]<span class="number">-1</span>));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> maxn;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">思维，单调栈</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/高频算法题//" class="article-tag-list-link color1">高频算法题</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/04/01/%E6%9F%B1%E7%8A%B6%E5%9B%BE%E4%B8%AD%E6%9C%80%E5%A4%A7%E7%9A%84%E7%9F%A9%E5%BD%A2/">展开全文 >></a>
         </p>
       
 
