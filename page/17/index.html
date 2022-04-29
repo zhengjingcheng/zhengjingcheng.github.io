@@ -164,6 +164,97 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-相交链表Ⅱ" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/02/28/%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8%E2%85%A1/">相交链表Ⅱ</a>
+    </h1>
+  
+
+        
+        <a href="/2022/02/28/%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8%E2%85%A1/" class="archive-article-date">
+  	<time datetime="2022-02-27T18:15:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<p>回忆下相交链表1的做法就是维护快慢指针，快指针是慢指针的二倍，如果被快指针追上，有相遇点就说明有环。</p>
+<p>设a为起始点，b为环的入口，c为相遇点。</p>
+<p>设慢指针从入口到达相遇点需要x的路程，则同样的时间快指针在c’点。a点到b点的距离为y。</p>
+<p>已知a点到c点慢指针走了x+y的距离，由于快指针的速度是慢指针的二倍，快指针走了2x+2y的距离。这里的距离是广义距离，包括循环。则可以求出c到b的距离为2x+2y-y-2x&#x3D;y,所以a到b的距离等于c到b的距离，即如果我们求到相遇点后，可以用两个指针，一个指针指向起点a，一个指针指向相遇点c，让两个指针同时走，下一次相遇的位置就是b点。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ListNode *<span class="title">detectCycle</span><span class="params">(ListNode *head)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!head||!head-&gt;next) <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">auto</span> f=head-&gt;next-&gt;next;</span><br><span class="line">    <span class="keyword">auto</span> s=head-&gt;next;</span><br><span class="line">    <span class="keyword">while</span>(f&amp;&amp;s)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(f==s)</span><br><span class="line">        &#123;<span class="comment">//相遇点</span></span><br><span class="line">            <span class="keyword">auto</span> x=head,y=f;</span><br><span class="line">            <span class="keyword">while</span>(x!=y) x=x-&gt;next,y=y-&gt;next;</span><br><span class="line">            <span class="keyword">return</span> x;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(!f-&gt;next) <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">        f=f-&gt;next-&gt;next;</span><br><span class="line">        s=s-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">算法题解</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/题解//" class="article-tag-list-link color3">题解</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/02/28/%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8%E2%85%A1/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-第282次周赛第四题-完成比赛的最少时间" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
