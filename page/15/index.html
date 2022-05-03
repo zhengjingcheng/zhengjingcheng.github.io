@@ -164,6 +164,538 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-力扣42接雨水" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/09/%E5%8A%9B%E6%89%A342%E6%8E%A5%E9%9B%A8%E6%B0%B4/">力扣42接雨水</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/09/%E5%8A%9B%E6%89%A342%E6%8E%A5%E9%9B%A8%E6%B0%B4/" class="archive-article-date">
+  	<time datetime="2022-03-09T03:48:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="接雨水"><a href="#接雨水" class="headerlink" title="接雨水"></a>接雨水</h3><p>给定 <code>n</code> 个非负整数表示每个宽度为 <code>1</code> 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。</p>
+<p><img src="https://gitee.com/bhb100/drawing-bed/raw/master/blog/20220309115203.png"></p>
+<h4 id="一个单调栈"><a href="#一个单调栈" class="headerlink" title="一个单调栈"></a>一个单调栈</h4><ul>
+<li>维护一个单调递减的栈，如果当前元素比栈顶元素高，就需要计算可以增加的高度，把栈顶元素的高度记录下来,便于后边计算高度<code>int h=height[st.top()];</code>，然后弹出栈顶元素，如果栈顶还有元素，我们可以通过栈顶元素和当前元素的下标差距计算出雨水量。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> len=i-st.<span class="built_in">top</span>()<span class="number">-1</span>;</span><br><span class="line">res+=(<span class="built_in">min</span>(height[st.<span class="built_in">top</span>()],height[i])-h)*len;</span><br></pre></td></tr></table></figure>
+
+<p>​       否则，接不到雨水。</p>
+<ul>
+<li>代码</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">trap</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; height)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//维护一个单调减的单调栈，栈里存放下标</span></span><br><span class="line">    stack&lt;<span class="type">int</span>&gt;st;</span><br><span class="line">    <span class="type">int</span> n=height.<span class="built_in">size</span>();</span><br><span class="line">    <span class="type">int</span> res=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="keyword">while</span>(st.<span class="built_in">size</span>()&amp;&amp;height[st.<span class="built_in">top</span>()]&lt;=height[i])&#123;</span><br><span class="line">            <span class="type">int</span> h=height[st.<span class="built_in">top</span>()];</span><br><span class="line">            st.<span class="built_in">pop</span>();</span><br><span class="line">            <span class="keyword">if</span>(st.<span class="built_in">size</span>())</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="type">int</span> len=i-st.<span class="built_in">top</span>()<span class="number">-1</span>;</span><br><span class="line">                res+=(<span class="built_in">min</span>(height[st.<span class="built_in">top</span>()],height[i])-h)*len;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        st.<span class="built_in">push</span>(i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="两个单调栈"><a href="#两个单调栈" class="headerlink" title="两个单调栈"></a>两个单调栈</h4><ul>
+<li>维护左右两个单调上升的单调栈，分别计算当前元素对所有可以接的雨水的贡献量。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">res+=<span class="built_in">min</span>(height[l[i]],height[r[i]])-height[i];</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>代码</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> n=height.<span class="built_in">size</span>();</span><br><span class="line">stack&lt;<span class="type">int</span>&gt;st,st1;<span class="comment">//从左到右和从右到左</span></span><br><span class="line">vector&lt;<span class="type">int</span>&gt;<span class="built_in">l</span>(n,<span class="number">0</span>),<span class="built_in">r</span>(n,<span class="number">0</span>);</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">    <span class="keyword">while</span>(!st.<span class="built_in">empty</span>()&amp;&amp;height[st.<span class="built_in">top</span>()]&lt;=height[i])&#123;</span><br><span class="line">        st.<span class="built_in">pop</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(!st.<span class="built_in">empty</span>())l[i]=st.<span class="built_in">top</span>();</span><br><span class="line">    <span class="keyword">if</span>(st.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">        st.<span class="built_in">push</span>(i);</span><br><span class="line">        l[i]=i;</span><br><span class="line">    &#125;            </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=n<span class="number">-1</span>;i&gt;=<span class="number">0</span>;i--)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">while</span>(!st1.<span class="built_in">empty</span>()&amp;&amp;height[st1.<span class="built_in">top</span>()]&lt;=height[i])&#123;</span><br><span class="line">        st1.<span class="built_in">pop</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(!st1.<span class="built_in">empty</span>())r[i]=st1.<span class="built_in">top</span>();</span><br><span class="line">    <span class="keyword">if</span>(st1.<span class="built_in">empty</span>())&#123;</span><br><span class="line">        st1.<span class="built_in">push</span>(i);</span><br><span class="line">        r[i]=i;</span><br><span class="line">    &#125;    </span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> res=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">    res+=<span class="built_in">min</span>(height[l[i]],height[r[i]])-height[i];</span><br><span class="line"><span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="双指针"><a href="#双指针" class="headerlink" title="双指针"></a>双指针</h4><ul>
+<li><p>维护左右两个最大值最小值指针，分别看可以更新左侧还是右侧，更新完则移动指针，直到两个指针相遇。</p>
+</li>
+<li><p>代码</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">trap</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; height)</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> n=height.<span class="built_in">size</span>();</span><br><span class="line">    <span class="type">int</span> l=<span class="number">0</span>,r=n<span class="number">-1</span>;</span><br><span class="line">    <span class="type">int</span> lm=<span class="number">0</span>,rm=<span class="number">0</span>;<span class="comment">//左侧最大值和右侧最大值</span></span><br><span class="line">    <span class="type">int</span> res=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(l&lt;r)</span><br><span class="line">    &#123;</span><br><span class="line">        lm=<span class="built_in">max</span>(lm,height[l]);</span><br><span class="line">        rm=<span class="built_in">max</span>(rm,height[r]);</span><br><span class="line">        <span class="keyword">if</span>(height[l]&lt;height[r])<span class="comment">//左右两边哪边更小就更新哪个</span></span><br><span class="line">            res+=<span class="built_in">min</span>(lm,rm)-height[l++];</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            res+=<span class="built_in">min</span>(lm,rm)-height[r--];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">双指针</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">单调栈，hard</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/高频算法题//" class="article-tag-list-link color1">高频算法题</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/09/%E5%8A%9B%E6%89%A342%E6%8E%A5%E9%9B%A8%E6%B0%B4/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-力扣798得分最高的最小轮调" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/09/%E5%8A%9B%E6%89%A3798%E5%BE%97%E5%88%86%E6%9C%80%E9%AB%98%E7%9A%84%E6%9C%80%E5%B0%8F%E8%BD%AE%E8%B0%83/">力扣798得分最高的最小轮调</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/09/%E5%8A%9B%E6%89%A3798%E5%BE%97%E5%88%86%E6%9C%80%E9%AB%98%E7%9A%84%E6%9C%80%E5%B0%8F%E8%BD%AE%E8%B0%83/" class="archive-article-date">
+  	<time datetime="2022-03-08T20:11:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h4 id="力扣798得分最高的最小轮调"><a href="#力扣798得分最高的最小轮调" class="headerlink" title="力扣798得分最高的最小轮调"></a>力扣798得分最高的最小轮调</h4><p><strong>题目描述</strong><br>给定一个数组 A，我们可以将它按一个非负整数 K 进行轮调，这样可以使数组变为 A[K], A[K+1], A[K+2], … A[A.length - 1], A[0], A[1], …, A[K-1] 的形式。此后，任何值小于或等于其索引的项都可以记作 1 分。</p>
+<p>例如，如果数组为 [2, 4, 1, 3, 0]，我们按 K &#x3D; 2 进行轮调后，它将变成 [1, 3, 0, 2, 4]。这将记作 3 分，因为 1 &gt; 0 [没有得分], 3 &gt; 1 [没有得分], 0 &lt;&#x3D; 2 [1 分], 2 &lt;&#x3D; 3 [1 分], 4 &lt;&#x3D; 4 [1 分]。</p>
+<p>在所有可能的轮调中，返回我们所能得到的最高分数对应的轮调索引 K。如果有多个答案，返回满足条件的最小的索引 K。</p>
+<p>样例<br>输入：[2, 3, 1, 4, 0]<br>输出：3<br>解释：<br>下面列出了每个 K 的得分：<br>K &#x3D; 0,  A &#x3D; [2,3,1,4,0],    score 2<br>K &#x3D; 1,  A &#x3D; [3,1,4,0,2],    score 3<br>K &#x3D; 2,  A &#x3D; [1,4,0,2,3],    score 3<br>K &#x3D; 3,  A &#x3D; [4,0,2,3,1],    score 4<br>K &#x3D; 4,  A &#x3D; [0,2,3,1,4],    score 3<br>所以我们应当选择 K &#x3D; 3，得分最高。</p>
+<p><strong>思路</strong>：</p>
+<p>这道题是思维题，有一定难度，我们不妨换一个角度去考虑问题，即：对于每个$A[i]$轮换不同的步数可以满足的加分区间。我们可以先处理出，每个位置的加分区间，然后统计加分区间最大的轮换。</p>
+<ul>
+<li>由于只有当前值小于等于索引值时我们才可以加分，所以分情况讨论：</li>
+</ul>
+<p><img src="https://gitee.com/bhb100/drawing-bed/raw/master/blog/20220309040522.png"></p>
+<ul>
+<li>1、$A[i]&gt;i$ 说明只有一个加分区间$(A[i],n)$也就是必须要轮换到后边：$i-k&#x3D;(-1,-(n-A[i]))$也就是</li>
+</ul>
+<p>$(i+1,i+n-A[i])$</p>
+<p><img src="https://gitee.com/bhb100/drawing-bed/raw/master/blog/20220309040449.png"></p>
+<ul>
+<li>2、$A[i]&lt;i$说明有两个加分区间，一个在前边，一个和上边情况差不多，在后边<ul>
+<li>前边：$(0,i-A[i])$</li>
+<li>后边：$(i+1,i+n-i)&#x3D;(i+1,n)$</li>
+</ul>
+</li>
+</ul>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">bestRotation</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n=nums.<span class="built_in">size</span>();</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt;<span class="built_in">s</span>(n+<span class="number">1</span>,<span class="number">0</span>);</span><br><span class="line">        <span class="type">int</span> res=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[i]&gt;i)s[i+<span class="number">1</span>]++,s[i+n-nums[i]+<span class="number">1</span>]--;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                s[<span class="number">0</span>]++,s[i-nums[i]+<span class="number">1</span>]--;</span><br><span class="line">                s[i+<span class="number">1</span>]++,s[n]--;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> sum=<span class="number">0</span>,ans=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">0</span>;k&lt;n;k++)&#123;</span><br><span class="line">            sum+=s[k];</span><br><span class="line">            <span class="keyword">if</span>(sum&gt;ans)&#123;</span><br><span class="line">                ans=sum,res=k;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">数学</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">差分</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">前缀和</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hard</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/题解//" class="article-tag-list-link color3">题解</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/09/%E5%8A%9B%E6%89%A3798%E5%BE%97%E5%88%86%E6%9C%80%E9%AB%98%E7%9A%84%E6%9C%80%E5%B0%8F%E8%BD%AE%E8%B0%83/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-数据库（一）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/03/09/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E4%B8%80%EF%BC%89/">数据库（基础）</a>
+    </h1>
+  
+
+        
+        <a href="/2022/03/09/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E4%B8%80%EF%BC%89/" class="archive-article-date">
+  	<time datetime="2022-03-08T19:29:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="数据库（基础）"><a href="#数据库（基础）" class="headerlink" title="数据库（基础）"></a>数据库（基础）</h3><h4 id="DDL（Data-Definition-Language）"><a href="#DDL（Data-Definition-Language）" class="headerlink" title="DDL（Data Definition Language）"></a>DDL（Data Definition Language）</h4><ul>
+<li>查询所有数据库</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> databases;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查询当前数据库</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> database();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建数据库</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> database [ if <span class="keyword">not</span> <span class="keyword">exists</span> ] 数据库名 [ <span class="keyword">default</span> charset 字符集 ] [ <span class="keyword">collate</span> 排序</span><br><span class="line">规则 ] ;</span><br><span class="line">#example:</span><br><span class="line"><span class="keyword">create</span> database if <span class="keyword">not</span> extists itcast; #创建一个itcast数据库</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>删除数据库</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> database [ if <span class="keyword">exists</span> ] 数据库名 ;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>切换数据库</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">use itcast;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建表结构</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> tb_user(</span><br><span class="line">    id <span class="type">int</span> comment <span class="string">&#x27;编号&#x27;</span>,</span><br><span class="line">    name <span class="type">varchar</span>(<span class="number">50</span>) comment <span class="string">&#x27;姓名&#x27;</span>,</span><br><span class="line">    age <span class="type">int</span> comment <span class="string">&#x27;年龄&#x27;</span>,</span><br><span class="line">    gender <span class="type">varchar</span>(<span class="number">1</span>) comment <span class="string">&#x27;性别&#x27;</span></span><br><span class="line">) comment <span class="string">&#x27;用户表&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>添加字段</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> 表名 <span class="keyword">add</span> 字段名 类型 <span class="keyword">commit</span> 注释 </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修改数据类型</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> 表名 modify 字段名 新数据类型</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修改字段名和字段类型</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> 表名 change 旧字段名 新字段名 类型</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>删除字段</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> 表名 <span class="keyword">drop</span> 字段名</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>删除表</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">table</span> 表名;</span><br></pre></td></tr></table></figure>
+
+<h4 id="DML-Data-Manipulation-Language"><a href="#DML-Data-Manipulation-Language" class="headerlink" title="DML(Data Manipulation Language)"></a>DML(Data Manipulation Language)</h4><ul>
+<li>添加数据</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> employee(id,workno,name,gender,age,idcard,entrydate)</span><br><span class="line"><span class="keyword">values</span>(<span class="number">1</span>,<span class="string">&#x27;1&#x27;</span>,<span class="string">&#x27;Itcast&#x27;</span>,<span class="string">&#x27;男&#x27;</span>,<span class="number">10</span>,<span class="string">&#x27;123456789012345678&#x27;</span>,<span class="string">&#x27;2000-01-01&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>给全部字段添加数据</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> employee <span class="keyword">values</span>(<span class="number">2</span>,<span class="string">&#x27;2&#x27;</span>,<span class="string">&#x27;张无忌&#x27;</span>,<span class="string">&#x27;男&#x27;</span>,<span class="number">18</span>,<span class="string">&#x27;123456789012345670&#x27;</span>,<span class="string">&#x27;2005-01-</span></span><br><span class="line"><span class="string">01&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>批量添加数据</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> employee <span class="keyword">values</span>(<span class="number">3</span>,<span class="string">&#x27;3&#x27;</span>,<span class="string">&#x27;韦一笑&#x27;</span>,<span class="string">&#x27;男&#x27;</span>,<span class="number">38</span>,<span class="string">&#x27;123456789012345670&#x27;</span>,<span class="string">&#x27;2005-01-</span></span><br><span class="line"><span class="string">01&#x27;</span>),(<span class="number">4</span>,<span class="string">&#x27;4&#x27;</span>,<span class="string">&#x27;赵敏&#x27;</span>,<span class="string">&#x27;女&#x27;</span>,<span class="number">18</span>,<span class="string">&#x27;123456789012345670&#x27;</span>,<span class="string">&#x27;2005-01-01&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修改数据</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">update</span> employee <span class="keyword">set</span> name <span class="operator">=</span> <span class="string">&#x27;itheima&#x27;</span> <span class="keyword">where</span> id <span class="operator">=</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>删除数据</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">delete</span> <span class="keyword">from</span> employee <span class="number">1</span> <span class="keyword">where</span> gender <span class="operator">=</span> <span class="string">&#x27;女&#x27;</span>;#删除女员工</span><br><span class="line"><span class="keyword">delete</span> <span class="keyword">from</span> employee;#删除所有员工</span><br></pre></td></tr></table></figure>
+
+<h4 id="DQL（Data-Query-Language）"><a href="#DQL（Data-Query-Language）" class="headerlink" title="DQL（Data Query Language）"></a>DQL（Data Query Language）</h4><ul>
+<li>查询多个字段</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> 字段<span class="number">1</span>, 字段<span class="number">2</span>, 字<span class="number">1</span> 段<span class="number">3</span> ... <span class="keyword">from</span> 表名 ;</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> 表名;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>字段设置别名</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> 字段<span class="number">1</span> [ <span class="keyword">as</span> 别名<span class="number">1</span> ] , 字段<span class="number">2</span> [ <span class="keyword">as</span> 别名<span class="number">2</span> <span class="number">1</span> ] ... <span class="keyword">from</span> 表名;</span><br><span class="line"><span class="keyword">select</span> workaddress <span class="keyword">as</span> <span class="string">&#x27;工作地址&#x27;</span> <span class="keyword">from</span> emp;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>去除重复记录</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">distinct</span> 字段列表 <span class="keyword">from</span> 表名;</span><br><span class="line"><span class="keyword">select</span> <span class="keyword">distinct</span> workaddress <span class="string">&#x27;工作地址&#x27;</span> <span class="keyword">from</span> emp;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>条件查询</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> 字段列表 <span class="keyword">from</span> 表 名 <span class="keyword">where</span> 条件列表 ;</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> <span class="number">1</span> emp <span class="keyword">where</span> age <span class="operator">&lt;</span> <span class="number">20</span>;#查询年龄小于等于 <span class="number">20</span> 的员工信息</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> idcard <span class="keyword">is</span> <span class="keyword">null</span>;#查询没有身份证号的员工信息</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> age <span class="keyword">between</span> <span class="number">15</span> <span class="keyword">and</span> <span class="number">20</span>;#查询年龄在<span class="number">15</span>岁(包含) 到 <span class="number">20</span>岁(包含)之间的员工信息</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> name <span class="keyword">like</span> <span class="string">&#x27;__&#x27;</span>;#查询姓名为两个字的员工信息</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> idcard <span class="keyword">like</span> <span class="string">&#x27;%X&#x27;</span>;#查询身份证号最后一位是X的员工信息</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>聚合函数<ul>
+<li>count 统计数量 </li>
+<li>max 最大值</li>
+<li>min 最小值</li>
+<li>avg 平均值</li>
+<li>sum 求和</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 聚合函<span class="number">1</span> 数(字段列表) <span class="keyword">FROM</span> 表名 ;</span><br><span class="line"><span class="keyword">select</span> <span class="built_in">count</span>(idcard) <span class="keyword">from</span> emp; <span class="comment">-- 统计的是idcard字段不为null的记录数</span></span><br><span class="line"><span class="keyword">select</span> <span class="built_in">avg</span>(age) <span class="keyword">from</span> emp;#统计该企业员工的平均年龄</span><br><span class="line"><span class="keyword">select</span> <span class="built_in">sum</span>(age) <span class="keyword">from</span> emp <span class="keyword">where</span> workaddress <span class="operator">=</span> <span class="string">&#x27;西安&#x27;</span>;#统计西安地区员工的年龄之和</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>分组查询</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 字段列表 <span class="keyword">FROM</span> 表名 [ <span class="keyword">WHERE</span> 条件 ] <span class="keyword">GROUP</span> <span class="keyword">BY</span> 分组字段名 [ <span class="keyword">HAVING</span> 分组</span><br><span class="line">后过滤条件 ];</span><br><span class="line">#查询年龄小于<span class="number">45</span>的员工 , 并根据工作地址分组 , 获取员工数量大于等于<span class="number">3</span>的工作地址</span><br><span class="line"><span class="keyword">select</span> workaddress, <span class="built_in">count</span>(<span class="operator">*</span>) address_count <span class="keyword">from</span> emp <span class="keyword">where</span> age <span class="operator">&lt;</span> <span class="number">45</span> <span class="keyword">group</span> <span class="keyword">by</span></span><br><span class="line">workaddress <span class="keyword">having</span> address_count <span class="operator">&gt;=</span> <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>排序查询</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 字段列表 <span class="keyword">FROM</span> 表名 <span class="keyword">ORDER</span> <span class="keyword">BY</span> 字段<span class="number">1</span> 排<span class="number">1</span> 序方式<span class="number">1</span> , 字段<span class="number">2</span> 排序方式<span class="number">2</span> ;</span><br><span class="line"><span class="keyword">ASC</span> : 升序(默认值)</span><br><span class="line"><span class="keyword">DESC</span>: 降序</span><br><span class="line">#根据年龄对公司的员工进行升序排序 , 年龄相同 , 再按照入职时间进行降序排序</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">order</span> <span class="keyword">by</span> age <span class="keyword">asc</span> <span class="number">1</span> , entrydate <span class="keyword">desc</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="外键约束"><a href="#外键约束" class="headerlink" title="外键约束"></a>外键约束</h4><ul>
+<li>添加外键</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> emp <span class="keyword">add</span> <span class="keyword">constraint</span> fk_emp_dept_id <span class="keyword">foreign</span> key (dept_id) <span class="keyword">references</span></span><br><span class="line">dept(id);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>删除外键</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> emp <span class="keyword">drop</span> <span class="keyword">foreign</span> key fk_emp_dept_id;#删除emp表的外键fk_emp_dept_id。</span><br></pre></td></tr></table></figure>
+
+<h4 id="多表查询"><a href="#多表查询" class="headerlink" title="多表查询"></a>多表查询</h4><ul>
+<li>隐式内连接</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 字段列表 <span class="keyword">FROM</span> 表<span class="number">1</span> , 表<span class="number">1</span> <span class="number">2</span> <span class="keyword">WHERE</span> 条件 ... ;</span><br><span class="line">查询每一个员工的姓名 , 及关联的部门的名称 (隐式内连接实现)</span><br><span class="line">表结构: emp , dept</span><br><span class="line">连接条件: emp.dept_id <span class="operator">=</span> dept.id</span><br><span class="line"><span class="keyword">select</span> emp.name , dept.name <span class="keyword">from</span> emp , dept <span class="keyword">where</span> emp.dept_id <span class="operator">=</span> dept.id ;</span><br><span class="line"><span class="comment">-- 为每一张表起别名,简化SQL编写</span></span><br><span class="line"><span class="keyword">select</span> e.name,d.name <span class="keyword">from</span> emp e , dept d <span class="keyword">where</span> e.dept_id <span class="operator">=</span> d.id;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>自连接查询</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">查询员工 及其 所属领导的名字</span><br><span class="line">表结构: emp</span><br><span class="line"><span class="keyword">select</span> a.name , b.name <span class="keyword">from</span> emp a , emp b <span class="keyword">where</span> a.managerid <span class="operator">=</span> b.id;</span><br><span class="line"><span class="comment">-- 在自连接查询中，必须要为表起别名，要不然我们不清楚所指定的条件、返回的字段，到底是哪一张表的字段。</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>联合查询</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 将薪资低于 5000 的员工 , 和 年龄大于 50 岁的员工全部查询出来.</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> salary <span class="operator">&lt;</span> <span class="number">5000</span></span><br><span class="line"><span class="keyword">union</span> <span class="keyword">all</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> age <span class="operator">&gt;</span> <span class="number">50</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>子查询</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- SQL语句中嵌套SELECT语句，称为嵌套查询，又称子查询。</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> t1 <span class="keyword">WHERE</span> column1 <span class="operator">=</span> ( <span class="keyword">SELECT</span> column1 <span class="number">1</span> <span class="keyword">FROM</span> t2 );</span><br><span class="line"><span class="comment">-- 查询 &quot;销售部&quot; 的所有员工信息</span></span><br><span class="line"><span class="comment">-- 完成这个需求时，我们可以将需求分解为两步：</span></span><br><span class="line"><span class="comment">-- ①. 查询 &quot;销售部&quot; 部门ID</span></span><br><span class="line"><span class="keyword">select</span> id <span class="keyword">from</span> dept <span class="number">1</span> <span class="keyword">where</span> name <span class="operator">=</span> <span class="string">&#x27;销售部&#x27;</span>;</span><br><span class="line"><span class="comment">-- ②. 根据 &quot;销售部&quot; 部门ID, 查询员工信息</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> dept_id <span class="operator">=</span> (<span class="keyword">select</span> id <span class="keyword">from</span> dept <span class="keyword">where</span> name <span class="operator">=</span> <span class="string">&#x27;销售部&#x27;</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>列子查询</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 子查询返回的结果是一列（可以是多行），这种子查询称为列子查询。</span></span><br><span class="line"><span class="comment">-- 常用的操作符：IN 、NOT IN 、 ANY 、SOME 、 ALL</span></span><br><span class="line">#查询 &quot;销售部&quot; 和 &quot;市场部&quot; 的所有员工信息</span><br><span class="line">#分解为以下两步:</span><br><span class="line">#①. 查询 &quot;销售部&quot; 和 &quot;市场部&quot; 的部门ID</span><br><span class="line"><span class="keyword">select</span> id <span class="keyword">from</span> dept <span class="keyword">where</span> name <span class="operator">=</span> <span class="string">&#x27;销售部&#x27;</span> <span class="keyword">or</span> name <span class="operator">=</span> <span class="string">&#x27;市场部&#x27;</span>;</span><br><span class="line">#②. 根据部门ID, 查询员工信息</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> dept_id <span class="keyword">in</span> (<span class="keyword">select</span> id <span class="keyword">from</span> dept <span class="keyword">where</span> name <span class="operator">=</span> <span class="string">&#x27;销售部&#x27;</span> <span class="keyword">or</span></span><br><span class="line">name <span class="operator">=</span> <span class="string">&#x27;市场部&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>行子查询</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#子查询返回的结果是一行（可以是多列），这种子查询称为行子查询。</span><br><span class="line">#常用的操作符：<span class="operator">=</span> 、<span class="operator">&lt;&gt;</span> 、<span class="keyword">IN</span> 、<span class="keyword">NOT</span> <span class="keyword">IN</span></span><br><span class="line">#查询与 &quot;张无忌&quot; 的薪资及直属领导相同的员工信息 ;</span><br><span class="line">#这个需求同样可以拆解为两步进行:</span><br><span class="line">#①. 查询 &quot;张无忌&quot; 的薪资及直属领导</span><br><span class="line"><span class="keyword">select</span> salary, managerid <span class="keyword">from</span> emp <span class="keyword">where</span> name <span class="operator">=</span> <span class="string">&#x27;张无忌&#x27;</span>;</span><br><span class="line">#②. 查询与 &quot;张无忌&quot; 的薪资及直属领导相同的员工信息 ;</span><br><span class="line">#<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> (salary,managerid) <span class="operator">=</span> (<span class="keyword">select</span> salary, managerid <span class="keyword">from</span> emp</span><br><span class="line"><span class="keyword">where</span> name <span class="operator">=</span> <span class="string">&#x27;张无忌&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>表子查询</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">查询与 &quot;鹿杖客&quot; , &quot;宋远桥&quot; 的职位和薪资相同的员工信息</span><br><span class="line">分解为两步执行:</span><br><span class="line">①. 查询 &quot;鹿杖客&quot; , &quot;宋远桥&quot; 的职位和薪资</span><br><span class="line"><span class="keyword">select</span> job, salary <span class="keyword">from</span> emp <span class="keyword">where</span> name <span class="operator">=</span> <span class="string">&#x27;鹿1 杖客&#x27;</span> <span class="keyword">or</span> name <span class="operator">=</span> <span class="string">&#x27;宋远桥&#x27;</span>;</span><br><span class="line">②. 查询与 &quot;鹿杖客&quot; , &quot;宋远桥&quot; 的职位和薪资相同的员工信息</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> (job,salary) <span class="keyword">in</span> ( <span class="keyword">select</span> job, salary <span class="keyword">from</span> emp <span class="keyword">where</span> name <span class="operator">=</span></span><br><span class="line"><span class="string">&#x27;鹿杖客&#x27;</span> <span class="keyword">or</span> name <span class="operator">=</span> <span class="string">&#x27;宋远桥&#x27;</span> );</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>案例</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>). 查询员工的姓名、年龄、职位、部门信息 （隐式内连接）</span><br><span class="line">表: emp , dept</span><br><span class="line">连接条件: emp.dept_id <span class="operator">=</span> dept.id</span><br><span class="line"><span class="keyword">select</span> e.name , e.age , e.job , d.name <span class="keyword">from</span> emp e , dept d <span class="keyword">where</span> <span class="number">1</span> e.dept_id <span class="operator">=</span> d.id;</span><br><span class="line"><span class="number">3</span>). 查询拥有员工的部门ID、部门名称</span><br><span class="line">表: emp , dept</span><br><span class="line">连接条件: emp.dept_id <span class="operator">=</span> dept.id</span><br><span class="line"><span class="keyword">select</span> <span class="keyword">distinct</span> d.id , d.name <span class="keyword">from</span> emp e , dept d <span class="keyword">where</span> <span class="number">1</span> e.dept_id <span class="operator">=</span> d.id;</span><br><span class="line"><span class="number">4</span>). 查询所有年龄大于<span class="number">40</span>岁的员工, 及其归属的部门名称; 如果员工没有分配部门, 也需要展示出</span><br><span class="line">来(外连接)</span><br><span class="line">表: emp , dept</span><br><span class="line">连接条件: emp.dept_id <span class="operator">=</span> dept.id</span><br><span class="line"><span class="keyword">select</span> e.<span class="operator">*</span>, d.name <span class="keyword">from</span> emp e <span class="keyword">left</span> <span class="keyword">join</span> dept d <span class="keyword">on</span> e.dept_id <span class="operator">=</span> d.id <span class="keyword">where</span> e.age <span class="operator">&gt;</span> <span class="number">40</span> ;</span><br><span class="line"><span class="number">5</span>). 查询所有员工的工资等级</span><br><span class="line">表: emp , salgrade</span><br><span class="line">连接条件 : emp.salary <span class="operator">&gt;=</span> salgrade.losal <span class="keyword">and</span> emp.salary <span class="operator">&lt;=</span> salgrade.hisal</span><br><span class="line"><span class="keyword">select</span> e.<span class="operator">*</span> , s.grade , s.losal, s.hisal <span class="keyword">from</span> emp e , salgrade s <span class="keyword">where</span> e.salary</span><br><span class="line"><span class="keyword">between</span> s.losal <span class="keyword">and</span> s.hisal;</span><br><span class="line"><span class="number">6</span>). 查询 &quot;研发部&quot; 所有员工的信息及 工资等级</span><br><span class="line">表: emp , salgrade , dept</span><br><span class="line">连接条件 : emp.salary <span class="keyword">between</span> salgrade.losal <span class="keyword">and</span> salgrade.hisal ,</span><br><span class="line">emp.dept_id <span class="operator">=</span> dept.id</span><br><span class="line">查询条件 : dept.name <span class="operator">=</span> <span class="string">&#x27;研发部&#x27;</span></span><br><span class="line"><span class="keyword">select</span> e.<span class="operator">*</span> , s.grade <span class="keyword">from</span> emp e , dept d , salgrade s <span class="keyword">where</span> e.dept_id <span class="operator">=</span> d.id <span class="keyword">and</span> (</span><br><span class="line">e.salary <span class="keyword">between</span> s.losal <span class="keyword">and</span> s.hisal ) <span class="keyword">and</span> d.name <span class="operator">=</span> <span class="string">&#x27;研发部&#x27;</span>;</span><br><span class="line"><span class="number">7</span>). 查询 &quot;研发部&quot; 员工的平均工资</span><br><span class="line">表: emp , dept</span><br><span class="line">连接条件 : emp.dept_id <span class="operator">=</span> dept.id</span><br><span class="line"><span class="keyword">select</span> <span class="built_in">avg</span>(e.salary) <span class="keyword">from</span> emp e, dept d <span class="keyword">where</span> e.dept_id <span class="operator">=</span> d.id <span class="keyword">and</span> d.name <span class="operator">=</span> <span class="string">&#x27;研发</span></span><br><span class="line"><span class="string">部&#x27;</span>;</span><br><span class="line"><span class="number">8</span>). 查询工资比 &quot;灭绝&quot; 高的员工信息。</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> salary <span class="operator">&gt;</span> ( <span class="keyword">select</span> salary <span class="keyword">from</span> emp <span class="keyword">where</span> name <span class="operator">=</span> <span class="string">&#x27;灭绝&#x27;</span> );</span><br><span class="line"><span class="number">9</span>). 查询比平均薪资高的员工信息</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> salary <span class="operator">&gt;</span> ( <span class="keyword">select</span> <span class="built_in">avg</span>(salary) <span class="keyword">from</span> emp );</span><br><span class="line"><span class="number">10</span>). 查询低于本部门平均工资的员工信息</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp e2 <span class="keyword">where</span> e2.salary <span class="operator">&lt;</span> ( <span class="keyword">select</span> <span class="built_in">avg</span>(e1.salary) <span class="keyword">from</span> emp e1 <span class="keyword">where</span></span><br><span class="line">e1.dept_id <span class="operator">=</span> e2.dept_id );</span><br><span class="line"><span class="number">11</span>). 查询所有的部门信息, 并统计部门的员工人数</span><br><span class="line"><span class="keyword">select</span> d.id, d.name , ( <span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> emp e <span class="keyword">where</span> e.dept_id <span class="operator">=</span> d.id ) <span class="string">&#x27;人数&#x27;</span></span><br><span class="line"><span class="keyword">from</span> dept d;</span><br><span class="line"><span class="number">12</span>). 查询所有学生的选课情况, 展示出学生名称, 学号, 课程名称</span><br><span class="line">表: student , course , student_course</span><br><span class="line">连接条件: student.id <span class="operator">=</span> student_course.studentid , course.id <span class="operator">=</span></span><br><span class="line">student_course.courseid</span><br><span class="line"><span class="keyword">select</span> s.name , s.no , c.name <span class="keyword">from</span> student s , student_course sc , course c <span class="keyword">where</span></span><br><span class="line">s.id <span class="operator">=</span> sc.studentid <span class="keyword">and</span> sc.courseid <span class="operator">=</span> c.id ;</span><br></pre></td></tr></table></figure>
+
+<h4 id="事务（重点）"><a href="#事务（重点）" class="headerlink" title="事务（重点）"></a>事务（重点）</h4><p>事务 是一组操作的集合，它是一个不可分割的工作单位，事务会把所有的操作作为一个整体一起向系<br>统提交或撤销操作请求，即这些操作要么同时成功，要么同时失败。</p>
+<ul>
+<li><p>事务四大特性</p>
+<ul>
+<li>原子性（Atomicity）：事务是不可分割的最小操作单元，要么全部成功，要么全部失败。</li>
+<li>一致性（Consistency）：事务完成时，必须使所有的数据都保持一致状态。</li>
+<li>隔离性（Isolation）：数据库系统提供的隔离机制，保证事务在不受外部并发操作影响的独立<br>环境下运行。</li>
+<li>持久性（Durability）：事务一旦提交或回滚，它对数据库中的数据的改变就是永久的。</li>
+<li>上述就是事务的四大特性，简称ACID。</li>
+</ul>
+</li>
+<li><p>并发事务问题</p>
+<ul>
+<li>脏读：一个事务读到另外一个事务还没有提交的数据。</li>
+<li>不可重复读：一个事务先后读取同一条记录，但两次读取的数据不同，称之为不可重复读。</li>
+<li>幻读：一个事务按照条件查询数据时，没有对应的数据行，但是在插入数据时，又发现这行数据<br>已经存在，好像出现了 “幻影”。</li>
+</ul>
+</li>
+<li><p>事务隔离级别</p>
+<p><img src="https://gitee.com/bhb100/drawing-bed/raw/master/blog/20220309032823.png"></p>
+</li>
+<li><p>设置事务隔离级别</p>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> [ SESSION <span class="operator">|</span> <span class="keyword">GLOBAL</span> ] TRANSACTION ISOLATION LEVEL &#123; READ UNCOMMITTED <span class="operator">|</span></span><br><span class="line">READ COMMITTED <span class="operator">|</span> REPEATABLE READ <span class="operator">|</span> SERIALIZABLE &#125;</span><br><span class="line">注意：事务隔离级别越高，数据越安全，但是性能越低。</span><br></pre></td></tr></table></figure>
+
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">必背</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">数据库</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/基础知识//" class="article-tag-list-link color5">基础知识</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/03/09/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E4%B8%80%EF%BC%89/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-每日总结2022-3-8" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1051,357 +1583,6 @@
 
 
   
-    <article id="post-部署nginx与对接acapp" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/06/%E9%83%A8%E7%BD%B2nginx%E4%B8%8E%E5%AF%B9%E6%8E%A5acapp/">部署nginx与对接acapp</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/06/%E9%83%A8%E7%BD%B2nginx%E4%B8%8E%E5%AF%B9%E6%8E%A5acapp/" class="archive-article-date">
-  	<time datetime="2022-03-05T18:43:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h2 id="部署nginx与对接acapp"><a href="#部署nginx与对接acapp" class="headerlink" title="部署nginx与对接acapp"></a>部署nginx与对接acapp</h2><h3 id="背景知识"><a href="#背景知识" class="headerlink" title="背景知识"></a>背景知识</h3><h4 id="什么是Nginx"><a href="#什么是Nginx" class="headerlink" title="什么是Nginx"></a>什么是Nginx</h4><p><em>Nginx</em> (engine x) 是一个高性能的HTTP和反向代理(不需要知道目标服务器的地址)web服务器。</p>
-<h4 id="uWSGI是什么"><a href="#uWSGI是什么" class="headerlink" title="uWSGI是什么"></a>uWSGI是什么</h4><ul>
-<li>uWSGI是一个Web服务器，它实现了WSGI协议、uwsgi、http等协议。Nginx中HttpUwsgiModule的作用是与uWSGI服务器进行交换。</li>
-<li>WSGI协议是Python 语言定义的 Web 服务器和 Web 应用程序或框架之间的一种简单而通用的接口。</li>
-<li>简单来说uWSGI就是用来沟通nginx和django的一座桥梁。</li>
-</ul>
-<h4 id="为什么需要Nginx"><a href="#为什么需要Nginx" class="headerlink" title="为什么需要Nginx"></a>为什么需要Nginx</h4><p>Django有个runserver直接起了一个WebServer，为什么还要Nginx起一个-</p>
-<ul>
-<li><p>安全：程序不能直接被浏览器访问到，而是通过nginx，nginx只开放某个端口，这样运维人员在nginx上加上安全性的限制，可以达到保护程序的作用。</p>
-</li>
-<li><p>负载均衡：由于一台机器的cppu和内存都是有限的，所以一个项目中一个uwsgi很有可能不够用，有了nginx做代理，一个nginx可以代理多台uwsgi完成uwsgi的负载均衡。</p>
-<ul>
-<li><p>计算机或者服务器的每一个服务或者进程都是对应一个端口号的。我们在一个服务器想部署多个项目，本质上就是把不同的服务运行在不同的端口，然后用域名的不同二级域名去解析每一个项目。但是DNS无法直接做到这一点，那么就需要一个，帮你把不同网址发来的请求去转发到不同端口上的一层代理。他就是nginx</p>
-<p>其实nginx的主要作用是把实现负载均衡把一个项目分布到不同服务器上，来降低服务器的负载压力。这里用它来部署多个项目，其实是杀鸡用牛刀。</p>
-</li>
-</ul>
-</li>
-<li><p>nginx静态处理能力强，uWSGI动态处理能力强，nginx处理静态文件，把动态文件转发给uWSGI，可以达到很好的客户端响应。</p>
-</li>
-</ul>
-<h4 id="nginx-uwsgi-django工作流程"><a href="#nginx-uwsgi-django工作流程" class="headerlink" title="nginx+uwsgi+django工作流程"></a>nginx+uwsgi+django工作流程</h4><ul>
-<li>nginx 是对外的服务接口，外部浏览器通过url访问nginx。nginx 接收到浏览器发送过来的http请求，将包进行解析，分析url，如果是静态文件请求就直接访问用户给nginx配置的静态文件目录，直接返回用户请求的静态文件，如果不是静态文件，而是一个动态的请求，那么nginx就将请求转发给uwsgi,uwsgi 接收到请求之后将包进行处理，处理成wsgi可以接受的格式，并发给wsgi,wsgi 根据请求调用应用程序的某个文件，某个文件的某个函数，最后处理完将返回值再次交给wsgi,wsgi将返回值进行打包，打包成uwsgi能够接收的格式，uwsgi接收wsgi 发送的请求，并转发给nginx,nginx最终将返回值返回给浏览器。</li>
-</ul>
-<h3 id="部署流程"><a href="#部署流程" class="headerlink" title="部署流程"></a>部署流程</h3><p>可以参考配置nginx的讲义。</p>
-<h3 id="优化Acapp"><a href="#优化Acapp" class="headerlink" title="优化Acapp"></a>优化Acapp</h3><h4 id="鼠标点击事件的相对偏移"><a href="#鼠标点击事件的相对偏移" class="headerlink" title="鼠标点击事件的相对偏移"></a>鼠标点击事件的相对偏移</h4><p>由于写游戏界面的时候，玩家移动是按照鼠标相对于当前整个浏览器取的位置参数<code> e.clientX</code></p>
-<p>而 <code>acapp</code> 里，每个应用是一个小窗口，鼠标点击位置的参数应当是 相对于整个游戏窗口的位置参数</p>
-<p>所有会导致出现，点击的位置与移动的位置不同，这里需要做出小优化</p>
-<p>优化的逻辑 :</p>
-<ul>
-<li>$clientX−窗口左侧到浏览器左侧的距离&#x3D;玩家的目标X$</li>
-<li>$clientY−窗口上侧到浏览器上侧的距离&#x3D;玩家的目标Y$</li>
-</ul>
-<p><code>js/zbase.js</code>的注释取消，使之创建出 menu 对象</p>
-<p><code>js/playground/zbase.js</code> 的注释取消，并设置逻辑，让 playground 打开后，才进行游戏界面初始化</p>
-<h4 id="设置游戏菜单界面"><a href="#设置游戏菜单界面" class="headerlink" title="设置游戏菜单界面"></a>设置游戏菜单界面</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">AcGamePlayground</span> &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params">root</span>) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">root</span> = root;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">$playground</span> = $(<span class="string">`&lt;div class=&quot;ac-game-playground&quot;&gt;&lt;/div&gt;`</span>);</span><br><span class="line"></span><br><span class="line">        <span class="variable language_">this</span>.<span class="title function_">hide</span>();    <span class="comment">//初始时隐藏</span></span><br><span class="line">        <span class="comment">// 游戏界面生成代码在下面展示 playground 时执行</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="title function_">start</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">    <span class="title function_">show</span>(<span class="params"></span>) &#123;    <span class="comment">//打开 playground 界面</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">$playground</span>.<span class="title function_">show</span>();</span><br><span class="line">        <span class="comment">//开始生成游戏界面</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">root</span>.<span class="property">$ac_game</span>.<span class="title function_">append</span>(<span class="variable language_">this</span>.<span class="property">$playground</span>);</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">width</span> = <span class="variable language_">this</span>.<span class="property">$playground</span>.<span class="title function_">width</span>();</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">height</span> = <span class="variable language_">this</span>.<span class="property">$playground</span>.<span class="title function_">height</span>();</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">game_map</span> = <span class="keyword">new</span> <span class="title class_">GameMap</span>(<span class="variable language_">this</span>);</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">players</span> = [];  <span class="comment">// 存放当前游戏中的所有玩家</span></span><br><span class="line">        <span class="comment">//将玩家加入游戏中</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">players</span>.<span class="title function_">push</span>(<span class="keyword">new</span> <span class="title class_">Player</span>(<span class="variable language_">this</span>, <span class="variable language_">this</span>.<span class="property">width</span> / <span class="number">2</span>, <span class="variable language_">this</span>.<span class="property">height</span> / <span class="number">2</span>, <span class="variable language_">this</span>.<span class="property">height</span> * <span class="number">0.05</span>, <span class="string">&quot;white&quot;</span>, <span class="variable language_">this</span>.<span class="property">height</span> * <span class="number">0.15</span>, <span class="literal">true</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">//创建好 5 个人机</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i ++ ) &#123;</span><br><span class="line">            <span class="variable language_">this</span>.<span class="property">players</span>.<span class="title function_">push</span>(<span class="keyword">new</span> <span class="title class_">Player</span>(<span class="variable language_">this</span>, <span class="variable language_">this</span>.<span class="property">width</span> / <span class="number">2</span>, <span class="variable language_">this</span>.<span class="property">height</span> / <span class="number">2</span>, <span class="variable language_">this</span>.<span class="property">height</span> * <span class="number">0.05</span>, <span class="variable language_">this</span>.<span class="title function_">get_random_color</span>(), <span class="variable language_">this</span>.<span class="property">height</span> * <span class="number">0.15</span>, <span class="literal">false</span>));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="调整-css-文件，适应窗口"><a href="#调整-css-文件，适应窗口" class="headerlink" title="调整 css 文件，适应窗口"></a>调整 css 文件，适应窗口</h4><p><code>game.css</code></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">.ac-game-menu-field &#123;</span><br><span class="line">    ...</span><br><span class="line">    top: <span class="number">40</span>%;</span><br><span class="line">    left: <span class="number">20</span>%;</span><br><span class="line">&#125;</span><br><span class="line">.ac-game-menu-field-item &#123;</span><br><span class="line">    height: <span class="number">6</span>vh;</span><br><span class="line">    ...</span><br><span class="line">    font-size: <span class="number">4</span>vh;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">项目</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">后端</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">django</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">nginx</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">uWSGI</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/新版球球大作战项目//" class="article-tag-list-link color5">新版球球大作战项目</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/06/%E9%83%A8%E7%BD%B2nginx%E4%B8%8E%E5%AF%B9%E6%8E%A5acapp/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-每日总结2022-3-5" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/06/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-5/">每日总结2022-3-5</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/06/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-5/" class="archive-article-date">
-  	<time datetime="2022-03-05T17:23:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="刷题"><a href="#刷题" class="headerlink" title="刷题"></a>刷题</h3><h4 id="Acwing"><a href="#Acwing" class="headerlink" title="Acwing"></a>Acwing</h4><ul>
-<li>打家劫舍</li>
-<li>打家劫舍Ⅱ</li>
-<li>买卖股票Ⅳ</li>
-<li>买卖股票Ⅴ</li>
-</ul>
-<h4 id="力扣"><a href="#力扣" class="headerlink" title="力扣"></a>力扣</h4><ul>
-<li>周赛1：哈希表</li>
-<li>周赛2：排序</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sort</span>(a.<span class="built_in">begin</span>(),b.<span class="built_in">begin</span>()[&amp;](<span class="type">int</span> x,<span class="type">int</span> y)&#123;</span><br><span class="line">    <span class="keyword">return</span> x&gt;y;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>周赛3：bfs</li>
-</ul>
-<h4 id="技术"><a href="#技术" class="headerlink" title="技术"></a>技术</h4><ul>
-<li>django笔记</li>
-</ul>
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/06/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-3-5/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-状态机模型DP" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/05/%E7%8A%B6%E6%80%81%E6%9C%BA%E6%A8%A1%E5%9E%8BDP/">状态机模型DP</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/05/%E7%8A%B6%E6%80%81%E6%9C%BA%E6%A8%A1%E5%9E%8BDP/" class="archive-article-date">
-  	<time datetime="2022-03-05T10:43:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-			<h4 id="状态机模型DP"><a href="#状态机模型DP" class="headerlink" title="状态机模型DP"></a>状态机模型DP</h4><h5 id="1049大盗阿福"><a href="#1049大盗阿福" class="headerlink" title="1049大盗阿福"></a>1049大盗阿福</h5><ul>
-<li><p>题意：你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。</p>
-<p>给定一个代表每个房屋存放金额的非负整数数组，计算你 不触动警报装置的情况下 ，一夜之内能够偷窃到的最高金额。</p>
-</li>
-<li><p>思路：考虑两个状态，对于每个房间都有偷和不偷两种，偷了上个房间就没法偷下个房间，可以写出状态转移方程：</p>
-<ul>
-<li>$f(i,0)&#x3D;max(f(i-1,0),f(i-1,1))$</li>
-<li>$f(i,1)&#x3D;max(f(i-1,0)+w,f(i-1,1))$</li>
-</ul>
-</li>
-<li><p>代码</p>
-</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">memset</span>(f,<span class="number">-0x3f</span>,<span class="keyword">sizeof</span> f);</span><br><span class="line">f[<span class="number">0</span>][<span class="number">0</span>]=<span class="number">0</span>;</span><br><span class="line"><span class="type">int</span> n;</span><br><span class="line">cin&gt;&gt;n;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> a;</span><br><span class="line">    cin&gt;&gt;a;</span><br><span class="line">    f[i][<span class="number">0</span>]=<span class="built_in">max</span>(f[i<span class="number">-1</span>][<span class="number">0</span>],f[i<span class="number">-1</span>][<span class="number">1</span>]);</span><br><span class="line">    f[i][<span class="number">1</span>]=<span class="built_in">max</span>(f[i<span class="number">-1</span>][<span class="number">0</span>]+a,f[i<span class="number">-1</span>][<span class="number">1</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">题解</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">知识点</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">动态规划</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">状态机</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/算法//" class="article-tag-list-link color3">算法</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/05/%E7%8A%B6%E6%80%81%E6%9C%BA%E6%A8%A1%E5%9E%8BDP/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/14/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/16/">Next &amp;raquo;</a>
@@ -1949,6 +2130,10 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">笔试</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">最小生成树</a>
               </li>
             
             <div class="clearfix"></div>

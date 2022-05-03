@@ -164,6 +164,279 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-最多可达成的换楼请求数目" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/02/28/%E6%9C%80%E5%A4%9A%E5%8F%AF%E8%BE%BE%E6%88%90%E7%9A%84%E6%8D%A2%E6%A5%BC%E8%AF%B7%E6%B1%82%E6%95%B0%E7%9B%AE/">最多可达成的换楼请求数目</a>
+    </h1>
+  
+
+        
+        <a href="/2022/02/28/%E6%9C%80%E5%A4%9A%E5%8F%AF%E8%BE%BE%E6%88%90%E7%9A%84%E6%8D%A2%E6%A5%BC%E8%AF%B7%E6%B1%82%E6%95%B0%E7%9B%AE/" class="archive-article-date">
+  	<time datetime="2022-02-27T18:15:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h5 id="最多可达成的换楼请求数目"><a href="#最多可达成的换楼请求数目" class="headerlink" title="最多可达成的换楼请求数目"></a>最多可达成的换楼请求数目</h5><p>​        分析数据范围，请求数量是16，一般来说小于20的数据都可以用状态压缩算法。想明白这一点，问题就很容易解决了，我们可以枚举所有的请求，然后看在当前情况下是否满足，搬出公寓和搬进公寓的人达到动态平衡。</p>
+<p>​       维护一个数组f[n]，当有人搬出时f[i]–,当有人搬入时f[i]++。最后遍历f数组，若f[i]&lt;0则不符合条件，退出即可。否则更新最大值。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">maximumRequests</span><span class="params">(<span class="type">int</span> n, vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; requests)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> m=requests.<span class="built_in">size</span>();</span><br><span class="line">        <span class="type">int</span> res=INT_MIN;</span><br><span class="line">        <span class="type">int</span> v[n];</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;(<span class="number">1</span>&lt;&lt;m);i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> t=<span class="number">0</span>;</span><br><span class="line">            <span class="built_in">memset</span>(v,<span class="number">0</span>,<span class="keyword">sizeof</span> v);</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;m;j++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(i&gt;&gt;j&amp;<span class="number">1</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    t++;</span><br><span class="line">                    v[requests[j][<span class="number">1</span>]]++;</span><br><span class="line">                    v[requests[j][<span class="number">0</span>]]--;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">0</span>;k&lt;n;k++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(v[k]&lt;<span class="number">0</span>)<span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">if</span>(k==n<span class="number">-1</span>)res=<span class="built_in">max</span>(res,t);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">算法题解</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/题解//" class="article-tag-list-link color3">题解</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/02/28/%E6%9C%80%E5%A4%9A%E5%8F%AF%E8%BE%BE%E6%88%90%E7%9A%84%E6%8D%A2%E6%A5%BC%E8%AF%B7%E6%B1%82%E6%95%B0%E7%9B%AE/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-相交链表Ⅱ" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/02/28/%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8%E2%85%A1/">相交链表Ⅱ</a>
+    </h1>
+  
+
+        
+        <a href="/2022/02/28/%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8%E2%85%A1/" class="archive-article-date">
+  	<time datetime="2022-02-27T18:15:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<p>回忆下相交链表1的做法就是维护快慢指针，快指针是慢指针的二倍，如果被快指针追上，有相遇点就说明有环。</p>
+<p>设a为起始点，b为环的入口，c为相遇点。</p>
+<p>设慢指针从入口到达相遇点需要x的路程，则同样的时间快指针在c’点。a点到b点的距离为y。</p>
+<p>已知a点到c点慢指针走了x+y的距离，由于快指针的速度是慢指针的二倍，快指针走了2x+2y的距离。这里的距离是广义距离，包括循环。则可以求出c到b的距离为2x+2y-y-2x&#x3D;y,所以a到b的距离等于c到b的距离，即如果我们求到相遇点后，可以用两个指针，一个指针指向起点a，一个指针指向相遇点c，让两个指针同时走，下一次相遇的位置就是b点。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ListNode *<span class="title">detectCycle</span><span class="params">(ListNode *head)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!head||!head-&gt;next) <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">auto</span> f=head-&gt;next-&gt;next;</span><br><span class="line">    <span class="keyword">auto</span> s=head-&gt;next;</span><br><span class="line">    <span class="keyword">while</span>(f&amp;&amp;s)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(f==s)</span><br><span class="line">        &#123;<span class="comment">//相遇点</span></span><br><span class="line">            <span class="keyword">auto</span> x=head,y=f;</span><br><span class="line">            <span class="keyword">while</span>(x!=y) x=x-&gt;next,y=y-&gt;next;</span><br><span class="line">            <span class="keyword">return</span> x;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(!f-&gt;next) <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">        f=f-&gt;next-&gt;next;</span><br><span class="line">        s=s-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">算法题解</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/题解//" class="article-tag-list-link color3">题解</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/02/28/%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8%E2%85%A1/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-第282次周赛第四题-完成比赛的最少时间" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/02/28/%E7%AC%AC282%E6%AC%A1%E5%91%A8%E8%B5%9B%E7%AC%AC%E5%9B%9B%E9%A2%98-%E5%AE%8C%E6%88%90%E6%AF%94%E8%B5%9B%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/">第282次周赛第四题-完成比赛的最少时间</a>
+    </h1>
+  
+
+        
+        <a href="/2022/02/28/%E7%AC%AC282%E6%AC%A1%E5%91%A8%E8%B5%9B%E7%AC%AC%E5%9B%9B%E9%A2%98-%E5%AE%8C%E6%88%90%E6%AF%94%E8%B5%9B%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/" class="archive-article-date">
+  	<time datetime="2022-02-27T18:15:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h4 id="第282次周赛第四题"><a href="#第282次周赛第四题" class="headerlink" title="第282次周赛第四题"></a>第282次周赛第四题</h4><h5 id="完成比赛的最少时间"><a href="#完成比赛的最少时间" class="headerlink" title="完成比赛的最少时间"></a>完成比赛的最少时间</h5><p>由于任意一种轮胎可以使用无数条，我们可以考虑用完全背包的方法做这个题。题中给出同一条轮胎使用长时间后是承指数增长的，并且使用时间过久会不如换一条新的轮胎：<br>$$<br>f_i*r_i^x&lt;f_i+changeTime<br>$$<br>所以一条轮胎最长使用圈数我们可以猜测为20圈，所以时间复杂度不是很高。我们预先处理出每种轮胎j跑i圈的时间（time(i,j)）,然后遍历每种轮胎，计算出1-20圈所需的最短时间f(i)。剩下的操作就是常规的完全背包问题。</p>
+<p>物品个数是跑多少圈（1-20），体积是圈数，价值是时间。<br>$$<br>          dp[i]&#x3D;min(dp[i],dp[i-j]+f[j])<br>$$<br>由于我们这个方法把每圈的换胎时间也算上了，所以需要在最后减去第一次的换胎时间。<br>$$<br>dp[numLaps]-&#x3D;changeTime<br>$$</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">minimumFinishTime</span><span class="params">(vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; tires, <span class="type">int</span> changeTime, <span class="type">int</span> numLaps)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n=tires.<span class="built_in">size</span>();</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt;<span class="built_in">f</span>(<span class="number">21</span>,<span class="number">1e9</span>),<span class="built_in">dp</span>(numLaps+<span class="number">1</span>,<span class="number">1e9</span>);</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;<span class="built_in">cnt</span>(n,<span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(<span class="number">20</span>,<span class="number">1e9</span>));</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            cnt[i][<span class="number">1</span>]=tires[i][<span class="number">0</span>];</span><br><span class="line">            f[<span class="number">1</span>]=<span class="built_in">min</span>(cnt[i][<span class="number">1</span>],f[<span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">        &#123;<span class="comment">//求每个轮胎跑j圈所需要的时间</span></span><br><span class="line">            <span class="type">int</span> t=cnt[i][<span class="number">1</span>];</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">2</span>;j&lt;<span class="number">20</span>&amp;&amp;<span class="number">1ll</span>*changeTime+tires[i][<span class="number">0</span>]&gt;<span class="number">1ll</span>*t*tires[i][<span class="number">1</span>];j++)</span><br><span class="line">            &#123;<span class="comment">//再不更换轮胎的情况下跑j圈所需的最小时间</span></span><br><span class="line">                t*=tires[i][<span class="number">1</span>];</span><br><span class="line">                cnt[i][j]=cnt[i][j<span class="number">-1</span>]+t;</span><br><span class="line">                f[j]=<span class="built_in">min</span>(f[j],cnt[i][j]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        dp[<span class="number">0</span>]=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=numLaps;i++)</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>;j&lt;=<span class="built_in">min</span>(i,<span class="number">20</span>);j++)</span><br><span class="line">                dp[i]=<span class="built_in">min</span>(dp[i],dp[i-j]+f[j]);</span><br><span class="line">            dp[i]+=changeTime;</span><br><span class="line">        <span class="keyword">return</span> dp[numLaps]-changeTime;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">算法题解</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">背包</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">贪心</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/题解//" class="article-tag-list-link color3">题解</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/02/28/%E7%AC%AC282%E6%AC%A1%E5%91%A8%E8%B5%9B%E7%AC%AC%E5%9B%9B%E9%A2%98-%E5%AE%8C%E6%88%90%E6%AF%94%E8%B5%9B%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-每日总结2022-2-26" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1122,6 +1395,10 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">笔试</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">最小生成树</a>
               </li>
             
             <div class="clearfix"></div>

@@ -164,6 +164,339 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-每日总结2022-5-3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/05/04/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-5-3/">每日总结2022-5-3</a>
+    </h1>
+  
+
+        
+        <a href="/2022/05/04/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-5-3/" class="archive-article-date">
+  	<time datetime="2022-05-03T17:21:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-05-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="刷题"><a href="#刷题" class="headerlink" title="刷题"></a>刷题</h3><h4 id="力扣"><a href="#力扣" class="headerlink" title="力扣"></a>力扣</h4><ul>
+<li>每日一题</li>
+</ul>
+<h4 id="ACWING"><a href="#ACWING" class="headerlink" title="ACWING"></a>ACWING</h4><ul>
+<li>AcWing 2057. 比赛时间</li>
+<li>AcWing 2048. 干草</li>
+<li>AcWing 43. 不分行从上往下打印二叉树</li>
+<li>最小生成树</li>
+</ul>
+<h3 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h3><ul>
+<li>go基础（go多线程基础）</li>
+</ul>
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/05/04/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-5-3/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-最小生成树" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/05/03/%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91/">最小生成树</a>
+    </h1>
+  
+
+        
+        <a href="/2022/05/03/%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91/" class="archive-article-date">
+  	<time datetime="2022-05-03T09:07:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-05-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="最小生成树"><a href="#最小生成树" class="headerlink" title="最小生成树"></a>最小生成树</h3><h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><ul>
+<li>最小生成树是指对一个图进行选点，选出可以生成一棵连通树并且代价最小。</li>
+<li>一般来说稠密图使用prim算法，稀疏图使用克鲁斯卡尔算法。</li>
+</ul>
+<h4 id="prim算法"><a href="#prim算法" class="headerlink" title="prim算法"></a>prim算法</h4><ul>
+<li>类似dijkstra算法（朴素版）。</li>
+<li>n次迭代，每次找到距离集合最近的点，然后将当前边加入集合，更新距离集合最近的点。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">prim</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">memset</span>(dist,<span class="number">0x3f</span>,<span class="keyword">sizeof</span> dist);<span class="comment">//先把距离集合的点都初始化为无穷</span></span><br><span class="line">    <span class="type">int</span> res=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;<span class="comment">//n次迭代</span></span><br><span class="line">        <span class="type">int</span> t=<span class="number">-1</span>;<span class="comment">//最小距离点</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>;j&lt;=n;j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(!st[j]&amp;&amp;(t==<span class="number">-1</span>||dist[t]&gt;dist[j]))t=j;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//找到最近点</span></span><br><span class="line">        <span class="keyword">if</span>(i)<span class="comment">//如果不是第一个点（第一个点没有边）</span></span><br><span class="line">        res+=dist[t];<span class="comment">//加入集合</span></span><br><span class="line">        st[t]=<span class="number">1</span>;</span><br><span class="line">        <span class="comment">//用这个点更新其他点距离集合的距离</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>;j&lt;=n;j++)</span><br><span class="line">            dist[j]=<span class="built_in">min</span>(dist[j],g[t][j]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Kruskal算法"><a href="#Kruskal算法" class="headerlink" title="Kruskal算法"></a>Kruskal算法</h4><ul>
+<li>kruskal算法是从集合角度出发，进行加边。先将所有满足题意的点按照边权进行排序。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Node</span>&#123;</span><br><span class="line">    <span class="type">int</span> a,b,w;</span><br><span class="line">    <span class="type">bool</span> <span class="keyword">operator</span>&lt;(<span class="type">const</span> Node&amp; W)<span class="type">const</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> w&lt;W.w;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">vector&lt;Node&gt;v;</span><br><span class="line"><span class="built_in">sort</span>(v.<span class="built_in">begin</span>(),v.<span class="built_in">end</span>());</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>排完序后按照并查集的思路，依次判断每条边，看当前边是不是已经加入集合了，如果没加入则进行合并。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;v.<span class="built_in">size</span>();i++)&#123;</span><br><span class="line">    <span class="type">int</span> a=v[i].a,b=v[i].b;</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">find</span>(a)!=<span class="built_in">find</span>(b))&#123;</span><br><span class="line">        res+=v[i].c;<span class="comment">//加入集合</span></span><br><span class="line">        p[<span class="built_in">find</span>(a)]=<span class="built_in">find</span>(b);<span class="comment">//合并祖先</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">模板</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">图论</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">最小生成树</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/算法//" class="article-tag-list-link color3">算法</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/05/03/%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-表达式求值" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/05/03/%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B1%82%E5%80%BC/">表达式求值</a>
+    </h1>
+  
+
+        
+        <a href="/2022/05/03/%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B1%82%E5%80%BC/" class="archive-article-date">
+  	<time datetime="2022-05-03T00:48:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-05-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="表达式求值"><a href="#表达式求值" class="headerlink" title="表达式求值"></a>表达式求值</h3><ul>
+<li>用来求解表达式计算问题的通用解法</li>
+</ul>
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><ul>
+<li><p>分别维护一个数值栈<code>nums</code>和一个操作符栈<code>ops</code>。数值栈只管入栈，读到数字就入栈。</p>
+</li>
+<li><p>操作符栈根据操作符的优先级出栈。</p>
+<ul>
+<li>如果当前运算符是’+’、’-‘就需要将栈中所有的运算符都算完。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(c==<span class="string">&#x27;+&#x27;</span>||c==<span class="string">&#x27;/&#x27;</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">while</span>(ops.<span class="built_in">top</span>()!=<span class="string">&#x27;(&#x27;</span>)<span class="built_in">cal</span>();</span><br><span class="line">    ops.<span class="built_in">push</span>(c);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>如果当前运算符是’*’、’&#x2F;‘就需要将栈中所有的乘、除运算符算完。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (c == <span class="string">&#x27;*&#x27;</span> || c == <span class="string">&#x27;/&#x27;</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">while</span> (ops.<span class="built_in">top</span>() == <span class="string">&#x27;*&#x27;</span> || ops.<span class="built_in">top</span>() == <span class="string">&#x27;/&#x27;</span>) <span class="built_in">cal</span>();</span><br><span class="line">    ops.<span class="built_in">push</span>(c);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>如果是’(‘入栈，如果是’)’，一直算到栈顶是左括号，然后将左括号出栈。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (c == <span class="string">&#x27;)&#x27;</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">while</span> (ops.<span class="built_in">top</span>() != <span class="string">&#x27;(&#x27;</span>) <span class="built_in">cal</span>();</span><br><span class="line">    ops.<span class="built_in">pop</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>关于计算的子函数也是固定的写法：</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">cal</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> a = nums.<span class="built_in">top</span>(); nums.<span class="built_in">pop</span>();</span><br><span class="line">    <span class="type">int</span> b = nums.<span class="built_in">top</span>(); nums.<span class="built_in">pop</span>();</span><br><span class="line">    <span class="type">char</span> c = ops.<span class="built_in">top</span>(); ops.<span class="built_in">pop</span>();</span><br><span class="line">    <span class="type">int</span> d;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (c == <span class="string">&#x27;+&#x27;</span>) d = b + a;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (c == <span class="string">&#x27;-&#x27;</span>) d = b - a;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (c == <span class="string">&#x27;*&#x27;</span>) d = b * a;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (c == <span class="string">&#x27;/&#x27;</span>) d = b / a;</span><br><span class="line">    </span><br><span class="line">    nums.<span class="built_in">push</span>(d);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h4><ul>
+<li>算完栈中的运算符还要将当前运算符插入栈中</li>
+</ul>
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">模板</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">STL</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">离散化</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/算法//" class="article-tag-list-link color3">算法</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/05/03/%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B1%82%E5%80%BC/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-分发糖果（招行笔试）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -975,359 +1308,6 @@
 
 
   
-    <article id="post-每日总结2022-4-30" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/05/01/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-4-30/">每日总结2022-4-30</a>
-    </h1>
-  
-
-        
-        <a href="/2022/05/01/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-4-30/" class="archive-article-date">
-  	<time datetime="2022-04-30T16:05:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-05-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="刷题"><a href="#刷题" class="headerlink" title="刷题"></a>刷题</h3><h4 id="力扣"><a href="#力扣" class="headerlink" title="力扣"></a>力扣</h4><ul>
-<li>统计是给定字符串前缀的字符串数目</li>
-<li>最小平均差</li>
-<li>统计网格图中没有被保卫的格子数</li>
-</ul>
-<h4 id="ACWING"><a href="#ACWING" class="headerlink" title="ACWING"></a>ACWING</h4><ul>
-<li>AcWing 29. 删除链表中重复的节点</li>
-<li>AcWing 1986. 镜子（大模拟）</li>
-</ul>
-<h3 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h3><ul>
-<li>go基础（面向对象完结）</li>
-</ul>
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/05/01/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-4-30/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-每日总结2022-4-29" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/04/30/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-4-29/">每日总结2022-4-29</a>
-    </h1>
-  
-
-        
-        <a href="/2022/04/30/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-4-29/" class="archive-article-date">
-  	<time datetime="2022-04-29T17:03:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-04-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="刷题"><a href="#刷题" class="headerlink" title="刷题"></a>刷题</h3><h4 id="力扣"><a href="#力扣" class="headerlink" title="力扣"></a>力扣</h4><ul>
-<li>每日一题</li>
-</ul>
-<h4 id="ACWING"><a href="#ACWING" class="headerlink" title="ACWING"></a>ACWING</h4><ul>
-<li>AcWing 1572. 递归实现指数型枚举 II</li>
-<li>AcWing 93. 递归实现组合型枚举</li>
-<li>AcWing 1573. 递归实现组合型枚举 II</li>
-<li>AcWing 55. 连续子数组的最大和</li>
-<li>AcWing 62. 丑数</li>
-</ul>
-<h3 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h3><ul>
-<li>go基础（基础语法完结）</li>
-</ul>
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/04/30/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-4-29/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-运输层" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/04/28/%E8%BF%90%E8%BE%93%E5%B1%82/">运输层</a>
-    </h1>
-  
-
-        
-        <a href="/2022/04/28/%E8%BF%90%E8%BE%93%E5%B1%82/" class="archive-article-date">
-  	<time datetime="2022-04-27T16:04:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-04-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="运输层"><a href="#运输层" class="headerlink" title="运输层"></a>运输层</h3><h4 id="运输层概述"><a href="#运输层概述" class="headerlink" title="运输层概述"></a>运输层概述</h4><ul>
-<li>计算机网络体系结构中的物理层、数据链路层以及网络层他们共同解决了将主机通过异构网络互联起来所面临的问题，实现了主机到主机的通信。</li>
-<li>实际上在计算机网络中进行通信的真正实体是位于通信两端主机中的进程。</li>
-<li>如何为运行在不同主机上的应用进程提供直接的通信服务是运输层的任务，运输层协议又称为端到端协议。</li>
-<li>运输层向高层用户屏蔽了下面网络核心的细节（如网络拓扑、所采用的路由选择协议等），它使应用进程看见的就好像是在两个运输层实体之间有一条端到端的逻辑通信信道</li>
-<li>根据应用需求的不同，因特网的运输层为应用层提供了两种不同的运输协议，即面向连接的TCP和无连接的UDP</li>
-</ul>
-<h4 id="TCP和UDP的对比"><a href="#TCP和UDP的对比" class="headerlink" title="TCP和UDP的对比"></a>TCP和UDP的对比</h4><h5 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h5><ul>
-<li>无连接</li>
-<li>支持一对一，一对多，多对一和多对多交互通信</li>
-<li>对应用层交付的报文直接打包</li>
-<li>尽最大努力交付，也就是不可靠；不适用流量控制和拥塞控制</li>
-<li>首部开销小，仅8字节</li>
-</ul>
-<h5 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h5><ul>
-<li>面向连接</li>
-<li>每一条TCP连接只能有两个端点EP，只能是一对一通信</li>
-<li>面向字节流</li>
-<li>可靠传输，使用流量控制和拥塞控制</li>
-<li>首部最小20字节，最大60字节</li>
-</ul>
-<h4 id="TCP的流量控制"><a href="#TCP的流量控制" class="headerlink" title="TCP的流量控制"></a>TCP的流量控制</h4><ul>
-<li>一般来说，我们总是希望数据传输得更快一些，但如果发送方把数据发送得过快，接收方就可能来不及接收，这就会造成数据的丢失。</li>
-<li>所谓流量控制就是让发送方的发送速率不要太快，要让接收方来得及接收。</li>
-<li>利用滑动窗口机制可以很方便地在TCP连接上实现对发送方的流量控制<ul>
-<li>TCP接收方利用自己的接收窗口的大小来限制发送方发送窗口的大小</li>
-<li>TCP发送方收到接收方的零窗口通知后，应启动持续计时器。持续计时器超时后，向接收方发送零窗口探测报文。</li>
-</ul>
-</li>
-</ul>
-<h4 id="TCP的拥塞控制"><a href="#TCP的拥塞控制" class="headerlink" title="TCP的拥塞控制"></a>TCP的拥塞控制</h4><p><img src="https://gitee.com/bhb100/drawing-bed/raw/master/blog/20220426094925.png"></p>
-<h4 id="快重传"><a href="#快重传" class="headerlink" title="快重传"></a>快重传</h4><ul>
-<li>所谓快重传，就是使发送方尽快进行重传，而不是等超时重传计时器超时再重传。<ul>
-<li>要求接收方不要等待自己发送数据时才进行捎带确认，而是要立即发送确认</li>
-<li>即使收到了失序的报文段也要立即发出对已收到的报文段的重复确认</li>
-<li>发送方一旦收到三个连续的重复确认，就将相应的报文段立即重传，而不是等该报文段的超时重传计时器超时再重传。</li>
-<li>对于个别丢失的报文段，发送方不会出现超时重传，也就不会误认为出现了拥塞（进而降低拥塞窗口cwnd为1）</li>
-</ul>
-</li>
-</ul>
-<h4 id="快恢复"><a href="#快恢复" class="headerlink" title="快恢复"></a>快恢复</h4><ul>
-<li>发送方一旦收到3个重复确认，就知道现在只是丢失了个别的报文段。于是不启动慢开始算法，而执行快恢复算法</li>
-<li>发送方将慢开始门限值和拥塞窗口值调整为当前窗口的一半，开始执行拥塞避免算法</li>
-</ul>
-<h4 id="TCP可靠传输的实现"><a href="#TCP可靠传输的实现" class="headerlink" title="TCP可靠传输的实现"></a>TCP可靠传输的实现</h4><ul>
-<li>TCP基于以字节为单位的滑动窗口来实现可靠传输<ul>
-<li>发送方在未收到接收方的确认时，可以将发送窗口内还未发送的数据全部发送出去，但是窗口不能向前滑动。</li>
-<li>接收方只接收序号落入发送窗口内的数据</li>
-</ul>
-</li>
-<li>虽然发送方的发送窗口是根据接收方的接收窗口设置的，但是在同一时刻，发送方的发送窗口并不总是和接收方的接收窗口一样大。</li>
-<li>TCP要求接收方必须有累积确认和捎带确认机制，这样可以减少传输开销。接收方可以在合适的时候发送确认，也可以在自己有数据发送时把确认消息顺便捎带上。</li>
-<li>TCP的通信是全双工通信。通信中的每一方都在发送和接收报文段，因此每一方都有自己的发送窗口和接收窗口。</li>
-</ul>
-<h4 id="TCP三次握手"><a href="#TCP三次握手" class="headerlink" title="TCP三次握手"></a>TCP三次握手</h4><h5 id="TCP连接建立要解决以下三个问题："><a href="#TCP连接建立要解决以下三个问题：" class="headerlink" title="TCP连接建立要解决以下三个问题："></a>TCP连接建立要解决以下三个问题：</h5><ul>
-<li>使TCP双方能够确知对方的存在</li>
-<li>使TCP双方能够协商一些参数（如窗口最大值，是否使用窗口扩大选项）</li>
-<li>使TCP双方能够对运输实体资源（如缓存大小、连接表中的项目等）进行分配</li>
-</ul>
-<h5 id="TCP使用三次握手建立连接的过程"><a href="#TCP使用三次握手建立连接的过程" class="headerlink" title="TCP使用三次握手建立连接的过程"></a>TCP使用三次握手建立连接的过程</h5><p><img src="https://gitee.com/bhb100/drawing-bed/raw/master/blog/20220427085242.png"></p>
-<h4 id="TCP四次挥手"><a href="#TCP四次挥手" class="headerlink" title="TCP四次挥手"></a>TCP四次挥手</h4><p><img src="https://gitee.com/bhb100/drawing-bed/raw/master/blog/20220427090630.png"></p>
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">面试</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">计算机网络，基础知识</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">网络层</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">路由</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/计算机网络//" class="article-tag-list-link color1">计算机网络</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/04/28/%E8%BF%90%E8%BE%93%E5%B1%82/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
@@ -1875,6 +1855,10 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">笔试</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">最小生成树</a>
               </li>
             
             <div class="clearfix"></div>
