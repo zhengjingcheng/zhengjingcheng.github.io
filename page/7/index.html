@@ -164,6 +164,751 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-数据链路层（一）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/04/15/%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82%EF%BC%88%E4%B8%80%EF%BC%89/">数据链路层（一）</a>
+    </h1>
+  
+
+        
+        <a href="/2022/04/15/%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82%EF%BC%88%E4%B8%80%EF%BC%89/" class="archive-article-date">
+  	<time datetime="2022-04-14T17:47:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-04-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="数据链路层（一）"><a href="#数据链路层（一）" class="headerlink" title="数据链路层（一）"></a>数据链路层（一）</h3><ul>
+<li>可靠传输的三个主要机制</li>
+</ul>
+<h4 id="超时重传协议"><a href="#超时重传协议" class="headerlink" title="超时重传协议"></a>超时重传协议</h4><ul>
+<li>接收端检测到数据分组有误码时，将其丢弃并等待发送方的超时重传。但对于误码率较高的点对点链路，为了使发送方尽早重传，也可给发送方发送NAK分组。</li>
+<li>为了让接收方能够判断所收到的数据分组是否是重复的，需要给数据分组编号。</li>
+<li>为了让发送方能够判断所收到的ACK分组是否是重复的，需要给ACK分组编号。</li>
+<li>超时重传的时间一般设定为略大于从发送方到接收方的平均往返时间。</li>
+</ul>
+<h4 id="回退N帧协议（滑动窗口协议）"><a href="#回退N帧协议（滑动窗口协议）" class="headerlink" title="回退N帧协议（滑动窗口协议）"></a>回退N帧协议（滑动窗口协议）</h4><h5 id="发送方"><a href="#发送方" class="headerlink" title="发送方"></a>发送方</h5><ul>
+<li>发送窗口尺寸的范围一般为$[2,2^n-1]$，其中$n$是构成分组序号的比特数量。</li>
+<li>发送方可以在未接受到接收方确认分组的情况下，将发送窗口内的多个数据分组全部发送出去。</li>
+<li>发送方只有在收到对已发送数据分组的确认时，发送窗口才能向前相应滑动。</li>
+<li>发送方收到多个重复确认时，可在重传计时器超时前尽早开始重传。</li>
+</ul>
+<h5 id="接收方"><a href="#接收方" class="headerlink" title="接收方"></a>接收方</h5><ul>
+<li>接收方的接收窗口一般是1。因此接收方只能按序接收数据分组。</li>
+<li>接收方只接收序号落在接收窗口内且无误码的数据分组，并且将接收窗口向前滑动一个位置，于此同时给发送方发回相应的确认分组。</li>
+<li>接收方收到未按序到达的数据分组，除丢弃外，还要对最近按序接收的数据分组进行确认。</li>
+</ul>
+<h4 id="选择重传"><a href="#选择重传" class="headerlink" title="选择重传"></a>选择重传</h4><h5 id="发送方-1"><a href="#发送方-1" class="headerlink" title="发送方"></a>发送方</h5><ul>
+<li>发送窗口的尺寸和滑动窗口协议类似</li>
+<li>发送方可以在未接受到接收方确认分组的情况下，将发送窗口内的多个数据分组全部发送出去。</li>
+<li>发送方只有在收到对已发送数据分组的确认时，发送窗口才能向前相应滑动；若收到未按序到达的确认分组时，对其进行记录，以防止其相应数据分组的超时重发，但发送窗口不能向前滑动。</li>
+</ul>
+<h5 id="接收方-1"><a href="#接收方-1" class="headerlink" title="接收方"></a>接收方</h5><ul>
+<li>接收方可接收未按序到达但没有误码并且序号落在接收窗口内的数据分组；<ul>
+<li>为了使发送方仅重传出现差错的分组，接收方不能再采用累积确认，而需要对每个正确接收到的数据分组进行逐一确认。</li>
+</ul>
+</li>
+<li>接收方只有在按序接收数据分组后，接收窗口才能向前相应滑动。</li>
+</ul>
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">面试</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">计算机网络，基础知识</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">可靠性传输</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/计算机网络//" class="article-tag-list-link color1">计算机网络</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/04/15/%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82%EF%BC%88%E4%B8%80%EF%BC%89/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-每日总结2022-4-14" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/04/15/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-4-14/">每日总结2022-4-14</a>
+    </h1>
+  
+
+        
+        <a href="/2022/04/15/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-4-14/" class="archive-article-date">
+  	<time datetime="2022-04-14T17:44:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-04-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="刷题"><a href="#刷题" class="headerlink" title="刷题"></a>刷题</h3><h4 id="力扣"><a href="#力扣" class="headerlink" title="力扣"></a>力扣</h4><ul>
+<li>通过指令创建有序数组</li>
+<li>翻转对（离散化树状数组）</li>
+<li>剑指 Offer 51 数组中的逆序对（离散化树状数组）</li>
+</ul>
+<h4 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h4><ul>
+<li>计算机网络（数据链路层）可靠性传输</li>
+</ul>
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/04/15/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-4-14/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-计算右侧小于当前元素的个数" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/04/14/%E8%AE%A1%E7%AE%97%E5%8F%B3%E4%BE%A7%E5%B0%8F%E4%BA%8E%E5%BD%93%E5%89%8D%E5%85%83%E7%B4%A0%E7%9A%84%E4%B8%AA%E6%95%B0/">计算右侧小于当前元素的个数</a>
+    </h1>
+  
+
+        
+        <a href="/2022/04/14/%E8%AE%A1%E7%AE%97%E5%8F%B3%E4%BE%A7%E5%B0%8F%E4%BA%8E%E5%BD%93%E5%89%8D%E5%85%83%E7%B4%A0%E7%9A%84%E4%B8%AA%E6%95%B0/" class="archive-article-date">
+  	<time datetime="2022-04-13T17:52:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-04-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="计算右侧小于当前元素的个数"><a href="#计算右侧小于当前元素的个数" class="headerlink" title="计算右侧小于当前元素的个数"></a>计算右侧小于当前元素的个数</h3><h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><p>给你一个整数数组 nums ，按要求返回一个新数组 counts 。数组 counts 有该性质： counts[i] 的值是  nums[i] 右侧小于 nums[i] 的元素的数量。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">示例 1：</span><br><span class="line"></span><br><span class="line">输入：nums = [5,2,6,1]</span><br><span class="line">输出：[2,1,1,0] </span><br><span class="line">解释：</span><br><span class="line">5 的右侧有 2 个更小的元素 (2 和 1)</span><br><span class="line">2 的右侧仅有 1 个更小的元素 (1)</span><br><span class="line">6 的右侧有 1 个更小的元素 (1)</span><br><span class="line">1 的右侧有 0 个更小的元素</span><br></pre></td></tr></table></figure>
+
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><ul>
+<li>直接按照原题意考虑有些困难，可考虑反向遍历，只用求解前边比当前值小的元素的数量。</li>
+<li>将当前值映射到下标，相当于找$(1,nums[i-1])$的前缀和，到这里思路就很清晰了，可以直接采用树状数组求解。</li>
+</ul>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt;tr;</span><br><span class="line">    <span class="type">int</span> n = <span class="number">20010</span>;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">lowbit</span><span class="params">(<span class="type">int</span> x)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> x&amp;-x;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">add</span><span class="params">(<span class="type">int</span> x)</span></span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=x;i&lt;=n;i+=<span class="built_in">lowbit</span>(i))</span><br><span class="line">            tr[i]+=<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">int</span>  <span class="title">find</span><span class="params">(<span class="type">int</span> x)</span></span>&#123;</span><br><span class="line">        <span class="type">int</span> res=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=x;i;i-=<span class="built_in">lowbit</span>(i))</span><br><span class="line">           res+=tr[i];</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">countSmaller</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        tr.<span class="built_in">resize</span>(n+<span class="number">1</span>);</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt;<span class="built_in">res</span>(nums.<span class="built_in">size</span>(),<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=nums.<span class="built_in">size</span>()<span class="number">-1</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">            <span class="type">int</span> t=nums[i]+<span class="number">10001</span>;</span><br><span class="line">            res[i]=<span class="built_in">find</span>(t<span class="number">-1</span>);</span><br><span class="line">            <span class="built_in">add</span>(t);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">树状数组，离散化</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/高频算法题//" class="article-tag-list-link color1">高频算法题</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/04/14/%E8%AE%A1%E7%AE%97%E5%8F%B3%E4%BE%A7%E5%B0%8F%E4%BA%8E%E5%BD%93%E5%89%8D%E5%85%83%E7%B4%A0%E7%9A%84%E4%B8%AA%E6%95%B0/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-每日总结2022-4-12" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/04/14/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-4-12/">每日总结2022-4-13</a>
+    </h1>
+  
+
+        
+        <a href="/2022/04/14/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-4-12/" class="archive-article-date">
+  	<time datetime="2022-04-13T17:47:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-04-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="刷题"><a href="#刷题" class="headerlink" title="刷题"></a>刷题</h3><h4 id="力扣"><a href="#力扣" class="headerlink" title="力扣"></a>力扣</h4><ul>
+<li>806 每日一题</li>
+</ul>
+<h4 id="acwing"><a href="#acwing" class="headerlink" title="acwing"></a>acwing</h4><ul>
+<li>你能回答这些问题吗</li>
+</ul>
+<h4 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h4><ul>
+<li>线程与线程同步</li>
+</ul>
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/04/14/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-4-12/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-每日总结2022-4-13" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/04/13/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-4-13/">每日总结2022-4-12</a>
+    </h1>
+  
+
+        
+        <a href="/2022/04/13/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-4-13/" class="archive-article-date">
+  	<time datetime="2022-04-12T18:13:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-04-13</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="刷题"><a href="#刷题" class="headerlink" title="刷题"></a>刷题</h3><h4 id="力扣"><a href="#力扣" class="headerlink" title="力扣"></a>力扣</h4><ul>
+<li>每日一题</li>
+<li>计算右侧小于当前元素的个数（逆序线段树）</li>
+<li>区间和的个数（离散化线段树）</li>
+</ul>
+<h4 id="acwing"><a href="#acwing" class="headerlink" title="acwing"></a>acwing</h4><ul>
+<li>AcWing 1902. 马拉松</li>
+<li>AcWing 1892. 奶牛线路</li>
+</ul>
+<h4 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h4><ul>
+<li>c++线程池</li>
+<li>计算机网络（数据链路层）计网体系结构</li>
+</ul>
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/04/13/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-4-13/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-IO多路复用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/04/12/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8/">IO多路复用</a>
+    </h1>
+  
+
+        
+        <a href="/2022/04/12/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8/" class="archive-article-date">
+  	<time datetime="2022-04-11T18:57:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-04-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h2 id="IO"><a href="#IO" class="headerlink" title="IO"></a>IO</h2><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><ul>
+<li>IO就是把进程的内部数据转移到外部设备，或者把外部设备的数据迁移到进程内部</li>
+</ul>
+<h4 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h4><ul>
+<li>应用程序进程向操作系统发起<strong>IO调用请求</strong></li>
+<li>操作系统<strong>准备数据</strong>，把IO外部设备的数据，加载到<strong>内核缓冲区</strong></li>
+<li>操作系统拷贝数据，即将内核缓冲区的数据，拷贝到用户进程缓冲区</li>
+</ul>
+<h3 id="阻塞IO"><a href="#阻塞IO" class="headerlink" title="阻塞IO"></a>阻塞IO</h3><p>假设应用程序的进程发起<strong>IO调用</strong>，但是如果<strong>内核的数据还没准备好</strong>的话，那应用程序进程就一直在<strong>阻塞等待</strong>，一直等到内核数据准备好了，从内核拷贝到用户空间，才返回成功提示，此次IO操作，称之为<strong>阻塞IO</strong>。</p>
+<h3 id="非阻塞IO"><a href="#非阻塞IO" class="headerlink" title="非阻塞IO"></a>非阻塞IO</h3><p>如果内核数据还没准备好，可以先返回错误信息给用户进程，让它不需要等待，而是通过轮询的方式再来请求。这就是非阻塞IO</p>
+<h3 id="IO多路复用"><a href="#IO多路复用" class="headerlink" title="IO多路复用"></a>IO多路复用</h3><ul>
+<li>单线程或单进程同时监测若干个文件描述符是否可以执行IO操作的能力。并且这个过程是阻塞的，一旦检测到有文件描述符就绪程序的阻塞就会被解除。常见的IO多路复用的方式有select、pll、epoll</li>
+<li>与多线程技术相比，I&#x2F;O多路复用技术最大的优势是系统开销小，系统不必创建进程、线程也不必维护这些进程、线程，从而大大减小了系统的开销。</li>
+</ul>
+<h4 id="select"><a href="#select" class="headerlink" title="select"></a>select</h4><ul>
+<li>select的优势是这个函数是跨平台的</li>
+</ul>
+<h5 id="函数原型"><a href="#函数原型" class="headerlink" title="函数原型"></a>函数原型</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/select.h&gt;</span></span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">timeval</span> &#123;</span><br><span class="line">    <span class="type">time_t</span>      tv_sec;         <span class="comment">/* seconds */</span></span><br><span class="line">    <span class="type">suseconds_t</span> tv_usec;        <span class="comment">/* microseconds */</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">select</span><span class="params">(<span class="type">int</span> nfds, fd_set *readfds, fd_set *writefds,</span></span></span><br><span class="line"><span class="params"><span class="function">           fd_set *exceptfds, <span class="keyword">struct</span> timeval * timeout)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h5 id="参数解析"><a href="#参数解析" class="headerlink" title="参数解析"></a>参数解析</h5><ul>
+<li>nfds：后边三个文件描述符的最大值加1，是循环终止的条件。</li>
+<li>readfds：检测这个集合中文件描述符对应的读缓冲区。</li>
+<li>writefds：检测这个集合中文件描述符对应的写缓冲区。</li>
+<li>exceptfds：检测集合中文件描述符是否有异常状态。</li>
+<li>timeout：超时时长，用来强制解除select()函数的阻塞的。</li>
+</ul>
+<h5 id="函数返回值"><a href="#函数返回值" class="headerlink" title="函数返回值"></a>函数返回值</h5><ul>
+<li>大于0：成功，返回集合中已就绪的文件描述符的总个数</li>
+<li>等于-1：函数调用失败</li>
+<li>等于0：超时，没有检测到就绪的文件描述符</li>
+</ul>
+<h5 id="局限性"><a href="#局限性" class="headerlink" title="局限性"></a>局限性</h5><ul>
+<li>待检测集合需要频繁地在用户区和内核区之间进行数据的拷贝，效率低</li>
+<li>select能够检测的最大文件描述符个数有上限，默认是1024</li>
+</ul>
+<h4 id="poll"><a href="#poll" class="headerlink" title="poll"></a>poll</h4><ul>
+<li>poll的机制与slecet类似，但是不支持跨平台，poll只能在Linux平台使用。能够检测的最大文件描述符个数没有上限，基于链表。</li>
+</ul>
+<h4 id="Epoll"><a href="#Epoll" class="headerlink" title="Epoll"></a>Epoll</h4><ul>
+<li>epoll是select和poll的升级版，效率更高，但是不支持跨平台，只能在Linux平台使用。</li>
+<li>对于待检测集合select和poll是基于线性方式处理的，epoll是基于红黑树来管理待检测集合的。</li>
+<li>select和poll每次都会线性扫描整个待检测集合，集合越大速度越慢，epoll使用的是回调机制，效率高，处理效率也不会随着检测集合的变大而下降。</li>
+<li>select和poll工作过程中存在内核&#x2F;用户空间数据的频繁拷贝问题，在epoll中内核和用户区使用的是共享内存，省去了不必要的内存拷贝。</li>
+<li>程序员需要对select和poll返回的集合进行判断才能知道哪些文件描述符是就绪的，通过epoll可以直接得到已就绪的文件描述符集合，无需再次检测。</li>
+<li>使用epoll没有最大文件描述符的限制，仅受系统中进程能打开的最大文件数目限制。</li>
+</ul>
+<p><strong>epoll</strong>先通过epoll_ctl()来注册一个fd（文件描述符），一旦基于某个fd就绪时，内核会采用回调机制，迅速激活这个fd，当进程调用epoll_wait()时便得到通知。这里去掉了<strong>遍历文件描述符</strong>的坑爹操作，而是采用<strong>监听事件回调</strong>的机制。这就是epoll的亮点。</p>
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">必背</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">面试</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">操作系统</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">epoll</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/基础知识//" class="article-tag-list-link color5">基础知识</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/04/12/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-每日总结2022-4-11" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/04/12/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-4-11/">每日总结2022-4-11</a>
+    </h1>
+  
+
+        
+        <a href="/2022/04/12/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-4-11/" class="archive-article-date">
+  	<time datetime="2022-04-11T18:57:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-04-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+       
+
+	
+		<h3 id="刷题"><a href="#刷题" class="headerlink" title="刷题"></a>刷题</h3><h4 id="力扣"><a href="#力扣" class="headerlink" title="力扣"></a>力扣</h4><ul>
+<li>806 写字符串需要的行数</li>
+</ul>
+<h4 id="acwing"><a href="#acwing" class="headerlink" title="acwing"></a>acwing</h4><ul>
+<li>牛奶桶</li>
+<li>钻石收藏家</li>
+</ul>
+<h4 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h4><ul>
+<li>select、epoll</li>
+<li>流量控制</li>
+<li>快速重传、选择重传</li>
+</ul>
+
+	
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/04/12/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-4-11/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-第288场周赛" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -493,871 +1238,9 @@
 
 
   
-    <article id="post-每日总结2022-4-9" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/04/10/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-4-9/">每日总结2022-4-9</a>
-    </h1>
-  
-
-        
-        <a href="/2022/04/10/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-4-9/" class="archive-article-date">
-  	<time datetime="2022-04-09T17:21:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-04-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="刷题"><a href="#刷题" class="headerlink" title="刷题"></a>刷题</h3><h4 id="力扣"><a href="#力扣" class="headerlink" title="力扣"></a>力扣</h4><ul>
-<li><ol start="44">
-<li>通配符匹配（dp）</li>
-</ol>
-</li>
-<li><ol start="804">
-<li>唯一摩尔斯密码词（模拟）</li>
-</ol>
-</li>
-</ul>
-<h4 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h4><ul>
-<li>数据库</li>
-</ul>
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/04/10/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-4-9/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-每日总结2022-4-8" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/04/08/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-4-8/">每日总结2022-4-8</a>
-    </h1>
-  
-
-        
-        <a href="/2022/04/08/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-4-8/" class="archive-article-date">
-  	<time datetime="2022-04-08T13:23:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-04-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="刷题"><a href="#刷题" class="headerlink" title="刷题"></a>刷题</h3><h4 id="力扣"><a href="#力扣" class="headerlink" title="力扣"></a>力扣</h4><ul>
-<li>面试题 17.24 最大子矩阵（二维前缀和）    </li>
-<li>51 N 皇后    （回溯）</li>
-<li>37 解数独    （回溯）</li>
-<li>2115 从给定原材料中找到所有可以做出的菜（拓扑排序）    </li>
-<li>207 课程表（拓扑排序）</li>
-</ul>
-<h4 id="ACWING"><a href="#ACWING" class="headerlink" title="ACWING"></a>ACWING</h4><ul>
-<li>神经网络</li>
-</ul>
-<h4 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h4><ul>
-<li>二维前缀和</li>
-<li>页面置换算法<ul>
-<li>最优页面置换算法</li>
-<li>LRU页面置换算法</li>
-<li>FIFO页面置换算法</li>
-</ul>
-</li>
-</ul>
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/04/08/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-4-8/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-多表查询" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/04/08/%E5%A4%9A%E8%A1%A8%E6%9F%A5%E8%AF%A2/">多表查询</a>
-    </h1>
-  
-
-        
-        <a href="/2022/04/08/%E5%A4%9A%E8%A1%A8%E6%9F%A5%E8%AF%A2/" class="archive-article-date">
-  	<time datetime="2022-04-07T17:00:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-04-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="多表查询"><a href="#多表查询" class="headerlink" title="多表查询"></a>多表查询</h3><h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><p>现在有两个表，“学生表”记录了学生的基本信息，有“学号”、“姓名”。</p>
-<p>“成绩”表记录了学生选修的课程，以及对应课程的成绩。</p>
-<p>这两个表通过“学号”进行关联。</p>
-<p>现在要查找出所有学生的学号，姓名，课程和成绩。</p>
-<p>【解题思路】<br>1.确定查询结果</p>
-<p>题目要求查询所有学生的姓名，学号，课程和成绩信息</p>
-<p>select 学号,姓名,课程,成绩</p>
-<p>查询结果的列名“学号”、“姓名”，在“学生”表里，列名“课程”、“成绩”在“成绩”表里，所以需要进行多表查询。</p>
-<p>2.哪种联结呢？</p>
-<p>涉及到多表查询，在之前的课程《从零学会sql：多表查询》里讲过需要用到联结。</p>
-<p>多表的联结又分为以下几种类型：</p>
-<p>1）左联结（left join），联结结果保留左表的全部数据</p>
-<p>2）右联结（right join），联结结果保留右表的全部数据</p>
-<p>3）内联结（inner join），取两表的公共数据</p>
-<p>这个题目里要求“所有学生”，而“所有学生”在“学生”表里。为什么不在“成绩”表里呢？</p>
-<p>如果有的学生没有选修课程，那么他就不会出现在“成绩”表里，所以“成绩”表没有包含“所有学生”。</p>
-<p>所以要以“学生”表进行左联结，保留左边表（学生表）里的全部数据。</p>
-<p>from 学生信息表 as a left join 成绩表 as b</p>
-<p>3.两个表联结条件是什么？</p>
-<p>两个表都有“学号”，所以联结条件为学号。</p>
-<p>on a.学号&#x3D;b.学号</p>
-<p>4.最终sql</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> a.学号,a.姓名,b.课程,b.成绩</span><br><span class="line"><span class="keyword">from</span> 学生 <span class="keyword">as</span> a</span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> 成绩 <span class="keyword">as</span> b</span><br><span class="line"><span class="keyword">on</span> a.学号<span class="operator">=</span>b.学号;</span><br></pre></td></tr></table></figure>
-
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">SQL</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">多表查询</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/数据库算法题//" class="article-tag-list-link color2">数据库算法题</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/04/08/%E5%A4%9A%E8%A1%A8%E6%9F%A5%E8%AF%A2/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-每日总结2022-4-7" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/04/08/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-4-7/">每日总结2022-4-7</a>
-    </h1>
-  
-
-        
-        <a href="/2022/04/08/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-4-7/" class="archive-article-date">
-  	<time datetime="2022-04-07T16:57:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-04-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="刷题"><a href="#刷题" class="headerlink" title="刷题"></a>刷题</h3><h4 id="力扣"><a href="#力扣" class="headerlink" title="力扣"></a>力扣</h4><ul>
-<li>每日一题</li>
-<li>哲学家吃饭（多线程）</li>
-<li>交叉打印（多线程）</li>
-</ul>
-<h4 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h4><ul>
-<li>数据库多表查询</li>
-</ul>
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/04/08/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-4-7/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-每日总结2022-4-6" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/04/07/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-4-6/">每日总结2022-4-6</a>
-    </h1>
-  
-
-        
-        <a href="/2022/04/07/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-4-6/" class="archive-article-date">
-  	<time datetime="2022-04-06T18:09:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-04-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="刷题"><a href="#刷题" class="headerlink" title="刷题"></a>刷题</h3><h4 id="力扣"><a href="#力扣" class="headerlink" title="力扣"></a>力扣</h4><ul>
-<li>每日一题</li>
-</ul>
-<h4 id="ACWING"><a href="#ACWING" class="headerlink" title="ACWING"></a>ACWING</h4><ul>
-<li>热浪</li>
-<li>信使</li>
-<li>香甜的黄油</li>
-<li>最小花费</li>
-<li>昂贵的聘礼</li>
-<li>最优乘车</li>
-</ul>
-<h4 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h4><ul>
-<li>线程池</li>
-</ul>
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">每日总结</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/日志//" class="article-tag-list-link color3">日志</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/04/07/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%932022-4-6/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-单源最短路" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/04/07/%E5%8D%95%E6%BA%90%E6%9C%80%E7%9F%AD%E8%B7%AF/">单源最短路</a>
-    </h1>
-  
-
-        
-        <a href="/2022/04/07/%E5%8D%95%E6%BA%90%E6%9C%80%E7%9F%AD%E8%B7%AF/" class="archive-article-date">
-  	<time datetime="2022-04-06T18:09:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-04-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="热浪"><a href="#热浪" class="headerlink" title="热浪"></a>热浪</h3><h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><p>德克萨斯纯朴的民众们这个夏天正在遭受巨大的热浪！！！</p>
-<p>他们的德克萨斯长角牛吃起来不错，可是它们并不是很擅长生产富含奶油的乳制品。</p>
-<p>农夫John此时身先士卒地承担起向德克萨斯运送大量的营养冰凉的牛奶的重任，以减轻德克萨斯人忍受酷暑的痛苦。</p>
-<p>John已经研究过可以把牛奶从威斯康星运送到德克萨斯州的路线。</p>
-<p>这些路线包括起始点和终点一共有$ T$个城镇，为了方便标号为 $1$ 到$ T$。</p>
-<p>除了起点和终点外的每个城镇都由 <strong>双向道路</strong> 连向至少两个其它的城镇。</p>
-<p>每条道路有一个通过费用（包括油费，过路费等等）。</p>
-<p>给定一个地图，包含$ C$ 条直接连接$ 2$ 个城镇的道路。</p>
-<p>每条道路由道路的起点 $Rs$，终点 $Re$ 和花费 $Ci$组成。</p>
-<p>求从起始的城镇 $Ts$ 到终点的城镇 $Te$ 最小的总费用。</p>
-<h5 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h5><p>第一行: $4$ 个由空格隔开的整数: $T,C,Ts,Te;$</p>
-<p>第 $2$ 到第 $C+1$行: 第$ i+1$行描述第 $i $条道路，包含 $3$ 个由空格隔开的整数: $Rs,Re,Ci。$</p>
-<h5 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h5><p>一个单独的整数表示从 $Ts$到$ Te$ 的最小总费用。</p>
-<p>数据保证至少存在一条道路。</p>
-<h5 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h5><p>$1≤T≤2500$,<br>$1≤C≤6200,$<br>$1≤Ts,Te,Rs,Re≤T$,<br>$1≤Ci≤1000$</p>
-<h5 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">7 11 5 4</span><br><span class="line">2 4 2</span><br><span class="line">1 4 3</span><br><span class="line">7 2 2</span><br><span class="line">3 4 3</span><br><span class="line">5 7 5</span><br><span class="line">7 3 3</span><br><span class="line">6 1 1</span><br><span class="line">6 3 4</span><br><span class="line">2 4 3</span><br><span class="line">5 6 3</span><br><span class="line">7 2 1</span><br></pre></td></tr></table></figure>
-
-<h5 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">7</span><br></pre></td></tr></table></figure>
-
-<h3 id="信使"><a href="#信使" class="headerlink" title="信使"></a>信使</h3><h4 id="题目描述-1"><a href="#题目描述-1" class="headerlink" title="题目描述"></a>题目描述</h4><p>战争时期，前线有 $n$ 个哨所，每个哨所可能会与其他若干个哨所之间有通信联系。</p>
-<p>信使负责在哨所之间传递信息，当然，这是要花费一定时间的（以天为单位）。</p>
-<p>指挥部设在第一个哨所。</p>
-<p>当指挥部下达一个命令后，指挥部就派出若干个信使向与指挥部相连的哨所送信。</p>
-<p>当一个哨所接到信后，这个哨所内的信使们也以同样的方式向其他哨所送信。<strong>信在一个哨所内停留的时间可以忽略不计</strong>。</p>
-<p>直至所有 $n$ 个哨所全部接到命令后，送信才算成功。</p>
-<p>因为准备充足，每个哨所内都安排了足够的信使（如果一个哨所与其他 $k$ 个哨所有通信联系的话，这个哨所内至少会配备 $k$ 个信使）。</p>
-<p>现在总指挥请你编一个程序，计算出完成整个送信过程最短需要多少时间。</p>
-<h5 id="输入格式-1"><a href="#输入格式-1" class="headerlink" title="输入格式"></a>输入格式</h5><p>第$ 1$ 行有两个整数 $n$ 和 $m$，中间用 $1$ 个空格隔开，分别表示有 $n$ 个哨所和 $m$ 条通信线路。</p>
-<p>第$ 2 $至 $m+1$行：每行三个整数$ i、j、k$，中间用 $1$ 个空格隔开，表示第$ i $个和第 $j$个哨所之间存在 <strong>双向</strong> 通信线路，且这条线路要花费 $k $天。</p>
-<h5 id="输出格式-1"><a href="#输出格式-1" class="headerlink" title="输出格式"></a>输出格式</h5><p>一个整数，表示完成整个送信过程的最短时间。</p>
-<p>如果不是所有的哨所都能收到信，就输出-1。</p>
-<h5 id="数据范围-1"><a href="#数据范围-1" class="headerlink" title="数据范围"></a>数据范围</h5><p>$1≤n≤100,$<br>$1≤m≤200,$<br>$1≤k≤1000$</p>
-<h5 id="输入样例：-1"><a href="#输入样例：-1" class="headerlink" title="输入样例："></a>输入样例：</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">4 4</span><br><span class="line">1 2 4</span><br><span class="line">2 3 7</span><br><span class="line">2 4 1</span><br><span class="line">3 4 6</span><br></pre></td></tr></table></figure>
-
-<h4 id="输出样例：-1"><a href="#输出样例：-1" class="headerlink" title="输出样例："></a>输出样例：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">11</span><br></pre></td></tr></table></figure>
-
-<h4 id="代码-kpfa"><a href="#代码-kpfa" class="headerlink" title="代码(kpfa)"></a>代码(kpfa)</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">typedef</span> pair&lt;<span class="type">int</span>,<span class="type">int</span>&gt;pii;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">110</span>,M=<span class="number">210</span>;</span><br><span class="line"><span class="type">int</span> dist[N];</span><br><span class="line"><span class="type">bool</span> st[N];</span><br><span class="line">vector&lt;pii&gt;g[N];</span><br><span class="line"><span class="type">int</span> n,m;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">kpfa</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">memset</span>(dist,<span class="number">0x3f</span>,<span class="keyword">sizeof</span> dist);</span><br><span class="line">    dist[<span class="number">1</span>]=<span class="number">0</span>;</span><br><span class="line">    st[<span class="number">1</span>]=<span class="number">1</span>;</span><br><span class="line">    queue&lt;pii&gt;q;</span><br><span class="line">    q.<span class="built_in">push</span>(&#123;<span class="number">1</span>,<span class="number">0</span>&#125;);</span><br><span class="line">    <span class="type">int</span> minn=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(q.<span class="built_in">size</span>())&#123;</span><br><span class="line">        <span class="keyword">auto</span> id=q.<span class="built_in">front</span>().first,dt=q.<span class="built_in">front</span>().second;</span><br><span class="line">        q.<span class="built_in">pop</span>();</span><br><span class="line">        st[id]=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> t:g[id])&#123;</span><br><span class="line">            <span class="type">int</span> a=t.first,b=t.second;</span><br><span class="line">            <span class="keyword">if</span>(dist[a]&gt;dist[id]+b)&#123;</span><br><span class="line">                dist[a]=dist[id]+b;</span><br><span class="line">                <span class="keyword">if</span>(!st[a])&#123;</span><br><span class="line">                    st[a]=<span class="number">1</span>;</span><br><span class="line">                    q.<span class="built_in">push</span>(&#123;a,dist[a]&#125;);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">        minn=<span class="built_in">max</span>(minn,dist[i]);</span><br><span class="line">    <span class="keyword">if</span>(minn==<span class="number">0x3f3f3f3f</span>)<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">return</span> minn;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;m;</span><br><span class="line">    <span class="keyword">while</span>(m--)&#123;</span><br><span class="line">        <span class="type">int</span> a,b,c;</span><br><span class="line">        cin&gt;&gt;a&gt;&gt;b&gt;&gt;c;</span><br><span class="line">        g[a].<span class="built_in">push_back</span>(&#123;b,c&#125;);</span><br><span class="line">        g[b].<span class="built_in">push_back</span>(&#123;a,c&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;<span class="built_in">kpfa</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="香甜的黄油"><a href="#香甜的黄油" class="headerlink" title="香甜的黄油"></a>香甜的黄油</h3><h4 id="题目描述-2"><a href="#题目描述-2" class="headerlink" title="题目描述"></a>题目描述</h4><p>农夫$John$发现了做出全威斯康辛州最甜的黄油的方法：糖。</p>
-<p>把糖放在一片牧场上，他知道 $N$ 只奶牛会过来舔它，这样就能做出能卖好价钱的超甜黄油。</p>
-<p>当然，他将付出额外的费用在奶牛上。</p>
-<p>农夫$John$很狡猾，就像以前的巴甫洛夫，他知道他可以训练这些奶牛，让它们在听到铃声时去一个特定的牧场。</p>
-<p>他打算将糖放在那里然后下午发出铃声，以至他可以在晚上挤奶。</p>
-<p>农夫$John$知道每只奶牛都在各自喜欢的牧场（一个牧场不一定只有一头牛）。</p>
-<p>给出各头牛在的牧场和牧场间的路线，找出使所有牛到达的路程和最短的牧场（他将把糖放在那）。</p>
-<p><strong>数据保证至少存在一个牧场和所有牛所在的牧场连通</strong>。</p>
-<h5 id="输入格式-2"><a href="#输入格式-2" class="headerlink" title="输入格式"></a>输入格式</h5><p>第一行: 三个数：奶牛数 $N$，牧场数 $P$，牧场间道路数 $C$。</p>
-<p>第二行到第 $N+1$ 行: $1$ 到 $N$ 头奶牛所在的牧场号。</p>
-<p>第 $N+2$ 行到第 $N+C+1$ 行：每行有三个数：相连的牧场$A、B$，两牧场间距 $D$，当然，连接是双向的。</p>
-<h5 id="输出格式-2"><a href="#输出格式-2" class="headerlink" title="输出格式"></a>输出格式</h5><p>共一行，输出奶牛必须行走的最小的距离和。</p>
-<h5 id="数据范围-2"><a href="#数据范围-2" class="headerlink" title="数据范围"></a>数据范围</h5><p>$1≤N≤500$,<br>$2≤P≤800,$<br>$1≤C≤1450,$<br>$1≤D≤255$</p>
-<h5 id="输入样例：-2"><a href="#输入样例：-2" class="headerlink" title="输入样例："></a>输入样例：</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">3 4 5</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">1 2 1</span><br><span class="line">1 3 5</span><br><span class="line">2 3 7</span><br><span class="line">2 4 3</span><br><span class="line">3 4 5</span><br></pre></td></tr></table></figure>
-
-<h4 id="输出样例：-2"><a href="#输出样例：-2" class="headerlink" title="输出样例："></a>输出样例：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">8</span><br></pre></td></tr></table></figure>
-
-<h4 id="代码（dijkstra）"><a href="#代码（dijkstra）" class="headerlink" title="代码（dijkstra）"></a>代码（dijkstra）</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">typedef</span> pair&lt;<span class="type">int</span>,<span class="type">int</span>&gt;pii;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">1460</span>;</span><br><span class="line"><span class="type">int</span> dist[N];</span><br><span class="line"><span class="type">int</span> st[N];</span><br><span class="line">vector&lt;pii&gt;g[N];</span><br><span class="line"><span class="type">int</span> p[N];</span><br><span class="line"><span class="type">int</span> n,k,m;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">dijk</span><span class="params">(<span class="type">int</span> s)</span></span>&#123;</span><br><span class="line">    <span class="built_in">memset</span>(dist,<span class="number">0x3f</span>,<span class="keyword">sizeof</span> dist);</span><br><span class="line">    <span class="built_in">memset</span>(st,<span class="number">0</span>,<span class="keyword">sizeof</span> st);</span><br><span class="line">    dist[s]=<span class="number">0</span>;</span><br><span class="line">    priority_queue&lt;pii,vector&lt;pii&gt;,greater&lt;pii&gt;&gt;q;</span><br><span class="line">    q.<span class="built_in">push</span>(&#123;<span class="number">0</span>,s&#125;);</span><br><span class="line">    <span class="keyword">while</span>(q.<span class="built_in">size</span>())&#123;</span><br><span class="line">        <span class="keyword">auto</span> dt=q.<span class="built_in">top</span>().first,id=q.<span class="built_in">top</span>().second;</span><br><span class="line">        q.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="keyword">if</span>(st[id]==<span class="number">1</span>)<span class="keyword">continue</span>;</span><br><span class="line">        st[id]=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> t:g[id])&#123;</span><br><span class="line">            <span class="type">int</span> a=t.first,b=t.second;</span><br><span class="line">            <span class="keyword">if</span>(dist[a]&gt;dist[id]+b)&#123;</span><br><span class="line">                dist[a]=dist[id]+b;</span><br><span class="line">                q.<span class="built_in">push</span>(&#123;dist[a],a&#125;);       </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> minn=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">      &#123;</span><br><span class="line">      <span class="keyword">if</span>(dist[p[i]]==<span class="number">0x3f3f3f3f</span>) <span class="keyword">return</span> <span class="number">1e8</span>;</span><br><span class="line">        minn+=dist[p[i]];</span><br><span class="line">      &#125;</span><br><span class="line">    <span class="keyword">return</span> minn;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;k&gt;&gt;m;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        cin&gt;&gt;p[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(m--)&#123;</span><br><span class="line">        <span class="type">int</span> a,b,c;</span><br><span class="line">        cin&gt;&gt;a&gt;&gt;b&gt;&gt;c;</span><br><span class="line">        g[a].<span class="built_in">push_back</span>(&#123;b,c&#125;);</span><br><span class="line">        g[b].<span class="built_in">push_back</span>(&#123;a,c&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> minn=INT_MAX;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=k;i++)&#123;</span><br><span class="line">        minn=<span class="built_in">min</span>(minn,<span class="built_in">dijk</span>(i));        </span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;minn;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="最小花费"><a href="#最小花费" class="headerlink" title="最小花费"></a>最小花费</h3><h4 id="题目描述-3"><a href="#题目描述-3" class="headerlink" title="题目描述"></a>题目描述</h4><p>在 $n$ 个人中，某些人的银行账号之间可以互相转账。</p>
-<p>这些人之间转账的手续费各不相同。</p>
-<p>给定这些人之间转账时需要从转账金额里扣除百分之几的手续费，请问$ A$ 最少需要多少钱使得转账后 $B$ 收到 100 元。</p>
-<h5 id="输入格式-3"><a href="#输入格式-3" class="headerlink" title="输入格式"></a>输入格式</h5><p>第一行输入两个正整数 $n,m$分别表示总人数和可以互相转账的人的对数。</p>
-<p>以下$ m$行每行输入三个正整数$ x,y,z$，表示标号为 $x$ 的人和标号为 $y$的人之间互相转账需要扣除 $z$ % 的手续费 ( z&lt;100 )。</p>
-<p>最后一行输入两个正整数 $A,B$。</p>
-<p>数据保证 $A$与 $B$之间可以直接或间接地转账。</p>
-<h5 id="输出格式-3"><a href="#输出格式-3" class="headerlink" title="输出格式"></a>输出格式</h5><p>输出$ A$ 使得 $B$ 到账 100 元最少需要的总费用。</p>
-<p>精确到小数点后 8 位。</p>
-<h5 id="数据范围-3"><a href="#数据范围-3" class="headerlink" title="数据范围"></a>数据范围</h5><p>$1≤n≤2000$,<br>$m≤10^5$</p>
-<h4 id="输入样例：-3"><a href="#输入样例：-3" class="headerlink" title="输入样例："></a>输入样例：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">3 3</span><br><span class="line">1 2 1</span><br><span class="line">2 3 2</span><br><span class="line">1 3 3</span><br><span class="line">1 3</span><br></pre></td></tr></table></figure>
-
-<h4 id="输出样例：-3"><a href="#输出样例：-3" class="headerlink" title="输出样例："></a>输出样例：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">103.07153164</span><br></pre></td></tr></table></figure>
-
-<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N =  <span class="number">2010</span>;</span><br><span class="line"><span class="type">double</span> dist[N];</span><br><span class="line"><span class="type">bool</span> st[N];</span><br><span class="line"><span class="keyword">typedef</span> pair&lt;<span class="type">double</span>, <span class="type">int</span>&gt; pii;</span><br><span class="line">vector&lt;pair&lt;<span class="type">int</span>,<span class="type">double</span>&gt;&gt;g[N];</span><br><span class="line"><span class="type">int</span> n,m,bg,ed;</span><br><span class="line"><span class="function"><span class="type">double</span> <span class="title">dijk</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">memset</span>(dist,<span class="number">0</span>,<span class="keyword">sizeof</span> dist);</span><br><span class="line">    dist[bg]=<span class="number">1</span>;</span><br><span class="line">    priority_queue&lt;pii&gt;q;</span><br><span class="line">    q.<span class="built_in">push</span>(&#123;<span class="number">1</span>,bg&#125;);</span><br><span class="line">    <span class="keyword">while</span>(q.<span class="built_in">size</span>())&#123;</span><br><span class="line">        <span class="keyword">auto</span> id=q.<span class="built_in">top</span>().second;</span><br><span class="line">        q.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="keyword">if</span>(st[id])</span><br><span class="line">        <span class="keyword">continue</span>;</span><br><span class="line">        st[id]=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> x:g[id])&#123;</span><br><span class="line">            <span class="type">int</span> a=x.first;</span><br><span class="line">            <span class="type">double</span> b=x.second;</span><br><span class="line">            <span class="keyword">if</span>(dist[a]&lt;dist[id]*b)</span><br><span class="line">            &#123;</span><br><span class="line">                dist[a]=dist[id]*b;</span><br><span class="line">                q.<span class="built_in">push</span>(&#123;dist[a],a&#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">100.0</span>/dist[ed];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;m;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;m;i++)&#123;</span><br><span class="line">        <span class="type">int</span> a,b;</span><br><span class="line">        <span class="type">double</span> c;</span><br><span class="line">        cin&gt;&gt;a&gt;&gt;b&gt;&gt;c;</span><br><span class="line">        c=(<span class="number">100</span>-c)/<span class="number">100</span>;</span><br><span class="line">        g[a].<span class="built_in">push_back</span>(&#123;b,c&#125;);</span><br><span class="line">        g[b].<span class="built_in">push_back</span>(&#123;a,c&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    cin&gt;&gt;bg&gt;&gt;ed;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%.8lf&quot;</span>,<span class="built_in">dijk</span>());</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="昂贵的聘礼"><a href="#昂贵的聘礼" class="headerlink" title="昂贵的聘礼"></a>昂贵的聘礼</h3><h4 id="题目描述-4"><a href="#题目描述-4" class="headerlink" title="题目描述"></a>题目描述</h4><p>年轻的探险家来到了一个印第安部落里。</p>
-<p>在那里他和酋长的女儿相爱了，于是便向酋长去求亲。</p>
-<p>酋长要他用 $10000$ 个金币作为聘礼才答应把女儿嫁给他。</p>
-<p>探险家拿不出这么多金币，便请求酋长降低要求。</p>
-<p>酋长说：”嗯，如果你能够替我弄到大祭司的皮袄，我可以只要 $8000 $金币。如果你能够弄来他的水晶球，那么只要 $5000$金币就行了。”</p>
-<p>探险家就跑到大祭司那里，向他要求皮袄或水晶球，大祭司要他用金币来换，或者替他弄来其他的东西，他可以降低价格。</p>
-<p>探险家于是又跑到其他地方，其他人也提出了类似的要求，或者直接用金币换，或者找到其他东西就可以降低价格。</p>
-<p>不过探险家没必要用多样东西去换一样东西，因为不会得到更低的价格。</p>
-<p>探险家现在很需要你的帮忙，让他用最少的金币娶到自己的心上人。</p>
-<p>另外他要告诉你的是，在这个部落里，等级观念十分森严。</p>
-<p>地位差距超过一定限制的两个人之间不会进行任何形式的直接接触，包括交易。</p>
-<p>他是一个外来人，所以可以不受这些限制。</p>
-<p>但是如果他和某个地位较低的人进行了交易，地位较高的的人不会再和他交易，他们认为这样等于是间接接触，反过来也一样。</p>
-<p>因此你需要在考虑所有的情况以后给他提供一个最好的方案。</p>
-<p>为了方便起见，我们把所有的物品从 $1$开始进行编号，酋长的允诺也看作一个物品，并且编号总是 $1$。</p>
-<p>每个物品都有对应的价格 $P$，主人的地位等级$ L$，以及一系列的替代品 $T_i$ 和该替代品所对应的”优惠” $V_i$。</p>
-<p>如果两人地位等级差距超过了 $M$，就不能”间接交易”。</p>
-<p>你必须根据这些数据来计算出探险家最少需要多少金币才能娶到酋长的女儿。</p>
-<h4 id="输入格式-4"><a href="#输入格式-4" class="headerlink" title="输入格式"></a>输入格式</h4><p>输入第一行是两个整数 $M，N$依次表示地位等级差距限制和物品的总数。</p>
-<p>接下来按照编号从小到大依次给出了 $N$个物品的描述。</p>
-<p>每个物品的描述开头是三个非负整数 $P、L、X$依次表示该物品的价格、主人的地位等级和替代品总数。</p>
-<p>接下来 $X$行每行包括两个整数 $T$和$ V$，分别表示替代品的编号和”优惠价格”。</p>
-<h4 id="输出格式-4"><a href="#输出格式-4" class="headerlink" title="输出格式"></a>输出格式</h4><p>输出最少需要的金币数。</p>
-<h4 id="数据范围-4"><a href="#数据范围-4" class="headerlink" title="数据范围"></a>数据范围</h4><p>$1≤N≤100,$<br>$1≤P≤10000,$<br>$1≤L,M≤N,$<br>$0≤X&lt;N$</p>
-<h4 id="输入格式-5"><a href="#输入格式-5" class="headerlink" title="输入格式"></a>输入格式</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1 4</span><br><span class="line">10000 3 2</span><br><span class="line">2 8000</span><br><span class="line">3 5000</span><br><span class="line">1000 2 1</span><br><span class="line">4 200</span><br><span class="line">3000 2 1</span><br><span class="line">4 200</span><br><span class="line">50 2 0</span><br></pre></td></tr></table></figure>
-
-<h4 id="输出格式-5"><a href="#输出格式-5" class="headerlink" title="输出格式"></a>输出格式</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">5250</span><br></pre></td></tr></table></figure>
-
-<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><ul>
-<li>这个题复杂点就在于建图和等级限制上。</li>
-<li>设置一个超级源点，可以到达任意位置，然后枚举每个可行的区间，分别做最短路算法求个最小值即可。</li>
-</ul>
-<h4 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">110</span>;</span><br><span class="line"><span class="type">int</span> dist[N],st[N];</span><br><span class="line"><span class="keyword">typedef</span> pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt; pii;</span><br><span class="line">vector&lt;pii&gt;g[N];</span><br><span class="line"><span class="type">int</span> id[N];</span><br><span class="line"><span class="type">int</span> n,m;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">dijk</span><span class="params">(<span class="type">int</span> l,<span class="type">int</span> r)</span></span>&#123;</span><br><span class="line">    <span class="built_in">memset</span>(dist,<span class="number">0x3f</span>,<span class="keyword">sizeof</span> dist);</span><br><span class="line">    <span class="built_in">memset</span>(st,<span class="number">0</span>,<span class="keyword">sizeof</span> st);</span><br><span class="line">    dist[<span class="number">0</span>]=<span class="number">0</span>;</span><br><span class="line">    priority_queue&lt;pii,vector&lt;pii&gt;,greater&lt;pii&gt;&gt;q;</span><br><span class="line">    q.<span class="built_in">push</span>(&#123;<span class="number">0</span>,<span class="number">0</span>&#125;);</span><br><span class="line">    <span class="keyword">while</span>(q.<span class="built_in">size</span>())&#123;</span><br><span class="line">        <span class="keyword">auto</span> id1=q.<span class="built_in">top</span>().second;</span><br><span class="line">        q.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="keyword">if</span>(st[id1])<span class="keyword">continue</span>;</span><br><span class="line">        st[id1]=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> x:g[id1])&#123;</span><br><span class="line">            <span class="type">int</span> a=x.first,b=x.second;</span><br><span class="line">            <span class="keyword">if</span>(id[a]&gt;=l&amp;&amp;id[a]&lt;=r&amp;&amp;dist[a]&gt;dist[id1]+b)&#123;</span><br><span class="line">                dist[a]=dist[id1]+b;</span><br><span class="line">                q.<span class="built_in">push</span>(&#123;dist[a],a&#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dist[<span class="number">1</span>];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin&gt;&gt;m&gt;&gt;n;<span class="comment">//最大的等级差距、物品总数</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="type">int</span> p,x;</span><br><span class="line">        cin&gt;&gt;p&gt;&gt;id[i]&gt;&gt;x;</span><br><span class="line">        g[<span class="number">0</span>].<span class="built_in">push_back</span>(&#123;i,p&#125;);</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;x;j++)&#123;</span><br><span class="line">            <span class="type">int</span> a,b;</span><br><span class="line">            cin&gt;&gt;a&gt;&gt;b;<span class="comment">//代替品编号、物品价格</span></span><br><span class="line">            g[a].<span class="built_in">push_back</span>(&#123;i,b&#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//遍历每个等级区间，只能在区间内进行交易</span></span><br><span class="line">    <span class="type">int</span> res=INT_MAX;</span><br><span class="line">   <span class="comment">// id[0]=id[1];</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=id[<span class="number">1</span>]-m;i&lt;=id[<span class="number">1</span>];i++)&#123;</span><br><span class="line">        res=<span class="built_in">min</span>(res,<span class="built_in">dijk</span>(i,i+m));</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;res;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">模板</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">图论</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">单源最短路</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/算法//" class="article-tag-list-link color3">算法</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/04/07/%E5%8D%95%E6%BA%90%E6%9C%80%E7%9F%AD%E8%B7%AF/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-多线程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/04/06/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a>
-    </h1>
-  
-
-        
-        <a href="/2022/04/06/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2022-04-05T17:41:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-04-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-       
-
-	
-		<h3 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h3><h4 id="进程和线程的不同"><a href="#进程和线程的不同" class="headerlink" title="进程和线程的不同"></a>进程和线程的不同</h4><ul>
-<li>起源不同：进程比线程出现的早</li>
-<li>概念不同：进程是有独立功能的程序，是系统资源调度的独立单位。线程是CPU的基本单位。</li>
-<li>线程是进程的一部分，线程之间大多数是合作关系，进程大部分都是竞争关系。</li>
-<li>内存共享方式不同：不同进程之间的内存不是共享的，线程之间的内存是共享的。</li>
-</ul>
-<h4 id="什么是多线程"><a href="#什么是多线程" class="headerlink" title="什么是多线程"></a>什么是多线程</h4><ul>
-<li>多线程指的是在单个进程中运行多个线程，现在的程序大部分是多线程程序。</li>
-<li>每个线程共享内存和堆空间。拥有独立的堆栈。</li>
-</ul>
-<h4 id="为什么需要多线程"><a href="#为什么需要多线程" class="headerlink" title="为什么需要多线程"></a>为什么需要多线程</h4><ul>
-<li>为了提高CPU的利用率。</li>
-<li>避免无效等待（IO的时候可以做别的事）</li>
-<li>提高用户体验：避免卡顿、缩短等待时间</li>
-<li>便于建模编程：可以将一个大问题拆解为多个子问题</li>
-</ul>
-<h4 id="串行和并行"><a href="#串行和并行" class="headerlink" title="串行和并行"></a>串行和并行</h4><ul>
-<li>串行是一个个排队来，并行是所有的一起来</li>
-</ul>
-<h4 id="并行和并发"><a href="#并行和并发" class="headerlink" title="并行和并发"></a>并行和并发</h4><ul>
-<li><p>并行</p>
-<ul>
-<li><p>在同一时刻有多个任务同时执行</p>
-</li>
-<li><p>必须要多核处理器</p>
-</li>
-</ul>
-</li>
-<li><p>并发</p>
-<ul>
-<li>两个或者多个任务可以在重叠的时间段内启动，运行和完成。</li>
-<li>并行一定是并发</li>
-<li>单核处理器也可以做到并发，只是cpu切换速度很快，看上去是并行</li>
-</ul>
-</li>
-<li><p>并发性</p>
-<ul>
-<li>不同的部分可以无序或者同时执行，且不影响最终的执行结果。（例如将一堆的东西复制到另一堆、mapreduce）</li>
-</ul>
-</li>
-</ul>
-<h4 id="什么是高并发"><a href="#什么是高并发" class="headerlink" title="什么是高并发"></a>什么是高并发</h4><ul>
-<li>高并发是指有很多的请求需要同时处理</li>
-</ul>
-<h4 id="多线程和高并发"><a href="#多线程和高并发" class="headerlink" title="多线程和高并发"></a>多线程和高并发</h4><ul>
-<li><p>多线程是为了解决高并发情况的一种重要解决方案</p>
-</li>
-<li><p>为了解决高并发的问题还有多个方案：例如Redis</p>
-</li>
-<li><p>高并发并不是一定意味着多线程3</p>
-</li>
-</ul>
-<h4 id="同步和异步"><a href="#同步和异步" class="headerlink" title="同步和异步"></a>同步和异步</h4><ul>
-<li>同步同一时间线上只能有一个任务处理，没得到消息之前会等待。<ul>
-<li>异步指的是同一时间线可以有多个任务处理，没得到消息之前还能发送第二个任务。</li>
-</ul>
-</li>
-</ul>
-<h4 id="多线程弊端"><a href="#多线程弊端" class="headerlink" title="多线程弊端"></a>多线程弊端</h4><ul>
-<li>线程安全</li>
-<li>有些异构问题也需要单线程解决</li>
-</ul>
-
-	
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">必背</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">面试</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">多线程</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/基础知识//" class="article-tag-list-link color5">基础知识</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/04/06/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/6/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/8/">Next &amp;raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/6/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" href="/page/8/">Next &amp;raquo;</a>
     </nav>
   
 
